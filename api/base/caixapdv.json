@@ -1,0 +1,333 @@
+{
+  "modulo": "PDV",
+  "nomeTela": "Caixa PDV",
+  "descricao": "Frente de caixa para venda rápida, controle de cliente, vendedor, produtos, recebimento, NFC-e e fechamento de caixa.",
+  "layout": {
+    "cabecalho": {
+      "logo": "PDV Coneccta",
+      "mensagem": "Seja Bem-Vindo(a)!!",
+      "usuarioLogado": "Administrador",
+      "atalhoAjustes": true
+    },
+    "areaEsquerda": [
+      "Pesquisa de produto",
+      "Quantidade",
+      "Preço Unitário",
+      "Botões de ação"
+    ],
+    "areaCentral": [
+      "Vendedor",
+      "Tabela de preço",
+      "Lista de itens da venda",
+      "Resumo da venda"
+    ],
+    "rodape": [
+      "Finalizar venda",
+      "Total geral"
+    ]
+  },
+  "camposPrincipais": {
+    "pesquisaProduto": {
+      "placeholder": "Pesquise por código, EAN, produto ou referência",
+      "buscaPor": [
+        "codigoInterno",
+        "codigoBarras",
+        "ean",
+        "descricao",
+        "referencia"
+      ]
+    },
+    "quantidade": {
+      "valorPadrao": 1,
+      "permiteDecimal": true
+    },
+    "precoUnitario": {
+      "valorPadrao": 0,
+      "editavel": true,
+      "permissaoNecessaria": "pdv.alterar_preco"
+    },
+    "vendedor": {
+      "obrigatorio": false,
+      "valorPadrao": "Sem vendedor"
+    },
+    "tabelaPreco": {
+      "obrigatorio": true,
+      "valorPadrao": "Padrão"
+    },
+    "cliente": {
+      "valorPadrao": "Consumidor",
+      "atalho": "F2"
+    }
+  },
+  "atalhos": {
+    "F1": "Opções",
+    "F2": "Selecionar Cliente",
+    "F3": "Consultar Produto",
+    "F4": "Guardar Venda",
+    "F5": "Localizar Venda",
+    "F6": "Cancelar Venda",
+    "F7": "Recebimento",
+    "F8": "Aplicar Desconto",
+    "F9": "Alterar Quantidade",
+    "F10": "Finalizar Venda",
+    "F11": "Abrir Gaveta",
+    "F12": "Menu"
+  },
+  "botoesTela": [
+    {
+      "texto": "Cliente (F2)",
+      "acao": "abrirSelecaoCliente"
+    },
+    {
+      "texto": "Cancelar (F6)",
+      "acao": "cancelarVenda"
+    },
+    {
+      "texto": "Menu (F12)",
+      "acao": "abrirMenuPDV"
+    },
+    {
+      "texto": "Guardar (F4)",
+      "acao": "guardarVenda"
+    },
+    {
+      "texto": "Recebimento (F7)",
+      "acao": "abrirRecebimento"
+    },
+    {
+      "texto": "Opções (F1)",
+      "acao": "abrirOpcoes"
+    },
+    {
+      "texto": "Finalizar (F10)",
+      "acao": "finalizarVenda"
+    }
+  ],
+  "tabelaItens": {
+    "colunas": [
+      "codigo",
+      "produto",
+      "quantidade",
+      "valorUnitario",
+      "promocao",
+      "total"
+    ],
+    "itemVenda": {
+      "produtoId": null,
+      "codigo": "",
+      "codigoBarras": "",
+      "descricao": "",
+      "ncm": "",
+      "cest": "",
+      "cfop": "",
+      "cstCsosn": "",
+      "quantidade": 1,
+      "valorUnitario": 0,
+      "desconto": 0,
+      "acrescimo": 0,
+      "promocao": false,
+      "valorTotal": 0,
+      "cancelado": false
+    }
+  },
+  "venda": {
+    "id": null,
+    "numero": "",
+    "dataHora": "",
+    "empresaId": null,
+    "caixaId": null,
+    "operadorId": null,
+    "vendedorId": null,
+    "clienteId": null,
+    "clienteNome": "Consumidor",
+    "status": "Aberta",
+    "tipoDocumento": "NFC-e",
+    "itens": [],
+    "totais": {
+      "quantidadeProdutos": 0,
+      "totalItens": 0,
+      "itensCancelados": 0,
+      "subtotal": 0,
+      "desconto": 0,
+      "acrescimo": 0,
+      "total": 0
+    }
+  },
+  "recebimento": {
+    "formasPagamento": [
+      {
+        "tipo": "Dinheiro",
+        "permiteTroco": true,
+        "geraContaReceber": false
+      },
+      {
+        "tipo": "PIX",
+        "permiteTroco": false,
+        "geraContaReceber": false
+      },
+      {
+        "tipo": "Cartão Débito",
+        "permiteTroco": false,
+        "geraContaReceber": false
+      },
+      {
+        "tipo": "Cartão Crédito",
+        "permiteTroco": false,
+        "permiteParcelamento": true,
+        "geraContaReceber": false
+      },
+      {
+        "tipo": "Crediário",
+        "permiteTroco": false,
+        "permiteParcelamento": true,
+        "geraContaReceber": true
+      },
+      {
+        "tipo": "Boleto",
+        "permiteTroco": false,
+        "permiteParcelamento": true,
+        "geraContaReceber": true
+      }
+    ],
+    "campos": [
+      "valorRecebido",
+      "formaPagamento",
+      "parcelas",
+      "troco",
+      "autorizacaoCartao",
+      "comprovantePix"
+    ]
+  },
+  "caixa": {
+    "abertura": {
+      "campos": [
+        "operadorId",
+        "dataHoraAbertura",
+        "valorInicial",
+        "observacao"
+      ]
+    },
+    "sangria": {
+      "campos": [
+        "valor",
+        "motivo",
+        "operadorId",
+        "dataHora"
+      ]
+    },
+    "suprimento": {
+      "campos": [
+        "valor",
+        "motivo",
+        "operadorId",
+        "dataHora"
+      ]
+    },
+    "fechamento": {
+      "campos": [
+        "dinheiroInformado",
+        "pixInformado",
+        "cartaoDebitoInformado",
+        "cartaoCreditoInformado",
+        "crediarioInformado",
+        "boletoInformado",
+        "valorSistema",
+        "valorInformado",
+        "diferenca"
+      ]
+    }
+  },
+  "fiscal": {
+    "emitirNFCe": true,
+    "emitirCupomNaoFiscal": true,
+    "cancelarNFCe": true,
+    "contingencia": true,
+    "camposObrigatorios": [
+      "certificadoDigital",
+      "csc",
+      "idCSC",
+      "serieNFCe",
+      "ambiente",
+      "crt",
+      "cfop",
+      "ncm",
+      "cstCsosn"
+    ]
+  },
+  "regrasNegocio": [
+    "Não permitir venda sem caixa aberto.",
+    "Não permitir finalizar venda sem item.",
+    "Validar estoque antes de finalizar, se o parâmetro bloquear estoque negativo estiver ativo.",
+    "Permitir venda para Consumidor sem cadastro.",
+    "Permitir informar CPF/CNPJ na nota.",
+    "Permitir desconto por item e desconto geral.",
+    "Alteração de preço deve exigir permissão.",
+    "Cancelamento de item deve registrar log.",
+    "Cancelamento de venda deve registrar motivo.",
+    "Ao finalizar venda, baixar estoque automaticamente.",
+    "Ao finalizar venda com crediário ou boleto, gerar contas a receber.",
+    "Ao finalizar venda com NFC-e, transmitir para SEFAZ.",
+    "Salvar XML e DANFE NFC-e quando autorizado.",
+    "Permitir venda em contingência quando SEFAZ estiver indisponível."
+  ],
+  "menusInternos": {
+    "vendas": [
+      "Nova Venda",
+      "Localizar Venda",
+      "Guardar Venda",
+      "Recuperar Venda Guardada",
+      "Cancelar Venda"
+    ],
+    "caixa": [
+      "Abrir Caixa",
+      "Sangria",
+      "Suprimento",
+      "Fechar Caixa",
+      "Resumo do Caixa"
+    ],
+    "consultas": [
+      "Consultar Produto",
+      "Consultar Cliente",
+      "Consultar Preço",
+      "Consultar Estoque"
+    ],
+    "fiscal": [
+      "Emitir NFC-e",
+      "Cancelar NFC-e",
+      "Reimprimir DANFE",
+      "Baixar XML",
+      "Contingência"
+    ]
+  },
+  "apis": {
+    "buscarProduto": "GET /api/pdv/produtos?busca={termo}",
+    "abrirCaixa": "POST /api/pdv/caixa/abrir",
+    "fecharCaixa": "POST /api/pdv/caixa/fechar",
+    "criarVenda": "POST /api/pdv/vendas",
+    "adicionarItem": "POST /api/pdv/vendas/{id}/itens",
+    "cancelarItem": "DELETE /api/pdv/vendas/{id}/itens/{itemId}",
+    "cancelarVenda": "POST /api/pdv/vendas/{id}/cancelar",
+    "guardarVenda": "POST /api/pdv/vendas/{id}/guardar",
+    "recuperarVenda": "GET /api/pdv/vendas/guardadas",
+    "receberVenda": "POST /api/pdv/vendas/{id}/recebimento",
+    "finalizarVenda": "POST /api/pdv/vendas/{id}/finalizar",
+    "emitirNFCe": "POST /api/pdv/vendas/{id}/nfce",
+    "selecionarCliente": "GET /api/clientes?busca={termo}",
+    "selecionarVendedor": "GET /api/usuarios?vendedor=true",
+    "listarTabelaPreco": "GET /api/tabelas-preco"
+  },
+  "permissoes": [
+    "pdv.visualizar",
+    "pdv.abrir_caixa",
+    "pdv.fechar_caixa",
+    "pdv.vender",
+    "pdv.cancelar_venda",
+    "pdv.cancelar_item",
+    "pdv.aplicar_desconto",
+    "pdv.alterar_preco",
+    "pdv.sangria",
+    "pdv.suprimento",
+    "pdv.emitir_nfce",
+    "pdv.cancelar_nfce",
+    "pdv.reimprimir_comprovante"] 
+  }     

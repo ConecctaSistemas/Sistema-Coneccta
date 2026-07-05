@@ -1,0 +1,202 @@
+{
+  "modulo": "Notas Fiscais",
+  "descricao": "Gerenciamento completo de documentos fiscais.",
+  "cardsMenu": [
+    {
+      "titulo": "Emissão de NF-e",
+      "descricao": "Emitir notas fiscais eletrônicas",
+      "icone": "file-invoice",
+      "rota": "/notas-fiscais/emissao-nfe"
+    },
+    {
+      "titulo": "Entradas Pendentes",
+      "descricao": "Notas aguardando manifestação",
+      "icone": "clock",
+      "rota": "/notas-fiscais/entradas-pendentes"
+    },
+    {
+      "titulo": "Entradas Confirmadas",
+      "descricao": "Notas já confirmadas",
+      "icone": "check-circle",
+      "rota": "/notas-fiscais/entradas-confirmadas"
+    },
+    {
+      "titulo": "Manifestação do Destinatário",
+      "descricao": "Ciência, confirmação e desconhecimento",
+      "icone": "building-shield",
+      "rota": "/notas-fiscais/manifestacao"
+    },
+    {
+      "titulo": "NF-e / NFC-e Emitidas",
+      "descricao": "Notas fiscais emitidas",
+      "icone": "receipt",
+      "rota": "/notas-fiscais/emitidas"
+    },
+    {
+      "titulo": "Baixar XML",
+      "descricao": "Download de XML e DANFE",
+      "icone": "download",
+      "rota": "/notas-fiscais/baixar-xml"
+    },
+    {
+      "titulo": "Entrada de Notas Fiscais",
+      "descricao": "XML, produtos, estoque e contas a pagar",
+      "icone": "upload",
+      "rota": "/notas-fiscais/entrada"
+    }
+  ],
+  "entidades": {
+    "notaFiscal": {
+      "campos": [
+        "id",
+        "tipo",
+        "modelo",
+        "numero",
+        "serie",
+        "chaveAcesso",
+        "clienteFornecedorId",
+        "dataEmissao",
+        "dataEntradaSaida",
+        "valorProdutos",
+        "valorFrete",
+        "valorDesconto",
+        "valorTotal",
+        "status",
+        "xml",
+        "danfeUrl"
+      ],
+      "tipos": [
+        "Entrada",
+        "Saida"
+      ],
+      "modelos": [
+        "NF-e",
+        "NFC-e"
+      ],
+      "status": [
+        "Pendente",
+        "Autorizada",
+        "Cancelada",
+        "Denegada",
+        "Inutilizada",
+        "Rejeitada"
+      ]
+    },
+    "entradaNotaFiscal": {
+      "campos": [
+        "id",
+        "fornecedorId",
+        "chaveAcesso",
+        "numero",
+        "serie",
+        "dataEmissao",
+        "dataEntrada",
+        "itens",
+        "valorTotal",
+        "statusConferencia",
+        "atualizarEstoque",
+        "gerarContasPagar"
+      ],
+      "statusConferencia": [
+        "Pendente",
+        "Em Conferência",
+        "Conferida",
+        "Finalizada",
+        "Cancelada"
+      ]
+    },
+    "manifestacaoDestinatario": {
+      "campos": [
+        "id",
+        "chaveAcesso",
+        "cnpjEmitente",
+        "razaoSocialEmitente",
+        "dataEmissao",
+        "valorTotal",
+        "statusManifestacao",
+        "protocolo",
+        "dataManifestacao"
+      ],
+      "statusManifestacao": [
+        "Pendente",
+        "Ciência da Operação",
+        "Confirmação da Operação",
+        "Desconhecimento da Operação",
+        "Operação não Realizada"
+      ]
+    },
+    "itemNotaFiscal": {
+      "campos": [
+        "id",
+        "notaFiscalId",
+        "produtoId",
+        "codigoProdutoFornecedor",
+        "descricao",
+        "ncm",
+        "cest",
+        "cfop",
+        "cstCsosn",
+        "quantidade",
+        "valorUnitario",
+        "valorTotal",
+        "valorICMS",
+        "valorIPI",
+        "valorPIS",
+        "valorCOFINS"
+      ]
+    }
+  },
+  "regras": {
+    "importacaoXML": [
+      "Ler dados do emitente",
+      "Ler dados do destinatário",
+      "Ler produtos da nota",
+      "Verificar se fornecedor existe",
+      "Verificar se produto já existe pelo código de barras, NCM ou descrição",
+      "Sugerir cadastro de novo produto quando não localizado",
+      "Sugerir atualização de custo",
+      "Sugerir atualização de estoque",
+      "Sugerir geração de contas a pagar",
+      "Nunca alterar cadastro automaticamente sem confirmação do usuário"
+    ],
+    "emissaoNFe": [
+      "Validar certificado digital A1",
+      "Validar dados da empresa",
+      "Validar cliente",
+      "Validar produtos",
+      "Validar NCM, CFOP, CST/CSOSN e CEST quando obrigatório",
+      "Transmitir para SEFAZ",
+      "Salvar XML autorizado",
+      "Gerar DANFE"
+    ],
+    "emissaoNFCe": [
+      "Validar CSC e ID CSC",
+      "Validar ambiente de emissão",
+      "Validar produtos",
+      "Transmitir para SEFAZ",
+      "Salvar XML autorizado",
+      "Gerar DANFE NFC-e"
+    ]
+  },
+  "apis": {
+    "emitirNFe": "POST /api/notas-fiscais/nfe/emitir",
+    "emitirNFCe": "POST /api/notas-fiscais/nfce/emitir",
+    "listarEmitidas": "GET /api/notas-fiscais/emitidas",
+    "baixarXML": "GET /api/notas-fiscais/{id}/xml",
+    "baixarDANFE": "GET /api/notas-fiscais/{id}/danfe",
+    "importarXML": "POST /api/notas-fiscais/entrada/importar-xml",
+    "manifestarNota": "POST /api/notas-fiscais/manifestacao",
+    "listarPendentes": "GET /api/notas-fiscais/entradas-pendentes",
+    "listarConfirmadas": "GET /api/notas-fiscais/entradas-confirmadas"
+  },
+  "permissoes": [
+    "notas.visualizar",
+    "notas.emitir_nfe",
+    "notas.emitir_nfce",
+    "notas.importar_xml",
+    "notas.baixar_xml",
+    "notas.cancelar",
+    "notas.manifestar",
+    "notas.entrada"
+  ]
+}

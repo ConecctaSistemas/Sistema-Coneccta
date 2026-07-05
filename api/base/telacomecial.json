@@ -1,0 +1,210 @@
+{
+  "modulo": "Comercial",
+  "descricao": "Orçamentos, OS, vendas, recebíveis e boletos trabalhando no mesmo fluxo.",
+  "botaoPrincipal": {
+    "texto": "Novo atendimento",
+    "acao": "abrirNovoAtendimento"
+  },
+  "cardsMenu": [
+    {
+      "titulo": "Orçamentos",
+      "descricao": "Propostas e conversão para OS ou venda",
+      "icone": "clipboard",
+      "rota": "/comercial/orcamentos"
+    },
+    {
+      "titulo": "Ordens de Serviço",
+      "descricao": "Atendimento técnico e manutenção",
+      "icone": "tools",
+      "rota": "/comercial/ordens-servico"
+    },
+    {
+      "titulo": "Vendas diretas",
+      "descricao": "Venda rápida integrada ao estoque",
+      "icone": "cart",
+      "rota": "/comercial/vendas"
+    },
+    {
+      "titulo": "Contas a Receber",
+      "descricao": "Recebíveis, crédito loja e pendências",
+      "icone": "money-hand",
+      "rota": "/comercial/contas-receber"
+    },
+    {
+      "titulo": "Boletos",
+      "descricao": "Cobranças, PIX e envio ao cliente",
+      "icone": "barcode",
+      "rota": "/comercial/boletos"
+    },
+    {
+      "titulo": "Relatórios",
+      "descricao": "Resumo comercial e indicadores",
+      "icone": "chart-line",
+      "rota": "/comercial/relatorios"
+    }
+  ],
+  "indicadores": [
+    {
+      "titulo": "Orçamentos Hoje",
+      "campo": "orcamentosHoje",
+      "valor": 25,
+      "tipo": "numero"
+    },
+    {
+      "titulo": "OS em Aberto",
+      "campo": "osEmAberto",
+      "valor": 18,
+      "tipo": "numero"
+    },
+    {
+      "titulo": "Crédito Utilizado",
+      "campo": "creditoUtilizado",
+      "valor": 40.18,
+      "tipo": "moeda"
+    },
+    {
+      "titulo": "Boletos Pendentes",
+      "campo": "boletosPendentes",
+      "valor": 1,
+      "tipo": "numero"
+    },
+    {
+      "titulo": "Receber Hoje",
+      "campo": "receberHoje",
+      "valor": 8750.00,
+      "tipo": "moeda"
+    }
+  ],
+  "fluxoAtendimento": {
+    "etapas": [
+      "Novo atendimento",
+      "Orçamento",
+      "Aprovação do cliente",
+      "Conversão para OS ou Venda",
+      "Pagamento",
+      "Boleto/PIX/Cartão/Dinheiro",
+      "Baixa no financeiro",
+      "Atualização de estoque",
+      "Relatório comercial"
+    ]
+  },
+  "entidades": {
+    "orcamento": {
+      "campos": [
+        "id",
+        "numero",
+        "clienteId",
+        "dataEmissao",
+        "validade",
+        "itens",
+        "valorTotal",
+        "desconto",
+        "status"
+      ],
+      "status": [
+        "Aberto",
+        "Aprovado",
+        "Cancelado",
+        "Convertido em OS",
+        "Convertido em Venda"
+      ]
+    },
+    "ordemServico": {
+      "campos": [
+        "id",
+        "numero",
+        "clienteId",
+        "equipamento",
+        "defeitoRelatado",
+        "diagnostico",
+        "servicos",
+        "pecas",
+        "valorTotal",
+        "tecnico",
+        "status"
+      ],
+      "status": [
+        "Aberta",
+        "Em andamento",
+        "Aguardando peça",
+        "Finalizada",
+        "Cancelada"
+      ]
+    },
+    "vendaDireta": {
+      "campos": [
+        "id",
+        "numero",
+        "clienteId",
+        "vendedorId",
+        "itens",
+        "formaPagamento",
+        "valorTotal",
+        "status"
+      ],
+      "status": [
+        "Aberta",
+        "Finalizada",
+        "Cancelada"
+      ]
+    },
+    "contaReceber": {
+      "campos": [
+        "id",
+        "clienteId",
+        "origem",
+        "documento",
+        "valor",
+        "vencimento",
+        "formaPagamento",
+        "status"
+      ],
+      "status": [
+        "Aberto",
+        "Pago",
+        "Parcial",
+        "Vencido",
+        "Cancelado"
+      ]
+    },
+    "boleto": {
+      "campos": [
+        "id",
+        "clienteId",
+        "contaReceberId",
+        "valor",
+        "vencimento",
+        "linhaDigitavel",
+        "pixCopiaCola",
+        "status"
+      ],
+      "status": [
+        "Gerado",
+        "Enviado",
+        "Pago",
+        "Vencido",
+        "Cancelado"
+      ]
+    }
+  },
+  "apis": {
+    "dashboard": "GET /api/comercial/dashboard",
+    "novoAtendimento": "POST /api/comercial/atendimentos",
+    "orcamentos": "GET /api/comercial/orcamentos",
+    "ordensServico": "GET /api/comercial/ordens-servico",
+    "vendasDiretas": "GET /api/comercial/vendas",
+    "contasReceber": "GET /api/comercial/contas-receber",
+    "boletos": "GET /api/comercial/boletos",
+    "relatorios": "GET /api/comercial/relatorios"
+  },
+  "permissoes": [
+    "comercial.visualizar",
+    "comercial.criar_atendimento",
+    "comercial.orcamentos",
+    "comercial.ordens_servico",
+    "comercial.vendas",
+    "comercial.contas_receber",
+    "comercial.boletos",
+    "comercial.relatorios"
+  ]
+}

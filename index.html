@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - ERP Coneccta</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/acesso/css/login.css">
+</head>
+<body>
+
+<main class="login-shell">
+    <section class="login-brand">
+        <h1>Coneccta Sistemas</h1>
+        <p>Tecnologia que conecta sua empresa ao crescimento.</p>
+    </section>
+
+    <section class="login-card">
+        <div class="login-topo">
+           
+            <h2>Login</h2>
+        </div>
+
+        <form id="formLogin">
+            <input type="hidden" id="destinoLogin" value="auto">
+            <label>Usuario
+                <input type="text" id="loginUsuario" value="ADM" autocomplete="username">
+            </label>
+
+            <label>Senha
+                <input type="password" id="loginSenha" value="123" autocomplete="current-password">
+            </label>
+
+            <button type="submit">Entrar</button>
+            <div class="login-actions">
+                <a href="#" class="link-reset">Redefinir senha</a>
+                <a href="https://wa.me/5575998808146" class="btn-suporte" target="_blank" rel="noopener">Suporte</a>
+            </div>
+            <p id="mensagemLogin" class="mensagem-login"></p>
+        </form>
+
+        <div class="social-account-container">
+            <span class="title">Siga a Coneccta Sistemas</span>
+            <div class="social-accounts">
+                <a href="https://www.youtube.com/@ConecctaTecnologia" class="social-button youtube" target="_blank" rel="noopener" aria-label="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://www.instagram.com/coneccta_sistemas?igsh=MTNoZ3lqeGRpczY1dw==" class="social-button instagram" target="_blank" rel="noopener" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://conecctasistemas.site/" class="social-button site" target="_blank" rel="noopener" aria-label="Site">
+                    <i class="fas fa-globe"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="loading-screen" id="loadingLogin" aria-live="polite" aria-hidden="true">
+    <div class="container">
+        <div class="loader"></div>
+        <div class="loader"></div>
+        <div class="loader"></div>
+    </div>
+    <p id="mensagemCarregamento" class="loading-message"></p>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/acesso/js/login.js"></script>
+</body>
+</html>
+

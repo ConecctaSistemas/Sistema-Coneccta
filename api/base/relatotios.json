@@ -1,0 +1,144 @@
+{
+  "modulo": "Relatorios",
+  "versao": "1.0",
+
+  "relatorios": [
+    {
+      "nome": "Vendas por período",
+      "categoria": "Vendas e Caixa",
+      "filtros": [
+        "dataInicial",
+        "dataFinal",
+        "vendedor",
+        "cliente",
+        "formaPagamento"
+      ],
+      "cards": [
+        "valorTotal",
+        "quantidadeVendas",
+        "ticketMedio",
+        "lucroEstimado"
+      ],
+      "graficos": [
+        "faturamentoPorDia",
+        "faturamentoPorMes"
+      ]
+    },
+
+    {
+      "nome": "Produtos mais vendidos",
+      "categoria": "Vendas e Caixa",
+      "filtros": [
+        "periodo",
+        "categoria",
+        "fornecedor"
+      ],
+      "graficos": [
+        "top10Produtos"
+      ]
+    },
+
+    {
+      "nome": "Fechamento de Caixa",
+      "categoria": "Vendas e Caixa",
+      "filtros": [
+        "caixa",
+        "operador",
+        "data"
+      ],
+      "cards": [
+        "abertura",
+        "entradas",
+        "sangrias",
+        "suprimentos",
+        "fechamento",
+        "diferenca"
+      ]
+    },
+
+    {
+      "nome": "Recebimentos por Forma de Pagamento",
+      "categoria": "Vendas e Caixa"
+    },
+
+    {
+      "nome": "Contas a Receber",
+      "categoria": "Financeiro"
+    },
+
+    {
+      "nome": "Contas a Pagar",
+      "categoria": "Financeiro"
+    },
+
+    {
+      "nome": "Clientes Inadimplentes",
+      "categoria": "Financeiro"
+    },
+
+    {
+      "nome": "NF-e Emitidas",
+      "categoria": "Fiscal"
+    },
+
+    {
+      "nome": "NFC-e Emitidas",
+      "categoria": "Fiscal"
+    },
+
+    {
+      "nome": "Notas Canceladas",
+      "categoria": "Fiscal"
+    },
+
+    {
+      "nome": "NF-e/NFC-e Emitidas",
+      "categoria": "Fiscal"
+    },
+
+    {
+      "nome": "Cadastro de Clientes",
+      "categoria": "Clientes"
+    },
+
+    {
+      "nome": "Clientes Aniversariantes",
+      "categoria": "Clientes"
+    },
+
+    {
+      "nome": "Estoque Atual",
+      "categoria": "Estoque e Compras"
+    },
+
+    {
+      "nome": "Estoque Mínimo",
+      "categoria": "Estoque e Compras"
+    },
+
+    {
+      "nome": "Entradas de Mercadorias",
+      "categoria": "Estoque e Compras"
+    },
+
+    {
+      "nome": "Compras por Fornecedor",
+      "categoria": "Estoque e Compras"
+    },
+
+    {
+      "nome": "Histórico de Compras",
+      "categoria": "Estoque e Compras"
+    },
+
+    {
+      "nome": "Lucratividade por Produto",
+      "categoria": "Gerencial"
+    },
+
+    {
+      "nome": "Dashboard Gerencial",
+      "categoria": "Gerencial"
+    }
+  ]
+}

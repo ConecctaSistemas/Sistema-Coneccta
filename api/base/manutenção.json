@@ -1,0 +1,172 @@
+{
+  "modulo": "Manutenção do Sistema",
+  "descricao": "Configurações avançadas, integrações, parâmetros fiscais e suporte operacional.",
+  "cardsMenu": [
+    {
+      "titulo": "Arquivos de Balança",
+      "descricao": "Baixe arquivos de itens para Urano, Filizola e Toledo",
+      "icone": "scale-balanced",
+      "rota": "/manutencao/balancas"
+    },
+    {
+      "titulo": "Cadastro da Empresa",
+      "descricao": "Dados cadastrais da empresa",
+      "icone": "building",
+      "rota": "/manutencao/empresa"
+    },
+    {
+      "titulo": "Configurações Fiscais",
+      "descricao": "Certificado digital, NF-e, NFC-e e parâmetros fiscais",
+      "icone": "key",
+      "rota": "/manutencao/fiscal"
+    },
+    {
+      "titulo": "Integrações",
+      "descricao": "PIX, boletos, POS, TEF e APIs externas",
+      "icone": "plug",
+      "rota": "/manutencao/integracoes"
+    },
+    {
+      "titulo": "Baixar XML",
+      "descricao": "Download manual de XML por período",
+      "icone": "file-download",
+      "rota": "/manutencao/xml"
+    },
+    {
+      "titulo": "Configurações do Sistema",
+      "descricao": "Parâmetros gerais do ERP",
+      "icone": "gears",
+      "rota": "/manutencao/configuracoes"
+    }
+  ],
+  "entidades": {
+    "empresa": {
+      "campos": [
+        "razaoSocial",
+        "nomeFantasia",
+        "cnpj",
+        "inscricaoEstadual",
+        "inscricaoMunicipal",
+        "crt",
+        "telefone",
+        "whatsapp",
+        "email",
+        "cep",
+        "endereco",
+        "numero",
+        "bairro",
+        "cidade",
+        "uf",
+        "responsavel"
+      ]
+    },
+    "configuracaoFiscal": {
+      "campos": [
+        "ambiente",
+        "certificadoDigital",
+        "senhaCertificado",
+        "validadeCertificado",
+        "serieNFe",
+        "serieNFCe",
+        "csc",
+        "idCSC",
+        "regimeTributario",
+        "aliquotaPadrao",
+        "naturezaOperacaoPadrao"
+      ]
+    },
+    "integracao": {
+      "campos": [
+        "pix",
+        "boleto",
+        "tef",
+        "pos",
+        "email",
+        "whatsapp",
+        "apiNFe",
+        "manifestacaoDestinatario"
+      ]
+    },
+    "balanca": {
+      "campos": [
+        "modelo",
+        "fabricante",
+        "codigoProduto",
+        "descricao",
+        "codigoBalanca",
+        "preco"
+      ]
+    }
+  },
+  "configuracoesSistema": {
+    "gerais": [
+      "Nome do ERP",
+      "Logotipo",
+      "Tema",
+      "Idioma",
+      "Fuso Horário"
+    ],
+    "vendas": [
+      "Permitir estoque negativo",
+      "Solicitar vendedor",
+      "Permitir desconto máximo",
+      "Imprimir comprovante automático"
+    ],
+    "financeiro": [
+      "Dias para inadimplência",
+      "Juros padrão",
+      "Multa padrão",
+      "Centro de custo obrigatório"
+    ],
+    "estoque": [
+      "Controlar lote",
+      "Controlar validade",
+      "Atualização automática de custo",
+      "Estoque mínimo"
+    ],
+    "fiscal": [
+      "Atualizar produtos automaticamente",
+      "Validar NCM",
+      "Validar CEST",
+      "Sugerir CFOP",
+      "Sugerir CST/CSOSN"
+    ]
+  },
+  "regras": {
+    "importacaoXML": [
+      "Não alterar cadastro automaticamente",
+      "Exibir sugestões de atualização",
+      "Solicitar confirmação do usuário",
+      "Registrar log das alterações"
+    ],
+    "certificadoDigital": [
+      "Alertar vencimento com 30 dias",
+      "Bloquear emissão após vencimento",
+      "Permitir troca sem reiniciar sistema"
+    ],
+    "backup": [
+      "Backup automático diário",
+      "Backup manual",
+      "Restauração de backup",
+      "Histórico de backups"
+    ]
+  },
+  "apis": {
+    "empresa": "/api/manutencao/empresa",
+    "fiscal": "/api/manutencao/fiscal",
+    "integracoes": "/api/manutencao/integracoes",
+    "xml": "/api/manutencao/xml",
+    "balancas": "/api/manutencao/balancas",
+    "configuracoes": "/api/manutencao/configuracoes"
+  },
+  "permissoes": [
+    "manutencao.visualizar",
+    "manutencao.empresa",
+    "manutencao.fiscal",
+    "manutencao.integracoes",
+    "manutencao.xml",
+    "manutencao.configuracoes",
+    "manutencao.backup",
+    "manutencao.administrador"
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "modulo": "Cadastros",
+  "descricao": "Gerencie clientes, mercadorias, fornecedores, usuários e demais informações do sistema.",
+  "cardsMenu": [
+    {
+      "titulo": "Clientes",
+      "descricao": "Cadastro e crédito de clientes",
+      "icone": "users",
+      "rota": "/cadastros/clientes"
+    },
+    {
+      "titulo": "Mercadorias",
+      "descricao": "Produtos e estoque",
+      "icone": "box",
+      "rota": "/cadastros/mercadorias"
+    },
+    {
+      "titulo": "Cadastrar Produto",
+      "descricao": "Novo item, estoque, preços e tributação",
+      "icone": "plus-square",
+      "rota": "/cadastros/produtos/novo"
+    },
+    {
+      "titulo": "Fornecedores",
+      "descricao": "Cadastro de fornecedores",
+      "icone": "truck",
+      "rota": "/cadastros/fornecedores"
+    },
+    {
+      "titulo": "Formas de Pagamento",
+      "descricao": "PIX, cartão, dinheiro e boleto",
+      "icone": "credit-card",
+      "rota": "/cadastros/formas-pagamento"
+    },
+    {
+      "titulo": "Usuários",
+      "descricao": "Permissões e acessos",
+      "icone": "user-shield",
+      "rota": "/cadastros/usuarios"
+    },
+    {
+      "titulo": "Tabela de Preço",
+      "descricao": "Varejo, atacado e promoções",
+      "icone": "tag",
+      "rota": "/cadastros/tabela-preco"
+    }
+  ],
+  "entidades": {
+    "cliente": {
+      "campos": [
+        "id",
+        "tipoPessoa",
+        "nomeRazaoSocial",
+        "nomeFantasia",
+        "cpfCnpj",
+        "rgIe",
+        "telefone",
+        "whatsapp",
+        "email",
+        "dataNascimento",
+        "cep",
+        "endereco",
+        "numero",
+        "bairro",
+        "cidade",
+        "uf",
+        "limiteCredito",
+        "status"
+      ]
+    },
+    "produto": {
+      "campos": [
+        "id",
+        "codigoBarras",
+        "descricao",
+        "categoria",
+        "marca",
+        "fornecedorId",
+        "unidade",
+        "ncm",
+        "cest",
+        "origem",
+        "precoCusto",
+        "precoVenda",
+        "margemLucro",
+        "estoqueAtual",
+        "estoqueMinimo",
+        "status"
+      ]
+    },
+    "fornecedor": {
+      "campos": [
+        "id",
+        "razaoSocial",
+        "nomeFantasia",
+        "cnpj",
+        "inscricaoEstadual",
+        "telefone",
+        "whatsapp",
+        "email",
+        "cep",
+        "endereco",
+        "cidade",
+        "uf",
+        "status"
+      ]
+    },
+    "formaPagamento": {
+      "campos": [
+        "id",
+        "descricao",
+        "tipo",
+        "permiteParcelamento",
+        "geraContaReceber",
+        "geraBoleto",
+        "ativo"
+      ]
+    },
+    "usuario": {
+      "campos": [
+        "id",
+        "nome",
+        "email",
+        "senhaHash",
+        "perfil",
+        "permissoes",
+        "ativo"
+      ]
+    },
+    "tabelaPreco": {
+      "campos": [
+        "id",
+        "nome",
+        "tipo",
+        "produtoId",
+        "preco",
+        "dataInicio",
+        "dataFim",
+        "ativo"
+      ]
+    }
+  },
+  "apis": {
+    "clientes": "/api/cadastros/clientes",
+    "produtos": "/api/cadastros/produtos",
+    "fornecedores": "/api/cadastros/fornecedores",
+    "formasPagamento": "/api/cadastros/formas-pagamento",
+    "usuarios": "/api/cadastros/usuarios",
+    "tabelasPreco": "/api/cadastros/tabelas-preco"
+  }
+}
