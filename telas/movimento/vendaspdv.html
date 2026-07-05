@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendas PDV</title>
+<link rel="stylesheet" href="telas/movimento/css/vendaspdv.css?v=20260702-layout-proporcao">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Vendas PDV</h1>
+                <p>Consulte e filtre as vendas realizadas no periodo.</p>
+            </div>
+            <a class="btn-voltar" href="telas/movimento/movimento.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="dash-vendas">
+
+        <!-- ── Filtros ── -->
+        <div class="dash-filtros-topo">
+            <div class="dash-filtro-tipo">
+                <button type="button" class="btn-tipo-venda ativo" data-tipo="todos">
+                    <i class="fa-solid fa-layer-group"></i> Todos
+                </button>
+                <button type="button" class="btn-tipo-venda" data-tipo="NFC-e">
+                    <i class="fa-solid fa-file-invoice"></i> Fiscal (NFC-e)
+                </button>
+                <button type="button" class="btn-tipo-venda" data-tipo="Pedido">
+                    <i class="fa-solid fa-receipt"></i> Não fiscal
+                </button>
+            </div>
+            <div class="dash-filtro-data">
+                <label class="dash-label-data">De <input type="date" id="vendaDataInicio"></label>
+                <label class="dash-label-data">Até <input type="date" id="vendaDataFim"></label>
+                <button type="button" class="btn-doc" id="btnFiltrarVendas">
+                    <i class="fa-solid fa-rotate-right"></i> Atualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- ── Grid 3 colunas × 2 linhas ── -->
+        <div class="dash-grid-3col">
+
+            <!-- Resumo do Dia -->
+            <div class="dash-card dash-resumo-card">
+                <div class="dash-card-header">
+                    <h3><i class="fa-solid fa-chart-simple"></i> Resumo do Dia</h3>
+                    <span class="dash-data-badge"><i class="fa-solid fa-calendar-day"></i> <span id="dashDataHoje">—</span></span>
+                </div>
+                <div class="dash-resumo-lista">
+                    <div class="dash-resumo-item">
+                        <span>Vendas</span>
+                        <strong id="dashTotalVendas" class="dash-cor-azul">R$ 0,00</strong>
+                    </div>
+                    <div class="dash-resumo-item">
+                        <span>Nº de Vendas</span>
+                        <strong id="dashQtdVendas" class="dash-cor-verde">0</strong>
+                    </div>
+                    <div class="dash-resumo-item">
+                        <span>Ticket Médio</span>
+                        <strong id="dashTicketMedio">R$ 0,00</strong>
+                    </div>
+                    <div class="dash-resumo-item">
+                        <span>Produtos Vendidos</span>
+                        <strong id="dashProdutosVendidos" class="dash-cor-laranja">0</strong>
+                    </div>
+                    <div class="dash-resumo-item">
+                        <span>Devoluções</span>
+                        <strong id="dashDevolucoes" class="dash-cor-vermelho">R$ 0,00</strong>
+                    </div>
+                </div>
+                <a href="#" class="dash-link-rodape" onclick="return false">Ver detalhes</a>
+            </div>
+
+            <!-- Vendas dos Últimos 7 Dias -->
+            <div class="dash-card dash-grafico-card">
+                <div class="dash-card-header">
+                    <h3><i class="fa-solid fa-chart-line"></i> Vendas dos Últimos 7 Dias</h3>
+                    <div class="dash-radio-tipo">
+                        <label><input type="radio" name="tipoGraficoDash" value="linha" checked> Linha</label>
+                        <label><input type="radio" name="tipoGraficoDash" value="barra"> Barra</label>
+                    </div>
+                </div>
+                <div class="dash-svg-area" id="dashGrafico7Dias"></div>
+            </div>
+
+            <!-- Top 5 Produtos -->
+            <div class="dash-card dash-top5-card">
+                <div class="dash-card-header">
+                    <h3><i class="fa-solid fa-trophy"></i> Top 5 Produtos</h3>
+                    <a href="#" class="dash-link-mini" onclick="return false">Ver relatório</a>
+                </div>
+                <div class="dash-top5-wrap">
+                    <canvas id="dashGraficoDonut" width="110" height="110"></canvas>
+                    <ul class="dash-top5-lista" id="dashTop5Lista"></ul>
+                </div>
+            </div>
+
+            <!-- Avisos -->
+            <div class="dash-card dash-avisos-card">
+                <div class="dash-card-header">
+                    <h3><i class="fa-solid fa-bell"></i> Avisos</h3>
+                </div>
+                <ul class="dash-avisos-lista" id="dashAvisos"></ul>
+                <a href="#" class="dash-link-rodape" onclick="return false">Ver todos avisos</a>
+            </div>
+
+            <!-- Movimentações Recentes -->
+            <div class="dash-card dash-mov-card">
+                <div class="dash-card-header">
+                    <h3><i class="fa-solid fa-list-check"></i> Movimentações Recentes</h3>
+                </div>
+                <div class="tabela-doc-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Tipo</th><th>Descrição</th><th>Valor</th><th>Data/Hora</th><th>Usuário</th></tr>
+                        </thead>
+                        <tbody id="dashMovimentacoes">
+                            <tr><td colspan="5" class="vazio">Nenhuma movimentação.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="#" class="dash-link-rodape" onclick="return false">Ver todas movimentações</a>
+            </div>
+
+            <!-- Estoque -->
+            <div class="dash-card dash-estoque-card">
+                <div class="dash-card-header">
+                    <h3><i class="fa-solid fa-boxes-stacked"></i> Estoque</h3>
+                </div>
+                <div class="dash-estoque-lista">
+                    <div class="dash-estoque-item">
+                        <span>Produtos Cadastrados</span>
+                        <strong id="dashProdutosCadastrados">0</strong>
+                    </div>
+                    <div class="dash-estoque-item">
+                        <span>Produtos com Estoque Baixo</span>
+                        <strong id="dashEstoqueBaixo" class="dash-est-num-aviso">0</strong>
+                    </div>
+                    <div class="dash-estoque-item">
+                        <span>Produtos sem Estoque</span>
+                        <strong id="dashSemEstoque" class="dash-est-num-perigo">0</strong>
+                    </div>
+                    <div class="dash-estoque-item">
+                        <span>Valor Total do Estoque</span>
+                        <strong id="dashValorEstoque" class="dash-est-num-destaque">R$ 0,00</strong>
+                    </div>
+                </div>
+                <a href="#" class="dash-link-rodape" onclick="return false">Ver controle de estoque</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/vendaspdv.js?v=20260702"></script>
+</body>
+</html>
+

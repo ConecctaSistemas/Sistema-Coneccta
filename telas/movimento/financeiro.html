@@ -1,0 +1,732 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financeiro — Contas a Pagar</title>
+<link rel="stylesheet" href="telas/movimento/css/contas-receber.css?v=20260701-barra-acoes">
+<link rel="stylesheet" href="telas/movimento/css/contas-pagar.css?v=20260701-espacamento">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+<main class="container">
+
+    <header class="topo">
+        <div>
+            <h1>Financeiro</h1>
+            <p>Contas a pagar, despesas, salários, fluxo de caixa e DRE.</p>
+        </div>
+        <a class="btn-voltar" href="telas/movimento/movimento.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="cards-resumo">
+        <article class="card-resumo alerta">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>A Pagar</span>
+            <strong id="resumoAberto">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo alerta">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Vencidas</span>
+            <strong id="resumoVencido">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>Vence hoje</span>
+            <strong id="resumoHoje">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo sucesso">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Pagas no período</span>
+            <strong id="resumoPago">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo alerta">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+            <span>Despesas no mês</span>
+            <strong id="cardDespesas">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo aviso">
+            <i class="fa-solid fa-users"></i>
+            <span>Folha do mês</span>
+            <strong id="cardFolha">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo sucesso">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>Resultado do mês</span>
+            <strong id="cardResultado">R$ 0,00</strong>
+        </article>
+    </section>
+
+    <!-- ABAS -->
+    <nav class="abas">
+        <button class="aba ativa" data-aba="contas-pagar">
+            <i class="fa-solid fa-file-invoice-dollar"></i><span>Contas a Pagar</span>
+        </button>
+        <button class="aba" data-aba="despesas">
+            <i class="fa-solid fa-receipt"></i><span>Despesas</span>
+        </button>
+        <button class="aba" data-aba="salarios">
+            <i class="fa-solid fa-users"></i><span>Salários</span>
+        </button>
+        <button class="aba" data-aba="dre">
+            <i class="fa-solid fa-chart-pie"></i><span>DRE / Projeção</span>
+        </button>
+    </nav>
+
+    <!-- ═══ ABA 1 — CONTAS A PAGAR ═══ -->
+    <div class="aba-view ativa" id="view-contas-pagar">
+        <section class="acoes acoes-topo-pagina">
+            <button type="button" class="btn" id="btnAtualizar"><i class="fa-solid fa-rotate"></i> Atualizar</button>
+            <button type="button" class="btn secundario" id="btnExcel"><i class="fa-solid fa-file-excel"></i> Exportar Excel</button>
+            <button type="button" class="btn secundario" id="btnPdf"><i class="fa-solid fa-file-pdf"></i> Exportar PDF</button>
+            <button type="button" class="btn secundario" id="btnVencidas"><i class="fa-solid fa-triangle-exclamation"></i> Ver Vencidas</button>
+        </section>
+
+        <div class="painel filtros">
+            <div class="periodos">
+                <span>Período</span>
+                <div class="periodo-opcoes">
+                    <button type="button" data-periodo="1">Hoje</button>
+                    <button type="button" data-periodo="7">Semana</button>
+                    <button type="button" class="ativo" data-periodo="30">Mês</button>
+                    <button type="button" data-periodo="90">Trimestre</button>
+                    <button type="button" data-periodo="365">Ano</button>
+                    <button type="button" data-periodo="personalizado">Personalizado</button>
+                </div>
+            </div>
+            <div class="personalizado recolhido" id="periodoPersonalizado">
+                <label>Início<input type="date" id="dataInicio"></label>
+                <label>Fim<input type="date" id="dataFim"></label>
+            </div>
+            <div class="grade-filtros">
+                <label>Status
+                    <select id="filtroStatus">
+                        <option value="">Todos</option>
+                        <option value="aberto">Em aberto</option>
+                        <option value="vencido">Vencido</option>
+                        <option value="hoje">Vence hoje</option>
+                        <option value="pago">Pago</option>
+                    </select>
+                </label>
+                <label>Origem
+                    <select id="filtroTipo">
+                        <option value="">Todas</option>
+                        <option value="nf-entrada">NF de Entrada</option>
+                        <option value="manual">Lançamento Manual</option>
+                    </select>
+                </label>
+                <label>Fornecedor
+                    <select id="filtroFornecedor"><option value="">Todos</option></select>
+                </label>
+                <label>Busca
+                    <input type="search" id="buscaConta" placeholder="Buscar fornecedor, descrição ou documento">
+                </label>
+            </div>
+        </div>
+
+        <div class="layout-principal">
+            <div class="painel">
+                <div class="painel-topo">
+                    <h2>Contas</h2>
+                    <div class="acoes-topo">
+                        <button type="button" class="btn btn-primario" id="btnNovaConta"><i class="fa-solid fa-plus"></i> Nova Conta</button>
+                        <button type="button" class="btn secundario" id="btnSelecionarTodos"><i class="fa-solid fa-check-double"></i> Selecionar</button>
+                        <button type="button" class="btn" id="btnBaixarSelecionadas"><i class="fa-solid fa-circle-check"></i> Dar baixa</button>
+                    </div>
+                </div>
+                <div class="tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkTodos"></th>
+                                <th>Fornecedor / Credor</th>
+                                <th>Descrição</th>
+                                <th>Documento</th>
+                                <th>Vencimento</th>
+                                <th>Valor</th>
+                                <th>Origem</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaContas"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <aside class="painel">
+                <h2>Indicadores</h2>
+                <div class="indicadores">
+                    <div><span>Qtd. em aberto</span><strong id="qtdAberto">0</strong></div>
+                    <div><span>Qtd. vencida</span><strong id="qtdVencido">0</strong></div>
+                    <div><span>Maior conta</span><strong id="maiorConta">R$ 0,00</strong></div>
+                    <div><span>Média por conta</span><strong id="mediaConta">R$ 0,00</strong></div>
+                    <div><span>Próximos 7 dias</span><strong id="proximos7">R$ 0,00</strong></div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="layout-principal">
+            <div class="painel">
+                <div class="painel-topo">
+                    <h2>Vencimentos</h2>
+                    <span id="totalDias">0 dia(s)</span>
+                </div>
+                <div class="grafico-barras" id="graficoVencimentos"></div>
+            </div>
+            <div class="painel">
+                <h2>Por Fornecedor</h2>
+                <div class="tabela-wrap compacta">
+                    <table>
+                        <thead><tr><th>Fornecedor</th><th>Aberto</th><th>Vencido</th></tr></thead>
+                        <tbody id="tabelaFornecedores"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ABA 2 — DESPESAS ═══ -->
+    <div class="aba-view" id="view-despesas">
+        <div class="painel">
+            <div class="secao-h">
+                <div>
+                    <h2>Despesas da Empresa</h2>
+                    <p>Aluguel, energia, fornecedores, serviços e demais saídas.</p>
+                </div>
+                <span class="badge-count" id="totalDespesas">0 despesas</span>
+            </div>
+            <div class="barra-acoes">
+                <select id="filtroMesDespesas">
+                    <option value="">Todos os meses</option>
+                </select>
+                <select id="filtroCategoriaDespesas">
+                    <option value="">Todas as categorias</option>
+                    <option>Aluguel</option>
+                    <option>Energia</option>
+                    <option>Água</option>
+                    <option>Internet / Telefone</option>
+                    <option>Fornecedor</option>
+                    <option>Serviços</option>
+                    <option>Impostos</option>
+                    <option>Marketing</option>
+                    <option>Outros</option>
+                </select>
+                <select id="filtroStatusDespesas">
+                    <option value="">Todos os status</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="pago">Pago</option>
+                    <option value="vencido">Vencido</option>
+                </select>
+                <input type="search" id="buscaDespesas" placeholder="Buscar descrição...">
+                <div class="spacer"></div>
+                <button class="btn btn-primario" id="btnNovaDespesa">
+                    <i class="fa-solid fa-plus"></i> Nova Despesa
+                </button>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Vencimento</th>
+                            <th>Valor</th>
+                            <th>Recorrente</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaDespesas">
+                        <tr><td colspan="7" class="vazio">Nenhuma despesa lançada.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ABA 3 — SALÁRIOS ═══ -->
+    <div class="aba-view" id="view-salarios">
+        <div class="sal-grid">
+            <div class="painel">
+                <div class="secao-h">
+                    <div>
+                        <h2>Folha de Pagamento</h2>
+                        <p>Gerencie salários por funcionário e marque como pago.</p>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center">
+                        <div class="seletor-mes">
+                            <button id="btnSalAnt"><i class="fa-solid fa-chevron-left"></i></button>
+                            <span id="labelSalMes">—</span>
+                            <button id="btnSalProx"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="barra-acoes" style="margin-bottom:12px">
+                    <input type="search" id="buscaSalarios" placeholder="Buscar funcionário...">
+                    <div class="spacer"></div>
+                    <button class="btn btn-primario" id="btnNovoFuncionario">
+                        <i class="fa-solid fa-user-plus"></i> Funcionário
+                    </button>
+                </div>
+                <div class="tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Funcionário</th>
+                                <th>Cargo</th>
+                                <th>Salário Base</th>
+                                <th>Descontos</th>
+                                <th>Líquido</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaSalarios">
+                            <tr><td colspan="7" class="vazio">Nenhum funcionário cadastrado.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:12px">
+                    <span style="font-size:13px;font-weight:800;color:#1A436B">
+                        Total da folha: <span id="totalFolhaMes">R$ 0,00</span>
+                    </span>
+                </div>
+            </div>
+            <div class="painel">
+                <div class="secao-h">
+                    <div>
+                        <h2>Histórico — 12 meses</h2>
+                        <p>Status de pagamento por mês.</p>
+                    </div>
+                </div>
+                <select id="filtroFuncHistorico" style="width:100%;height:38px;border:1.5px solid #d9e4f0;border-radius:9px;padding:0 11px;font:inherit;margin-bottom:12px">
+                    <option value="">Todos os funcionários</option>
+                </select>
+                <div id="historicoSalarios" class="meses-sal"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ABA 4 — FLUXO DE CAIXA ═══ -->
+    <div class="aba-view" id="view-fluxo">
+        <div class="painel">
+            <div class="secao-h">
+                <div>
+                    <h2>Fluxo de Caixa</h2>
+                    <p>Entradas e saídas por mês — últimos 6 meses.</p>
+                </div>
+                <div class="seletor-mes">
+                    <button id="btnFluxoAnt"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="labelFluxoMes">—</span>
+                    <button id="btnFluxoProx"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="fluxo-grid">
+                <div>
+                    <div class="fluxo-legenda">
+                        <span><i class="legenda-entrada"></i> Entradas</span>
+                        <span><i class="legenda-saida"></i> Saídas</span>
+                    </div>
+                    <div class="grafico-wrap">
+                        <div class="grafico-barras" id="graficoFluxo"></div>
+                    </div>
+                    <div class="tabela-wrap" style="margin-top:16px">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mês</th>
+                                    <th>Entradas</th>
+                                    <th>Saídas</th>
+                                    <th>Saldo</th>
+                                    <th>Acumulado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaFluxo">
+                                <tr><td colspan="5" class="vazio">Calculando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="indicadores-fluxo">
+                    <div class="ind-card positivo">
+                        <span>Total entradas (6 meses)</span>
+                        <strong id="indTotalEntradas">R$ 0,00</strong>
+                    </div>
+                    <div class="ind-card negativo">
+                        <span>Total saídas (6 meses)</span>
+                        <strong id="indTotalSaidas">R$ 0,00</strong>
+                    </div>
+                    <div class="ind-card">
+                        <span>Saldo do período</span>
+                        <strong id="indSaldoPeriodo">R$ 0,00</strong>
+                    </div>
+                    <div class="ind-card">
+                        <span>Média mensal de entradas</span>
+                        <strong id="indMediaEntradas">R$ 0,00</strong>
+                    </div>
+                    <div class="ind-card">
+                        <span>Média mensal de saídas</span>
+                        <strong id="indMediaSaidas">R$ 0,00</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ABA 5 — DRE / PROJEÇÃO ═══ -->
+    <div class="aba-view" id="view-dre">
+        <div class="dre-grid">
+            <div class="painel">
+                <div class="secao-h">
+                    <div>
+                        <h2>DRE — Demonstrativo de Resultado</h2>
+                        <p>Receitas, custos e despesas do período.</p>
+                    </div>
+                    <div class="seletor-mes">
+                        <button id="btnDreAnt"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span id="labelDreMes">—</span>
+                        <button id="btnDreProx"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="dre-tabela" id="dreMes"></div>
+
+                <div style="margin-top:24px">
+                    <div class="secao-h">
+                        <div>
+                            <h2>Projeção Mensal</h2>
+                            <p>Passado (real) e futuro (estimado). Colunas de meta mostram o progresso em relação à meta definida.</p>
+                        </div>
+                        <div class="filtro-periodo-projecao">
+                            <label>De <input type="date" id="projDataInicio"></label>
+                            <label>Até <input type="date" id="projDataFim"></label>
+                            <button type="button" class="btn btn-secundario btn-sm" id="btnLimparProjecao" title="Voltar para o período padrão">
+                                <i class="fa-solid fa-eraser"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="dica-projecao">O mês atual sempre aparece na lista, mesmo fora do período filtrado.</p>
+                    <div class="proj-tabela-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mês</th>
+                                    <th>Vendas</th>
+                                    <th>Meta Vendas</th>
+                                    <th>CMV</th>
+                                    <th>Despesas</th>
+                                    <th>Salários</th>
+                                    <th>Resultado</th>
+                                    <th>Meta Result.</th>
+                                    <th>Tipo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaProjecao">
+                                <tr><td colspan="10" class="vazio">Calculando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:grid;gap:14px">
+                <div class="painel">
+                    <div class="secao-h" style="margin-bottom:12px">
+                        <h2>Indicadores do Mês</h2>
+                    </div>
+                    <div class="indicadores-fluxo">
+                        <div class="ind-card positivo">
+                            <span>Receita Bruta</span>
+                            <strong id="dreIndReceita">R$ 0,00</strong>
+                        </div>
+                        <div class="ind-card">
+                            <span>Custo Mercadorias (CMV)</span>
+                            <strong id="dreIndCmv">R$ 0,00</strong>
+                        </div>
+                        <div class="ind-card">
+                            <span>Lucro Bruto</span>
+                            <strong id="dreIndLucroBruto">R$ 0,00</strong>
+                        </div>
+                        <div class="ind-card negativo">
+                            <span>Total Despesas</span>
+                            <strong id="dreIndDespesas">R$ 0,00</strong>
+                        </div>
+                        <div class="ind-card negativo">
+                            <span>Total Salários</span>
+                            <strong id="dreIndSalarios">R$ 0,00</strong>
+                        </div>
+                        <div class="ind-card" id="dreIndResultadoCard">
+                            <span>Resultado Final</span>
+                            <strong id="dreIndResultado">R$ 0,00</strong>
+                        </div>
+                        <div class="ind-card">
+                            <span>Margem Líquida</span>
+                            <strong id="dreIndMargem">0%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="painel" id="painelMetaMes">
+                    <div class="secao-h" style="margin-bottom:12px">
+                        <h2>Meta do Mês</h2>
+                        <button class="btn btn-primario btn-sm" id="btnDefinirMetaMes">
+                            <i class="fa-solid fa-bullseye"></i> Definir
+                        </button>
+                    </div>
+                    <div id="resumoMetaMes">
+                        <p style="color:#8299b0;font-size:13px;text-align:center;padding:14px 0">
+                            Nenhuma meta definida para este mês.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="painel" style="margin-top:18px">
+            <div class="secao-h">
+                <div>
+                    <h2><i class="fa-solid fa-bullseye" style="color:#1A436B;margin-right:7px"></i>Painel de Metas</h2>
+                    <p>Defina e acompanhe metas mensais de vendas, resultado e limite de despesas.</p>
+                </div>
+                <button class="btn btn-primario" id="btnNovaMeta">
+                    <i class="fa-solid fa-plus"></i> Nova Meta
+                </button>
+            </div>
+            <div id="painelMetas" class="metas-grid"></div>
+        </div>
+    </div>
+
+</main>
+
+<!-- MODAL — Nova Conta a Pagar -->
+<div class="modal-fundo" id="modalNovaConta">
+    <div class="modal">
+        <button class="modal-fechar" data-fechar="modalNovaConta">×</button>
+        <h2>Nova Conta a Pagar</h2>
+        <div class="grade-form">
+            <label>Fornecedor / Credor
+                <input type="text" id="contaFornecedor" placeholder="Nome do fornecedor...">
+            </label>
+            <label>Descrição
+                <input type="text" id="contaDescricao" placeholder="Ex: Conta de luz, Aluguel galpão...">
+            </label>
+        </div>
+        <div class="grade-form col3">
+            <label>Tipo
+                <select id="contaTipo">
+                    <option value="manual">Lançamento Manual</option>
+                    <option value="energia">Energia Elétrica</option>
+                    <option value="agua">Água / Saneamento</option>
+                    <option value="internet">Internet / Telefone</option>
+                    <option value="aluguel">Aluguel</option>
+                    <option value="folha">Folha de Pagamento</option>
+                    <option value="imposto">Impostos / Taxas</option>
+                    <option value="outros">Outros</option>
+                </select>
+            </label>
+            <label>Documento / Nº
+                <input type="text" id="contaDocumento" placeholder="Nº boleto, NF, fatura...">
+            </label>
+            <label>Vencimento
+                <input type="date" id="contaVencimento">
+            </label>
+        </div>
+        <div class="grade-form">
+            <label>Valor (R$)
+                <input type="text" id="contaValor" data-moeda placeholder="0,00">
+            </label>
+            <label>Observação (opcional)
+                <input type="text" id="contaObs" placeholder="Detalhes adicionais...">
+            </label>
+        </div>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalNovaConta">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarNovaConta">
+                <i class="fa-solid fa-check"></i> Salvar Conta
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL — Nova Despesa -->
+<div class="modal-fundo" id="modalDespesa">
+    <div class="modal">
+        <button class="modal-fechar" data-fechar="modalDespesa">×</button>
+        <h2 id="tituloModalDespesa">Nova Despesa</h2>
+        <div class="grade-form">
+            <label>Descrição
+                <input type="text" id="despDescricao" placeholder="Ex: Aluguel galpão...">
+            </label>
+            <label>Categoria
+                <select id="despCategoria">
+                    <option>Aluguel</option>
+                    <option>Energia</option>
+                    <option>Água</option>
+                    <option>Internet / Telefone</option>
+                    <option>Fornecedor</option>
+                    <option>Serviços</option>
+                    <option>Impostos</option>
+                    <option>Marketing</option>
+                    <option>Outros</option>
+                </select>
+            </label>
+        </div>
+        <div class="grade-form col3">
+            <label>Valor (R$)
+                <input type="text" id="despValor" data-moeda placeholder="0,00">
+            </label>
+            <label>Vencimento
+                <input type="date" id="despVencimento">
+            </label>
+            <label>Recorrência
+                <select id="despRecorrencia">
+                    <option value="nao">Não recorrente</option>
+                    <option value="mensal">Mensal</option>
+                    <option value="trimestral">Trimestral</option>
+                    <option value="anual">Anual</option>
+                </select>
+            </label>
+        </div>
+        <label style="margin-bottom:16px">Observação (opcional)
+            <textarea id="despObs" placeholder="Detalhes adicionais..."></textarea>
+        </label>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalDespesa">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarDespesa">
+                <i class="fa-solid fa-check"></i> Salvar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL — Novo Funcionário -->
+<div class="modal-fundo" id="modalFuncionario">
+    <div class="modal">
+        <button class="modal-fechar" data-fechar="modalFuncionario">×</button>
+        <h2 id="tituloModalFunc">Cadastrar Funcionário</h2>
+        <div class="grade-form">
+            <label>Nome completo
+                <input type="text" id="funcNome" placeholder="Nome do funcionário">
+            </label>
+            <label>Cargo / Função
+                <input type="text" id="funcCargo" placeholder="Ex: Vendedor, Gerente...">
+            </label>
+        </div>
+        <div class="grade-form col3">
+            <label>Salário Base (R$)
+                <input type="text" id="funcSalario" data-moeda placeholder="0,00">
+            </label>
+            <label>Admissão
+                <input type="date" id="funcAdmissao">
+            </label>
+            <label>Situação
+                <select id="funcAtivo">
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                </select>
+            </label>
+        </div>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalFuncionario">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarFuncionario">
+                <i class="fa-solid fa-check"></i> Salvar e gerar 12 meses
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL — Meta Mensal -->
+<div class="modal-fundo" id="modalMeta">
+    <div class="modal" style="max-width:520px">
+        <button class="modal-fechar" data-fechar="modalMeta">×</button>
+        <h2 id="tituloModalMeta">Definir Meta</h2>
+        <p style="color:#8299b0;font-size:13px;margin-bottom:18px" id="subtituloModalMeta"></p>
+        <div class="grade-form col3" style="margin-bottom:10px">
+            <label>Mês
+                <select id="metaMes">
+                    <option value="01">Janeiro</option><option value="02">Fevereiro</option>
+                    <option value="03">Março</option><option value="04">Abril</option>
+                    <option value="05">Maio</option><option value="06">Junho</option>
+                    <option value="07">Julho</option><option value="08">Agosto</option>
+                    <option value="09">Setembro</option><option value="10">Outubro</option>
+                    <option value="11">Novembro</option><option value="12">Dezembro</option>
+                </select>
+            </label>
+            <label>Ano
+                <input type="number" id="metaAno" min="2020" max="2035" placeholder="2026">
+            </label>
+            <label>&nbsp;<div style="height:40px"></div></label>
+        </div>
+        <div class="meta-divisor">Metas de Receita</div>
+        <div class="grade-form col3">
+            <label>Meta de Vendas (R$)
+                <input type="text" id="metaVendas" data-moeda placeholder="0,00">
+            </label>
+            <label>Meta de Resultado (R$)
+                <input type="text" id="metaResultado" data-moeda placeholder="0,00">
+            </label>
+            <label>Margem mínima (%)
+                <input type="number" id="metaMargem" min="0" max="100" step="0.5" placeholder="0">
+            </label>
+        </div>
+        <div class="meta-divisor">Limite de Gastos</div>
+        <div class="grade-form col3">
+            <label>Limite de Despesas (R$)
+                <input type="text" id="metaLimiteDespesas" data-moeda placeholder="0,00">
+            </label>
+            <label>Limite de Folha (R$)
+                <input type="text" id="metaLimiteFolha" data-moeda placeholder="0,00">
+            </label>
+            <label>&nbsp;<div style="height:40px"></div></label>
+        </div>
+        <label style="margin-bottom:16px">Observação (opcional)
+            <textarea id="metaObs" placeholder="Ex: Meta de expansão, trimestre especial..."></textarea>
+        </label>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalMeta">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarMeta">
+                <i class="fa-solid fa-bullseye"></i> Salvar Meta
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL — Desconto de Salário -->
+<div class="modal-fundo" id="modalDescSal">
+    <div class="modal" style="max-width:400px">
+        <button class="modal-fechar" data-fechar="modalDescSal">×</button>
+        <h2>Desconto / Adicional</h2>
+        <p style="color:#64748b;margin-bottom:14px;font-size:13.5px" id="labelDescSalFunc"></p>
+        <div class="grade-form col1">
+            <label>Desconto (R$)
+                <input type="text" id="descSalDesconto" data-moeda placeholder="0,00">
+            </label>
+            <label>Adicional / Bônus (R$)
+                <input type="text" id="descSalAdicional" data-moeda placeholder="0,00">
+            </label>
+            <label>Observação
+                <textarea id="descSalObs" placeholder="Motivo..."></textarea>
+            </label>
+        </div>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalDescSal">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarDescSal">Aplicar</button>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-moeda-negativa"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/contas-receber.js?v=20260701-filtro-projecao"></script>
+<script src="telas/movimento/js/contas-pagar.js?v=20260701-dados-reais"></script>
+</body>
+</html>
+

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Baixar XML</title>
+
+<link rel="stylesheet" href="telas/configuracoes/css/baixarxml.css">
+
+<link rel="stylesheet"
+href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Baixar XML</h1>
+                <p>Baixe XMLs manualmente por período mensal.</p>
+            </div>
+            <a class="btn-voltar" href="telas/configuracoes/manutenção.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <section class="painel painel-expansivel baixar-xml" id="baixarXml">
+
+        <div class="painel-cabecalho">
+            <div>
+                <span>Manutenção</span>
+                <h2>Baixar XML</h2>
+                <p>Baixe manualmente os XMLs salvos no sistema filtrando pelo mês de emissão.</p>
+            </div>
+            <strong id="statusXmlDownload">Aguardando período</strong>
+        </div>
+
+        <form id="formBaixarXml" class="form-empresa">
+            <div class="secao-form">
+                <h3>Período mensal</h3>
+                <div class="grid-form">
+                    <label>
+                        Mês de emissão
+                        <input type="month" id="xmlMesDownload" name="xmlMesDownload">
+                    </label>
+                    <label>
+                        Tipo de XML
+                        <select id="xmlTipoDownload" name="xmlTipoDownload">
+                            <option value="todos">Todos</option>
+                            <option value="entrada">Entradas importadas</option>
+                            <option value="saida">Saídas emitidas</option>
+                        </select>
+                    </label>
+                    <div class="campo-total fiscal-regra-resumo" id="xmlDownloadResumo">
+                        <strong>XMLs disponíveis</strong>
+                        <span>Selecione o mês para baixar os arquivos encontrados.</span>
+                    </div>
+                </div>
+                <div class="acoes-form">
+                    <button type="button" class="btn-primario" id="btnBaixarXmlMes">Baixar XML do mês</button>
+                </div>
+            </div>
+        </form>
+
+    </section>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/configuracoes/js/baixarxml.js"></script>
+
+</body>
+</html>
+

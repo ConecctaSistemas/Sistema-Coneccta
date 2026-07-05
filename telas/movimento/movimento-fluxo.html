@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxo de Caixa</title>
+<link rel="stylesheet" href="telas/movimento/css/fluxo-caixa.css?v=20260618a">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+
+<main class="container">
+    <header class="topo">
+        <div>
+            <h1>Fluxo de Caixa</h1>
+            <p>Entradas, saidas, saldo e movimentacao financeira por periodo.</p>
+        </div>
+        <a class="btn-voltar" href="telas/movimento/movimento.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="cards-resumo">
+        <article class="card-resumo">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <span>Entradas</span>
+            <strong id="resumoEntradas">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo">
+            <i class="fa-solid fa-arrow-trend-down"></i>
+            <span>Saidas</span>
+            <strong id="resumoSaidas">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo destaque">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <span>Saldo do Periodo</span>
+            <strong id="resumoSaldo">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>Maior Entrada</span>
+            <strong id="resumoMaiorEntrada">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Maior Saida</span>
+            <strong id="resumoMaiorSaida">R$ 0,00</strong>
+        </article>
+    </section>
+
+    <section class="painel filtros">
+        <div class="periodos">
+            <span>Periodo</span>
+            <div class="periodo-opcoes">
+                <button type="button" data-periodo="1">Hoje</button>
+                <button type="button" data-periodo="7">Semana</button>
+                <button type="button" class="ativo" data-periodo="30">Mes</button>
+                <button type="button" data-periodo="90">Trimestre</button>
+                <button type="button" data-periodo="365">Ano</button>
+                <button type="button" data-periodo="personalizado">Personalizado</button>
+            </div>
+        </div>
+        <div class="personalizado recolhido" id="periodoPersonalizado">
+            <label>Inicio<input type="date" id="dataInicio"></label>
+            <label>Fim<input type="date" id="dataFim"></label>
+        </div>
+        <div class="grade-filtros">
+            <label>Tipo
+                <select id="filtroTipo">
+                    <option value="">Todos</option>
+                    <option value="entrada">Entradas</option>
+                    <option value="saida">Saidas</option>
+                </select>
+            </label>
+            <label>Origem
+                <select id="filtroOrigem">
+                    <option value="">Todas</option>
+                    <option value="venda">Vendas</option>
+                    <option value="caixa">Movimentos de caixa</option>
+                    <option value="pagar">Contas pagas</option>
+                    <option value="receber">Contas recebidas</option>
+                </select>
+            </label>
+            <label>Busca
+                <input type="search" id="buscaFluxo" placeholder="Buscar descricao, cliente ou operador">
+            </label>
+        </div>
+    </section>
+
+    <section class="layout-principal">
+        <div class="painel">
+            <div class="painel-topo">
+                <h2>Evolucao do Saldo</h2>
+                <span id="totalDias">0 dia(s)</span>
+            </div>
+            <div class="grafico-fluxo" id="graficoFluxo"></div>
+        </div>
+
+        <aside class="painel">
+            <h2>Indicadores</h2>
+            <div class="indicadores">
+                <div><span>Media diaria de entradas</span><strong id="mediaEntradas">R$ 0,00</strong></div>
+                <div><span>Media diaria de saidas</span><strong id="mediaSaidas">R$ 0,00</strong></div>
+                <div><span>Dias positivos</span><strong id="diasPositivos">0</strong></div>
+                <div><span>Dias negativos</span><strong id="diasNegativos">0</strong></div>
+                <div><span>Projecao 30 dias</span><strong id="projecao30Dias">R$ 0,00</strong></div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="layout-principal">
+        <div class="painel">
+            <div class="painel-topo">
+                <h2>Fluxo por Dia</h2>
+                <button type="button" class="btn secundario" id="btnVerDetalhes"><i class="fa-solid fa-list"></i>Ver detalhes</button>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead><tr><th>Data</th><th>Entradas</th><th>Saidas</th><th>Saldo</th></tr></thead>
+                    <tbody id="tabelaDias"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="painel">
+            <div class="painel-topo">
+                <h2>Movimentos</h2>
+                <span id="totalMovimentos">0 movimento(s)</span>
+            </div>
+            <div class="lista-movimentos" id="listaMovimentos"></div>
+        </div>
+    </section>
+
+    <section class="acoes">
+        <button type="button" class="btn" id="btnAtualizar"><i class="fa-solid fa-rotate"></i>Atualizar Fluxo</button>
+        <button type="button" class="btn secundario" id="btnExcel"><i class="fa-solid fa-file-excel"></i>Exportar Excel</button>
+        <button type="button" class="btn secundario" id="btnPdf"><i class="fa-solid fa-file-pdf"></i>Exportar PDF</button>
+        <button type="button" class="btn secundario" id="btnCriticos"><i class="fa-solid fa-triangle-exclamation"></i>Ver Dias Criticos</button>
+    </section>
+</main>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/fluxo-caixa.js?v=20260701-dados-reais"></script>
+</body>
+</html>
+

@@ -1,0 +1,90 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:#edf1f5;color:#0f172a;font-family:"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+.pagamentos-app{width:min(1380px,100%);margin:0 auto;padding:22px}
+.pagamentos-topo{min-height:108px;border-radius:16px;background:#1A436B;color:#fff;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 14px 32px rgba(17,45,78,.12)}
+.pagamentos-topo span{font-size:12px;font-weight:900;letter-spacing:.04em}
+.pagamentos-topo h1{font-size:28px;margin-top:4px}
+.pagamentos-topo p{margin-top:7px;color:rgba(255,255,255,.82)}
+.btn-voltar{min-height:42px;border:1px solid rgba(255,255,255,.28);border-radius:10px;padding:0 16px;display:inline-flex;align-items:center;color:#fff;text-decoration:none;font-weight:800;background:rgba(255,255,255,.12)}
+.pagamentos-layout{display:grid;grid-template-columns:minmax(320px,440px) minmax(0,1fr);gap:18px;margin-top:18px;align-items:start}
+.pagamentos-layout-lista{grid-template-columns:1fr}
+.painel{background:#fff;border:1px solid #d9e4f0;border-radius:14px;padding:20px;box-shadow:0 12px 28px rgba(17,45,78,.08)}
+.secao-titulo{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px}
+.formas-lista-topo{align-items:center}
+.formas-lista-topo > div{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.formas-lista-topo .btn{flex:0 0 auto}
+.secao-titulo h2{font-size:20px;color:#12365d}
+.secao-titulo span,.tag{border-radius:999px;background:#eef5ff;color:#0b58bd;padding:7px 10px;font-size:12px;font-weight:900;white-space:nowrap}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:flex;flex-direction:column;gap:7px;color:#1e3350;font-size:13px;font-weight:800}
+input,select{height:42px;border:1px solid #cbd5e1;border-radius:6px;padding:0 12px;background:#fff;color:#0f172a}
+input:focus,select:focus{outline:none;border-color:#0b66dd;box-shadow:0 0 0 3px rgba(11,102,221,.12)}
+.campo-total{grid-column:1/-1}
+.check-linha{min-height:42px;flex-direction:row;align-items:center;gap:9px}
+.check-linha input{width:16px;height:16px}
+.campo-condicional-forma .check-linha{min-height:auto;font-size:13px;color:#1e3350}
+.campo-condicional-forma input:disabled,
+.campo-condicional-forma select:disabled{background:#f1f5f9;color:#94a3b8;cursor:not-allowed}
+.dica-campo-forma{font-size:11.5px;font-weight:600;color:#64748b}
+.acoes-forma{display:flex;justify-content:flex-end;gap:10px}
+.btn{min-height:42px;border:0;border-radius:9px;padding:0 16px;font-weight:900;cursor:pointer}
+.btn.salvar{background:#1A436B;color:#fff}
+.btn.limpar{background:#e8eef6;color:#0f2f58}
+.tabela-wrap{overflow:auto;border:1px solid #dbe7f3;border-radius:12px}
+table{width:100%;min-width:760px;border-collapse:collapse}
+th,td{padding:13px 12px;border-bottom:1px solid #edf2f7;text-align:left;font-size:14px}
+th{background:#f6f9fd;color:#143f6c;font-weight:900}
+.vazio{text-align:center;color:#64748b;padding:24px}
+.acoes-linha{display:flex;gap:8px}
+.acao{min-height:34px;border:1px solid #d4e2f1;border-radius:8px;background:#fff;color:#174370;padding:0 10px;font-weight:800;cursor:pointer}
+.acao.perigo{color:#b42318}
+.uso-lista{display:flex;gap:6px;flex-wrap:wrap}
+.tag.inativa{background:#fff3e8;color:#b45309}
+.tag.neutra{background:#eef2f7;color:#334155}
+.modal-forma-pagamento{position:fixed;inset:0;z-index:12000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(15,23,42,.58)}
+.modal-forma-pagamento.aberto{display:flex}
+.modal-forma-caixa{width:min(760px,100%);max-height:calc(100dvh - 36px);overflow:auto}
+.modal-forma-caixa .painel{box-shadow:0 24px 70px rgba(15,23,42,.32)}
+.modal-forma-fechar{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #d4e2f1;border-radius:10px;background:#fff;color:#0f2f58;cursor:pointer}
+body.modal-forma-aberto{overflow:hidden!important}
+@media(max-width:900px){
+    body{overflow-x:hidden}
+    .pagamentos-app{width:100%;padding:12px}
+    .pagamentos-layout{grid-template-columns:1fr;gap:12px;margin-top:12px}
+    .formas-lista-topo,.formas-lista-topo > div{display:grid;grid-template-columns:1fr;align-items:stretch}
+    .formas-lista-topo .btn{width:100%}
+    .pagamentos-topo{min-height:auto;align-items:stretch;flex-direction:column;border-radius:12px;padding:18px}
+    .pagamentos-topo h1{font-size:24px;line-height:1.12}
+    .pagamentos-topo p{font-size:13px;line-height:1.35}
+    .btn-voltar{width:100%;justify-content:center;min-height:42px}
+    .painel{border-radius:12px;padding:14px}
+    .secao-titulo{display:grid;gap:8px;margin-bottom:14px}
+    .secao-titulo h2{font-size:18px}
+    .secao-titulo span{justify-self:start}
+    form{grid-template-columns:1fr;gap:12px}
+    input,select{min-height:46px;font-size:16px}
+    .acoes-forma{display:grid;grid-template-columns:1fr;gap:8px}
+    .btn{width:100%;min-height:44px}
+    .tabela-wrap{overflow:visible;border:0;border-radius:0}
+    table,thead,tbody,tr,td{display:block;width:100%;min-width:0}
+    thead{display:none}
+    tbody tr{border:1px solid #d9e4f0;border-radius:12px;background:#fff;box-shadow:0 8px 18px rgba(17,45,78,.05);overflow:hidden}
+    tbody tr + tr{margin-top:10px}
+    td{min-height:42px;display:grid;grid-template-columns:minmax(92px,38%) minmax(0,1fr);gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid #edf2f7;font-size:13px;word-break:break-word}
+    td:last-child{border-bottom:0}
+    td::before{color:#64748b;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.02em}
+    td:nth-child(1)::before{content:"Descricao"}
+    td:nth-child(2)::before{content:"Codigo"}
+    td:nth-child(3)::before{content:"Atalho"}
+    td:nth-child(4)::before{content:"Uso"}
+    td:nth-child(5)::before{content:"Situacao"}
+    td:nth-child(6)::before{content:"Acoes"}
+    .uso-lista{gap:5px}
+    .acoes-linha{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .acao{min-height:40px;justify-content:center}
+    .vazio{display:block;padding:22px 14px;text-align:center}
+    .vazio::before{content:"";display:none}
+    .modal-forma-pagamento{padding:10px;align-items:flex-end}
+    .modal-forma-caixa{max-height:calc(100dvh - 20px)}
+}

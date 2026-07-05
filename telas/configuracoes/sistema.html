@@ -1,0 +1,997 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Configurações do Sistema</title>
+
+<link rel="stylesheet" href="telas/configuracoes/css/sistema.css">
+
+<link rel="stylesheet"
+href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Configurações do Sistema</h1>
+                <p>Aparência, caixa PDV, financeiro, integrações e balança.</p>
+            </div>
+            <a class="btn-voltar" href="telas/configuracoes/manutenção.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <section class="painel painel-expansivel configuracoes-sistema" id="configuracoesSistema">
+
+        <div class="painel-cabecalho">
+            <div>
+                <span>Manutenção</span>
+                <h2>Configurações do Sistema</h2>
+                <p>Aparência, caixa PDV, financeiro, integrações e balança.</p>
+            </div>
+            <strong id="statusConfiguracoes">Configurações padrão</strong>
+        </div>
+
+        <nav class="config-tab-nav" aria-label="Seções de configuração">
+            <button type="button" class="config-tab ativo" data-tab="sistema">
+                <i class="fa-solid fa-gears"></i> Sistema
+            </button>
+            <button type="button" class="config-tab" data-tab="caixa">
+                <i class="fa-solid fa-cash-register"></i> Caixa PDV
+            </button>
+            <button type="button" class="config-tab" data-tab="financeiro">
+                <i class="fa-solid fa-hand-holding-dollar"></i> Financeiro
+            </button>
+            <button type="button" class="config-tab" data-tab="integracoes">
+                <i class="fa-solid fa-plug"></i> Integrações
+            </button>
+            <button type="button" class="config-tab" data-tab="balanca">
+                <i class="fa-solid fa-scale-balanced"></i> Balança
+            </button>
+        </nav>
+
+        <!-- ABA: SISTEMA -->
+        <div class="config-tab-painel ativo" data-tab="sistema">
+            <form id="formConfiguracoesSistema" class="form-empresa">
+
+                <div class="secao-form">
+                    <h3>Sistema</h3>
+                    <div class="switch-grid">
+                        <label class="switch-card">
+                            <input type="checkbox" name="mostrarDashboard" id="configMostrarDashboard">
+                            <span></span>
+                            <strong>Dashboard gerencial</strong>
+                            <small>Mostra indicadores e informações do sistema.</small>
+                        </label>
+                        <label class="switch-card">
+                            <input type="checkbox" name="backupAutomatico" id="configBackupAutomatico">
+                            <span></span>
+                            <strong>Backup automático</strong>
+                            <small>Reserva configuração para rotina de cópia de segurança.</small>
+                        </label>
+                    </div>
+                </div>
+            </form>
+
+            <form id="formPedidosVendaConfig" class="form-empresa">
+                <div class="secao-form">
+                    <h3>Pedidos de Venda</h3>
+                    <p class="texto-apoio-fiscal">Pré-atendimento de balcão: reserva de estoque, numeração e permissões do módulo.</p>
+                    <div class="switch-grid">
+                        <label class="switch-card">
+                            <input type="checkbox" name="pedidosVendaHabilitado" id="configPedidosVendaHabilitado">
+                            <span></span>
+                            <strong>Módulo habilitado</strong>
+                            <small>Controla se "Pedidos de Venda" aparece no menu Movimento.</small>
+                        </label>
+                        <label class="switch-card">
+                            <input type="checkbox" name="pedidosVendaImpressaoAutomatica" id="configPedidosVendaImpressaoAutomatica">
+                            <span></span>
+                            <strong>Impressão automática</strong>
+                            <small>Imprime o pedido assim que ele é criado.</small>
+                        </label>
+                        <label class="switch-card">
+                            <input type="checkbox" name="pedidosVendaPermitirEditarAposCaixa" id="configPedidosVendaPermitirEditarAposCaixa">
+                            <span></span>
+                            <strong>Permitir editar após envio ao caixa</strong>
+                            <small>Libera edição mesmo com status aguardando pagamento/importado.</small>
+                        </label>
+                        <label class="switch-card">
+                            <input type="checkbox" name="pedidosVendaPermitirCancelarImportado" id="configPedidosVendaPermitirCancelarImportado">
+                            <span></span>
+                            <strong>Permitir cancelar/excluir pedidos importados</strong>
+                            <small>Sem isso, pedidos já importados/finalizados ficam bloqueados.</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="secao-form">
+                    <h3>Reserva de estoque</h3>
+                    <div class="grid-form">
+                        <label>
+                            Reserva de estoque
+                            <small>Como o pedido reserva o estoque dos produtos</small>
+                            <select name="pedidosVendaReservaEstoqueModo" id="configPedidosVendaReservaEstoqueModo">
+                                <option value="nao_reserva">Não reservar estoque</option>
+                                <option value="automatica">Reservar automaticamente ao salvar</option>
+                                <option value="apos_aprovacao">Reservar apenas após aprovação</option>
+                            </select>
+                        </label>
+                        <label>
+                            Validade do orçamento (dias)
+                            <small>Prazo padrão ao salvar como orçamento</small>
+                            <input type="number" min="1" step="1" name="pedidosVendaValidadeOrcamentoDias" id="configPedidosVendaValidadeOrcamentoDias">
+                        </label>
+                        <label>
+                            Prefixo da numeração
+                            <small>Usado no código do pedido, ex.: PED-000458</small>
+                            <input type="text" name="pedidosVendaPrefixo" id="configPedidosVendaPrefixo" maxlength="6">
+                        </label>
+                        <label>
+                            Próximo número
+                            <small>Próximo número sequencial a ser gerado</small>
+                            <input type="number" min="1" step="1" name="pedidosVendaProximoNumero" id="configPedidosVendaProximoNumero">
+                        </label>
+                    </div>
+                </div>
+            </form>
+
+            <form id="formControleRemotoConfig" class="form-empresa">
+                <div class="secao-form">
+                    <h3>Controle Remoto</h3>
+                    <p class="texto-apoio-fiscal">Quando um usuário sem permissão tenta uma ação restrita, ele pode solicitar autorização a um administrador em vez de ficar só bloqueado. A solicitação aparece no sino de quem estiver logado como administrador, com a ação e o valor envolvido; ao aprovar, o solicitante é avisado e pode tentar de novo.</p>
+                    <div class="switch-grid">
+                        <label class="switch-card">
+                            <input type="checkbox" name="controleRemotoHabilitado" id="configControleRemotoHabilitado">
+                            <span></span>
+                            <strong>Controle remoto habilitado</strong>
+                            <small>Se desligado, ações sem permissão voltam a só bloquear com aviso, sem opção de solicitar autorização.</small>
+                        </label>
+                    </div>
+                </div>
+            </form>
+
+            <div class="acoes-form">
+                <button type="button" class="btn-secundario" id="btnRestaurarAbaSistema">Restaurar padrão</button>
+                <button type="button" class="btn-primario" id="btnSalvarAbaSistema">Salvar configurações</button>
+            </div>
+        </div>
+
+        <!-- ABA: FINANCEIRO -->
+        <div class="config-tab-painel" data-tab="financeiro">
+            <form id="formFinanceiro" class="form-empresa">
+                <div class="secao-form">
+                    <h3>Juros e Multas</h3>
+                    <div class="grid-form">
+                        <label>
+                            Multa por atraso (%)
+                            <small>Aplicada uma única vez ao atrasar</small>
+                            <input type="number" id="cfgMultaAtraso" name="financeiroMultaAtraso" min="0" max="100" step="0.01" placeholder="2,00">
+                        </label>
+                        <label>
+                            Juros ao mês (%)
+                            <small>Calculados sobre os dias em atraso</small>
+                            <input type="number" id="cfgJurosMensais" name="financeiroJurosMensais" min="0" max="100" step="0.01" placeholder="1,00">
+                        </label>
+                        <label>
+                            Dias de carência
+                            <small>Dias após vencimento para iniciar cobrança</small>
+                            <input type="number" id="cfgDiasCarencia" name="financeiroDiasCarencia" min="0" max="365" step="1" placeholder="0">
+                        </label>
+                    </div>
+                </div>
+                <div class="secao-form">
+                    <h3>Parcelamento Crédito Loja</h3>
+                    <div class="grid-form">
+                        <label>
+                            Número máximo de parcelas
+                            <small>Limite de parcelas no crédito loja do PDV</small>
+                            <input type="number" id="cfgMaxParcelasCreditoLoja" name="financeiroMaxParcelasCreditoLoja" min="1" max="60" step="1" placeholder="12">
+                        </label>
+                        <label>
+                            Dias entre parcelas (padrão)
+                            <small>Intervalo padrão para cálculo das datas de vencimento</small>
+                            <input type="number" id="cfgDiasEntreParcelasCreditoLoja" name="financeiroDiasEntreParcelasCreditoLoja" min="1" max="365" step="1" placeholder="30">
+                        </label>
+                    </div>
+                </div>
+                <div class="acoes-form">
+                    <button type="submit" class="btn-primario">Salvar configurações financeiras</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ABA: INTEGRAÇÕES -->
+        <div class="config-tab-painel" data-tab="integracoes">
+            <form id="formIntegracoes" class="form-empresa">
+                <div class="secao-form">
+                    <h3>PIX</h3>
+                    <div class="grid-form">
+                        <label>
+                            Provedor PIX
+                            <select id="fiscalPixProvedor" name="fiscalPixProvedor">
+                                <option value="">Não configurado</option>
+                                <option value="banco">Banco/API própria</option>
+                                <option value="gateway">Gateway de pagamento</option>
+                            </select>
+                        </label>
+                        <label class="campo-largo">
+                            Chave PIX padrão
+                            <input type="text" id="fiscalPixChave" name="fiscalPixChave" placeholder="CNPJ, e-mail, telefone ou chave aleatória">
+                        </label>
+                    </div>
+                </div>
+                <div class="secao-form">
+                    <h3>Boletos</h3>
+                    <div class="grid-form">
+                        <label>
+                            API de boletos
+                            <select id="fiscalBoletoApiProvedor" name="fiscalBoletoApiProvedor">
+                                <option value="">Não configurado</option>
+                                <option value="banco">Banco</option>
+                                <option value="gateway">Gateway</option>
+                            </select>
+                        </label>
+                        <label class="campo-largo">
+                            URL API boletos
+                            <input type="url" id="fiscalBoletoApiUrl" name="fiscalBoletoApiUrl" placeholder="https://api.banco.com.br">
+                        </label>
+                        <label class="campo-largo">
+                            Token API boletos
+                            <input type="password" id="fiscalBoletoApiToken" name="fiscalBoletoApiToken" placeholder="Token de integração">
+                        </label>
+                        <div class="campo-total texto-ajuda-fiscal">
+                            <strong>Retorno automático:</strong> quando a API confirmar pagamento, o boleto fica como pago e a conta a receber é baixada automaticamente.
+                        </div>
+                    </div>
+                </div>
+                <div class="secao-form">
+                    <h3>POS / TEF</h3>
+                    <div class="grid-form">
+                        <label>
+                            POS/Maquininha
+                            <select id="fiscalPosProvedor" name="fiscalPosProvedor">
+                                <option value="">Não configurado</option>
+                                <option value="stone">Stone</option>
+                                <option value="cielo">Cielo</option>
+                                <option value="rede">Rede</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </label>
+                        <label>
+                            TEF/SITEF
+                            <select id="fiscalTefSitefAtivo" name="fiscalTefSitefAtivo">
+                                <option value="nao">Inativo</option>
+                                <option value="sim">Ativo</option>
+                            </select>
+                        </label>
+                        <label class="campo-largo">
+                            Servidor TEF/SITEF
+                            <input type="text" id="fiscalTefSitefServidor" name="fiscalTefSitefServidor" placeholder="IP/host do SITEF">
+                        </label>
+                    </div>
+                </div>
+                <div class="acoes-form">
+                    <button type="submit" class="btn-primario">Salvar integrações</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ABA: BALANÇA -->
+        <div class="config-tab-painel" data-tab="balanca">
+            <form id="formArquivoBalanca" class="form-empresa">
+                <div class="secao-form">
+                    <h3>Exportar arquivo para balança</h3>
+                    <div class="grid-form">
+                        <label>
+                            Modelo da balança
+                            <select id="balancaModelo" name="balancaModelo">
+                                <option value="urano">Urano</option>
+                                <option value="urano-urf32">Urano URF32</option>
+                                <option value="filizola">Filizola</option>
+                                <option value="toledo">Toledo</option>
+                            </select>
+                        </label>
+                        <label>
+                            Tipo de arquivo
+                            <select id="balancaTipoArquivo" name="balancaTipoArquivo">
+                                <option value="txt">TXT</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        </label>
+                        <label>
+                            Produtos
+                            <select id="balancaFiltroItens" name="balancaFiltroItens">
+                                <option value="ativos">Somente ativos</option>
+                                <option value="balanca">Somente produtos de balança</option>
+                                <option value="todos">Todos os itens</option>
+                                <option value="preco">Com preço de venda</option>
+                            </select>
+                        </label>
+                        <label>
+                            Validade padrão em dias
+                            <input type="number" min="0" id="balancaValidadeDias" name="balancaValidadeDias" value="0">
+                        </label>
+                        <div class="campo-total fiscal-regra-resumo" id="balancaResumo">
+                            <strong>Arquivo de balança</strong>
+                            <span>Os itens serão gerados com código, descrição, preço, validade e departamento.</span>
+                        </div>
+                    </div>
+                    <div class="acoes-form">
+                        <button type="button" class="btn-primario" id="btnBaixarArquivoBalanca">Baixar arquivo de itens</button>
+                        <strong id="statusBalanca" style="font-size:13px;color:#059669"></strong>
+                    </div>
+                </div>
+
+                <div class="secao-form">
+                    <h3>Leitura de etiqueta de balança no PDV</h3>
+                    <p style="margin-bottom:12px;color:#64748b;font-size:13px">Configure como o caixa PDV interpreta os códigos EAN-13 impressos pela balança. Toledo, Urano e Filizola usam prefixo "2" para produtos pesados.</p>
+                    <div class="grid-form">
+                        <label class="check-linha campo-total">
+                            <input type="checkbox" name="balancaPdvAtivo" form="formConfigBalanca">
+                            Habilitar leitura de etiqueta de balança no caixa PDV
+                        </label>
+                        <label>
+                            Prefixo do código
+                            <input type="text" name="balancaPdvPrefixo" form="formConfigBalanca" maxlength="1" value="2">
+                            <small>Toledo, Urano, Filizola = "2"</small>
+                        </label>
+                        <label>
+                            Tipo de valor codificado
+                            <select name="balancaPdvTipo" form="formConfigBalanca">
+                                <option value="peso">Peso em gramas (mais comum)</option>
+                                <option value="preco">Preço em centavos</option>
+                            </select>
+                        </label>
+                        <label>
+                            Dígitos do PLU
+                            <input type="number" name="balancaPdvTamPlu" form="formConfigBalanca" min="4" max="7" value="5">
+                            <small>Código do produto na balança (padrão: 5)</small>
+                        </label>
+                        <label>
+                            Dígitos do valor
+                            <input type="number" name="balancaPdvTamVal" form="formConfigBalanca" min="4" max="7" value="5">
+                            <small>Peso ou preço (padrão: 5)</small>
+                        </label>
+                        <div class="campo-total fiscal-regra-resumo" id="previewCodigoBalanca">
+                            <strong>Estrutura do código de barras</strong>
+                            <span>Preencha os parâmetros acima para visualizar o formato.</span>
+                        </div>
+                    </div>
+                    <div class="acoes-form">
+                        <button type="submit" form="formConfigBalanca" class="btn-primario">Salvar configuração de leitura</button>
+                        <strong id="statusConfigBalanca" style="font-size:13px;color:#059669"></strong>
+                    </div>
+                    <p style="margin-top:14px;color:#64748b;font-size:12px;line-height:1.6">
+                        <strong style="color:#334155">Como funciona:</strong> Cadastre o PLU no produto (aba Outras → Balança) · Gere o arquivo "Somente produtos de balança" e envie à balança · No caixa, ao passar a pistola o peso/preço é lançado automaticamente.
+                        <span style="display:block;margin-top:4px"><strong style="color:#334155">Suportadas:</strong> Toledo Prix-3/4 · Urano Prisma/POP/URF32 · Filizola MK/Prix · qualquer modelo EAN-13 com prefixo interno.</span>
+                    </p>
+                </div>
+            </form>
+            <form id="formConfigBalanca" class="form-oculto" style="display:none" aria-hidden="true"></form>
+        </div>
+
+        <!-- ABA: CAIXA PDV -->
+        <div class="config-tab-painel" data-tab="caixa">
+            <form id="formConfiguracoesCaixa" class="form-empresa">
+
+            <div class="secao-form">
+                <h3>Layout e Interface</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvMostrarBotoesAtalho" id="configPdvMostrarBotoesAtalho">
+                        <span></span>
+                        <strong>Mostrar botões atalho</strong>
+                        <small>Exibe barra de atalhos rápidos no caixa PDV.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvItemDetalhado" id="configPdvItemDetalhado">
+                        <span></span>
+                        <strong>Item detalhado</strong>
+                        <small>Exibe mais informações ao lançar produto no caixa.</small>
+                    </label>
+                </div>
+                <div class="grid-form" style="margin-top:14px;padding-top:14px;border-top:1px solid #e2e8f0">
+                    <div class="config-row campo-total" style="display:flex;align-items:center;gap:16px">
+                        <div style="flex:1">
+                            <strong style="font-size:14px;display:block;margin-bottom:3px">Largura da impressora</strong>
+                            <small style="color:#64748b">Define o tamanho do papel da impressora do caixa.</small>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-shrink:0">
+                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;font-size:13px;padding:7px 14px;border:1.5px solid #d0dae8;border-radius:8px;background:#f8fafc">
+                                <input type="radio" name="impressoraLargura" value="80mm" style="accent-color:#1A436B">80 mm
+                            </label>
+                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;font-size:13px;padding:7px 14px;border:1.5px solid #d0dae8;border-radius:8px;background:#f8fafc">
+                                <input type="radio" name="impressoraLargura" value="55mm" style="accent-color:#1A436B">55 mm
+                            </label>
+                        </div>
+                    </div>
+                    <label class="campo-total campo-mensagem-pdv">
+                        Mensagem PDV
+                        <textarea id="configMensagensPdv" name="pdvMensagens" rows="3" placeholder="Uma mensagem por linha."></textarea>
+                        <small>Exibidas em sequência na faixa superior do PDV.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Pesquisa de Mercadorias</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvConsultarPorReferencia" id="configPdvConsultarPorReferencia">
+                        <span></span>
+                        <strong>Consultar pela referência</strong>
+                        <small>Permite buscar produto pelo código de referência.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvPesquisarComEnter" id="configPdvPesquisarComEnter">
+                        <span></span>
+                        <strong>Pesquisar com Enter</strong>
+                        <small>Dispara a pesquisa ao pressionar Enter.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvExibirDetalhesSingleResult" id="configPdvExibirDetalhesSingleResult">
+                        <span></span>
+                        <strong>Exibir detalhes se retornou um registro</strong>
+                        <small>Abre automaticamente quando há apenas um resultado.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Estoque e Validade</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="controleEstoque" id="configControleEstoque">
+                        <span></span>
+                        <strong>Controle de estoque</strong>
+                        <small>Movimenta estoque nas entradas, vendas e cancelamentos.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="bloquearVendaSemEstoque" id="configBloquearSemEstoque">
+                        <span></span>
+                        <strong>Bloquear venda sem estoque</strong>
+                        <small>Impede finalizar itens com quantidade indisponível.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="alertaEstoqueMinimo" id="configAlertaEstoque">
+                        <span></span>
+                        <strong>Alerta de estoque mínimo</strong>
+                        <small>Destaca produtos abaixo do mínimo definido.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="controleValidade" id="configControleValidade">
+                        <span></span>
+                        <strong>Controle de validade</strong>
+                        <small>Habilita acompanhamento de vencimento das mercadorias.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Item e Quantidade</h3>
+                <div class="grid-form">
+                    <label>
+                        Valor máximo por item (R$)
+                        <input type="number" min="0" step="0.01" name="pdvValorMaximoItem" value="10000">
+                    </label>
+                    <label>
+                        Qtd. máxima por venda
+                        <input type="number" min="0" step="1" name="pdvQtdMaximaVenda" value="0">
+                        <small>0 = sem limite</small>
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="solicitarQuantidadePdv" id="configSolicitarQuantidadePdv">
+                        <span></span>
+                        <strong>Solicitar quantidade</strong>
+                        <small>Pede a quantidade antes de lançar o produto no caixa.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoJuntarItens" id="configPdvNaoJuntarItens">
+                        <span></span>
+                        <strong>Não juntar itens ao passar</strong>
+                        <small>Cada lançamento fica em linha separada, sem somar.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoJuntarItensBalanca" id="configPdvNaoJuntarItensBalanca">
+                        <span></span>
+                        <strong>Não juntar itens de balança</strong>
+                        <small>Itens pesados sempre ficam em linhas separadas.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoManterConfigEmbalagem" id="configPdvNaoManterConfigEmbalagem">
+                        <span></span>
+                        <strong>Não manter config. embalagem</strong>
+                        <small>Reseta a configuração de embalagem a cada item.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvDesativarQtdPorPreco" id="configPdvDesativarQtdPorPreco">
+                        <span></span>
+                        <strong>Desativar quantidade por preço</strong>
+                        <small>Desabilita o cálculo de quantidade baseado em preço total.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Tabelas de Preço</h3>
+                <div class="grid-form">
+                    <label>
+                        Tabela de preço padrão
+                        <select name="pdvTabelaPreco">
+                            <option value="padrao">Padrão</option>
+                            <option value="atacado">Atacado</option>
+                            <option value="promocional">Promocional</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="precoLivrePdv" id="configPrecoLivrePdv">
+                        <span></span>
+                        <strong>Preço livre para todos</strong>
+                        <small>Permite alterar o preço de venda de qualquer produto no caixa.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvTrocaTabelaAtacado" id="configPdvTrocaTabelaAtacado">
+                        <span></span>
+                        <strong>Troca tabela atacado</strong>
+                        <small>Aplica preço de atacado ao atingir a quantidade mínima.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoSalvarPrecoVendaLivre" id="configPdvNaoSalvarPrecoVendaLivre">
+                        <span></span>
+                        <strong>Não salvar preço venda livre</strong>
+                        <small>Alterações de preço no caixa não são persistidas no cadastro.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Descontos e Acréscimos</h3>
+                <div class="grid-form">
+                    <label>
+                        Priorizar
+                        <select name="pdvPriorizarDesconto">
+                            <option value="percentual">Desconto %</option>
+                            <option value="valor">Desconto R$</option>
+                            <option value="acrescimo">Acréscimo %</option>
+                        </select>
+                    </label>
+                    <label>
+                        % Desconto máximo
+                        <input type="number" min="0" max="100" step="0.01" name="pdvDescontoMaximo" value="5">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="permitirDescontoPdv" id="configPermitirDesconto">
+                        <span></span>
+                        <strong>Permitir desconto no PDV</strong>
+                        <small>Libera desconto em valor ou percentual no fechamento.</small>
+                    </label>
+                    <label class="switch-card" style="grid-column:span 2">
+                        <input type="checkbox" name="pdvConsiderarDescontoPromocoes" id="configPdvConsiderarDescontoPromocoes">
+                        <span></span>
+                        <strong>Considerar descontos de promoções no limite</strong>
+                        <small>Promoções são contabilizadas no percentual máximo de desconto.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Venda</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="permitirOrcamentoPdv" id="configPermitirOrcamento">
+                        <span></span>
+                        <strong>Orçamento no PDV</strong>
+                        <small>Exibe o botão "Orçamento" no caixa para gerar cotações.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="permitirGuardarVendas" id="configPermitirGuardarVendas">
+                        <span></span>
+                        <strong>Permitir guardar vendas</strong>
+                        <small>Libera guardar a venda atual para recuperar depois.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Cliente / Vendedor</h3>
+                <div class="grid-form">
+                    <label>
+                        Qtd. últimas compras
+                        <input type="number" min="1" step="1" name="pdvQtdUltimasCompras" value="5">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoAbrirPesquisaAuto" id="configPdvNaoAbrirPesquisaAuto">
+                        <span></span>
+                        <strong>Não abrir pesquisa automaticamente</strong>
+                        <small>Não abre busca de clientes ao iniciar a venda.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoSolicitarNaAbertura" id="configPdvNaoSolicitarNaAbertura">
+                        <span></span>
+                        <strong>Não solicitar na abertura da venda</strong>
+                        <small>Não pede cliente ao abrir um novo atendimento.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="usarVendedor" id="configUsarVendedor">
+                        <span></span>
+                        <strong>Usar vendedor no PDV</strong>
+                        <small>Solicita o vendedor ao inserir o primeiro produto.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoObrigarVendedor" id="configPdvNaoObrigarVendedor">
+                        <span></span>
+                        <strong>Não obrigar vendedor</strong>
+                        <small>Permite finalizar a venda sem definir um vendedor.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="exigirClienteVendaPrazo" id="configExigirClientePrazo">
+                        <span></span>
+                        <strong>Exigir cliente no prazo</strong>
+                        <small>Obrigatório para crédito loja e vendas a prazo.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoSolicitarNaAberturaPrevenda" id="configPdvNaoSolicitarNaAberturaPrevenda">
+                        <span></span>
+                        <strong>Não solicitar na abertura de pré-venda</strong>
+                        <small>Não pede cliente ao abrir um pedido/pré-venda.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Controle de Senha (Ordem)</h3>
+                <div class="grid-form">
+                    <label>
+                        Horário de reinício
+                        <input type="time" name="pdvSenhaHorarioReinicio">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvSenhaNaoGerar" id="configPdvSenhaNaoGerar">
+                        <span></span>
+                        <strong>Não gerar senha</strong>
+                        <small>Desativa a emissão de senhas de atendimento/ordem.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Pagamento</h3>
+                <div class="grid-form">
+                    <label>
+                        Forma de pagamento padrão
+                        <select name="pdvFormaPagamentoPadrao">
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao-debito">Cartão de débito</option>
+                            <option value="cartao-credito">Cartão de crédito</option>
+                            <option value="pix">PIX</option>
+                            <option value="cheque">Cheque</option>
+                            <option value="credito-loja">Crédito loja</option>
+                        </select>
+                    </label>
+                    <label>
+                        Recebimento padrão
+                        <select name="pdvRecebimentoPadrao">
+                            <option value="por-cliente">Por cliente</option>
+                            <option value="automatico">Automático</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Fechamento de Caixa</h3>
+                <div class="grid-form">
+                    <label>
+                        Máximo em caixa (R$)
+                        <input type="number" min="0" step="0.01" name="pdvMaximoCaixa" value="0">
+                    </label>
+                    <label>
+                        Tipo de conferência
+                        <select name="pdvTipoConferencia">
+                            <option value="completa">Completa</option>
+                            <option value="simplificada">Simplificada</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvControlarFechamento" id="configPdvControlarFechamento">
+                        <span></span>
+                        <strong>Controlar fechamento</strong>
+                        <small>Exige conferência ao fechar o caixa.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvFechamentoComPrevendas" id="configPdvFechamentoComPrevendas">
+                        <span></span>
+                        <strong>Com pré-vendas</strong>
+                        <small>Inclui pré-vendas no fechamento de caixa.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvSangriaSaldoDinheiro" id="configPdvSangriaSaldoDinheiro">
+                        <span></span>
+                        <strong>Sang./Sup. no saldo do Dinheiro</strong>
+                        <small>Considera sangrias e suprimentos no saldo em dinheiro.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvIgnorarSaldoSangria" id="configPdvIgnorarSaldoSangria">
+                        <span></span>
+                        <strong>Ignorar saldo para Sangria</strong>
+                        <small>Permite sangria sem limite de saldo disponível.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvMostrarQtdCancelamentos" id="configPdvMostrarQtdCancelamentos">
+                        <span></span>
+                        <strong>Mostrar qtd. cancelamentos</strong>
+                        <small>Exibe o total de cancelamentos no fechamento.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvIgnorarPrevendasSemPagamento" id="configPdvIgnorarPrevendasSemPagamento">
+                        <span></span>
+                        <strong>Ignorar pré-vendas sem pagamento</strong>
+                        <small>Não contabiliza pedidos sem pagamento no fechamento.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Controle de Sessão</h3>
+                <div class="grid-form">
+                    <label>
+                        Tempo de sessão (min)
+                        <input type="number" min="1" step="1" name="pdvTempoSessao" value="60">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoDeslogar" id="configPdvNaoDeslogar">
+                        <span></span>
+                        <strong>Não deslogar</strong>
+                        <small>Mantém a sessão ativa mesmo após inatividade.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Destinatário</h3>
+                <div class="grid-form">
+                    <label>
+                        Valor máximo venda sem CPF (R$)
+                        <input type="number" min="0" step="0.01" name="pdvValorMaximoSemCpf" value="0">
+                    </label>
+                    <label>
+                        Valor máximo venda sem dest. (R$)
+                        <input type="number" min="0" step="0.01" name="pdvValorMaximoSemDest" value="10000">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNaoSolicitarCpf" id="configPdvNaoSolicitarCpf">
+                        <span></span>
+                        <strong>Não solicitar CPF</strong>
+                        <small>Não pede CPF ao finalizar a venda.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Fiscal (PDV)</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="emitirNfce" id="configEmitirNfce">
+                        <span></span>
+                        <strong>Emissão NFC-e</strong>
+                        <small>Ativa rotinas fiscais no caixa e documentos.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvNfeHabilitarPrevendas" id="configPdvNfeHabilitarPrevendas">
+                        <span></span>
+                        <strong>Habilitar NF-e para pré-vendas</strong>
+                        <small>Permite emitir NF-e a partir de pré-vendas/pedidos.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Pré-venda</h3>
+                <div class="grid-form">
+                    <label class="campo-largo">
+                        Nome personalizado do modo Pedido
+                        <input type="text" name="pdvNomePersonalizado" placeholder="Ex.: Não fiscal">
+                    </label>
+                    <label>
+                        Dias de validade
+                        <input type="number" min="1" step="1" name="pdvDiasValidade" value="1">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvGerarPromissoria" id="configPdvGerarPromissoria">
+                        <span></span>
+                        <strong>Gerar promissória</strong>
+                        <small>Emite promissória ao finalizar pré-venda a prazo.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvTefPosPixAtivado" id="configPdvTefPosPixAtivado">
+                        <span></span>
+                        <strong>TEF/POS/PIX ativado</strong>
+                        <small>Habilita pagamentos via TEF, maquininha ou PIX nas pré-vendas.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvMotivoCancelamentoDesativado" id="configPdvMotivoCancelamentoDesativado">
+                        <span></span>
+                        <strong>Motivo cancelamento desativado</strong>
+                        <small>Não exige motivo ao cancelar uma pré-venda.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvPagamentoParcialAtivado" id="configPdvPagamentoParcialAtivado">
+                        <span></span>
+                        <strong>Pagamento parcial ativado</strong>
+                        <small>Permite receber valor parcial em pré-vendas.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Moedas Estrangeiras</h3>
+                <div class="grid-form">
+                    <label>
+                        Conversão Peso
+                        <select name="pdvConversaoPeso">
+                            <option value="real-para-moeda">Real para moeda</option>
+                            <option value="moeda-para-real">Moeda para real</option>
+                        </select>
+                    </label>
+                    <label>
+                        Cotação Peso
+                        <input type="number" min="0" step="0.0001" name="pdvCotacaoPeso" value="0">
+                    </label>
+                    <label>
+                        Conversão Dólar
+                        <select name="pdvConversaoDolar">
+                            <option value="real-para-moeda">Real para moeda</option>
+                            <option value="moeda-para-real">Moeda para real</option>
+                        </select>
+                    </label>
+                    <label>
+                        Cotação Dólar
+                        <input type="number" min="0" step="0.0001" name="pdvCotacaoDolar" value="0">
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Tele-entrega / Comandas / Frete</h3>
+                <div class="grid-form">
+                    <label>
+                        DDD padrão
+                        <input type="text" maxlength="3" name="pdvDddPadrao" placeholder="Ex.: 11">
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvSolicitarMesa" id="configPdvSolicitarMesa">
+                        <span></span>
+                        <strong>Solicitar mesa</strong>
+                        <small>Pede o número da mesa ao abrir comanda.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvIncluirTaxaFrete" id="configPdvIncluirTaxaFrete">
+                        <span></span>
+                        <strong>Incluir taxa/frete no documento</strong>
+                        <small>Adiciona taxa de entrega no valor total do documento.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Segurança</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvPermitirLiberacaoRemota" id="configPdvPermitirLiberacaoRemota">
+                        <span></span>
+                        <strong>Permitir liberação remota</strong>
+                        <small>Permite que um supervisor libere operações remotamente.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Cashback</h3>
+                <div class="grid-form">
+                    <label>
+                        Valor mínimo (R$)
+                        <input type="number" min="0" step="0.01" name="pdvCashbackValorMinimo" value="0">
+                    </label>
+                    <label>
+                        Percentual (%)
+                        <input type="number" min="0" max="100" step="0.01" name="pdvCashbackPercentual" value="0">
+                    </label>
+                    <label>
+                        Dias de expiração
+                        <input type="number" min="0" step="1" name="pdvCashbackDiasExpiracao" value="0">
+                        <small>0 = sem expiração</small>
+                    </label>
+                </div>
+                <div class="switch-grid" style="margin-top:14px">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvCashbackTodosClientes" id="configPdvCashbackTodosClientes">
+                        <span></span>
+                        <strong>Todos os clientes</strong>
+                        <small>Aplica cashback para qualquer cliente cadastrado.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvCashbackNaoGerarPrevendas" id="configPdvCashbackNaoGerarPrevendas">
+                        <span></span>
+                        <strong>Não gerar em pré-vendas</strong>
+                        <small>Cashback não é gerado em pedidos/pré-vendas.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Ticket de Retirada</h3>
+                <div class="switch-grid">
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvTicketRetiradaVenda" id="configPdvTicketRetiradaVenda">
+                        <span></span>
+                        <strong>Venda — Ativado</strong>
+                        <small>Emite ticket de retirada ao finalizar uma venda.</small>
+                    </label>
+                    <label class="switch-card">
+                        <input type="checkbox" name="pdvTicketRetiradaPrevenda" id="configPdvTicketRetiradaPrevenda">
+                        <span></span>
+                        <strong>Pré-venda — Ativado</strong>
+                        <small>Emite ticket de retirada ao finalizar uma pré-venda.</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-form">
+                <button type="button" class="btn-secundario" id="btnRestaurarConfiguracoesCaixa">Restaurar padrão</button>
+                <button type="submit" class="btn-primario">Salvar configurações do caixa</button>
+            </div>
+        </form>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/configuracoes/js/sistema.js"></script>
+
+
+</body>
+</html>
+

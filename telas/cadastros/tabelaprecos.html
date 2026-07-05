@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabelas de Preço</title>
+<link rel="stylesheet" href="telas/cadastros/css/tabelaprecos.css?v=20260702-botao">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+<div class="app">
+<main class="conteudo">
+
+    <header class="topbar">
+        <div>
+            <a href="telas/cadastros/abacadastros.html" class="voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <h1>Tabelas de Preço</h1>
+            <p>Atacado, clientes especiais e condições por forma de pagamento.</p>
+        </div>
+        <div class="topo-acoes-cadastro">
+            <a href="telas/cadastros/abacadastros.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <button type="button" class="btn btn-primario" id="btnNovaTabela">
+                <i class="fa-solid fa-plus"></i> Nova Tabela
+            </button>
+        </div>
+    </header>
+
+    <section class="resumo">
+        <article>
+            <i class="fa-solid fa-tags"></i>
+            <strong id="cardTotal">0</strong>
+            <span>Total</span>
+        </article>
+        <article>
+            <i class="fa-solid fa-store"></i>
+            <strong id="cardNormais">0</strong>
+            <span>Normais</span>
+        </article>
+        <article>
+            <i class="fa-solid fa-user-tag"></i>
+            <strong id="cardClientes">0</strong>
+            <span>Por cliente</span>
+        </article>
+        <article>
+            <i class="fa-solid fa-credit-card"></i>
+            <strong id="cardPagamento">0</strong>
+            <span>Por pagamento</span>
+        </article>
+    </section>
+
+    <section class="painel">
+        <div class="secao-titulo">
+            <div>
+                <span>Lista</span>
+                <h2>Tabelas cadastradas</h2>
+            </div>
+        </div>
+
+        <nav class="tp-filtro-tipo">
+            <button type="button" class="tab ativo" data-tipo="">Todas</button>
+            <button type="button" class="tab" data-tipo="normal">Normal</button>
+            <button type="button" class="tab" data-tipo="cliente">Por Cliente</button>
+            <button type="button" class="tab" data-tipo="pagamento">Por Pagamento</button>
+        </nav>
+
+        <div class="barra-lista">
+            <input type="search" id="buscaTabela" placeholder="Buscar pelo nome...">
+        </div>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Vinculado a</th>
+                        <th>Qtd. mínima</th>
+                        <th>Produtos</th>
+                        <th>Situação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaTabelas">
+                    <tr><td colspan="7" class="vazio">Nenhuma tabela cadastrada.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+</div>
+
+<!-- Modal de confirmação -->
+<div class="modal-confirmacao" id="modalConfirmacao" aria-hidden="true">
+    <div class="modal-confirmacao-caixa">
+        <p id="modalConfirmacaoMensagem"></p>
+        <div class="modal-confirmacao-acoes">
+            <button type="button" class="btn claro" id="btnConfirmacaoCancelar">Cancelar</button>
+            <button type="button" class="btn btn-primario" id="btnConfirmacaoOk">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de tabela -->
+<div class="modal-tp" id="modalTabela" aria-hidden="true">
+    <div class="modal-tp-caixa">
+        <header class="modal-tp-header">
+            <h2 id="modalTabelaTitulo">Nova Tabela de Preço</h2>
+            <button type="button" class="btn-fechar-modal" data-fechar-modal>&times;</button>
+        </header>
+
+        <nav class="modal-tp-abas">
+            <button type="button" class="aba-btn ativa" data-aba="dados">
+                <i class="fa-solid fa-sliders"></i> Configuração
+            </button>
+            <button type="button" class="aba-btn" data-aba="produtos" id="btnAbaProdutos">
+                <i class="fa-solid fa-box"></i> Produtos
+            </button>
+        </nav>
+
+        <!-- Aba: Dados gerais -->
+        <div class="aba-tp-conteudo ativa" id="aba-dados">
+            <div class="tp-form-grid">
+                <label style="grid-column:1/-1">
+                    Nome da tabela *
+                    <input type="text" id="tpNome" placeholder="Ex: Atacado, Preço VIP, Plano Especial...">
+                </label>
+                <label>
+                    Tipo
+                    <select id="tpTipo">
+                        <option value="normal">Normal (Atacado / Varejo)</option>
+                        <option value="cliente">Por Cliente</option>
+                        <option value="pagamento">Por Forma de Pagamento</option>
+                    </select>
+                </label>
+                <label>
+                    Situação
+                    <select id="tpAtiva">
+                        <option value="true">Ativa</option>
+                        <option value="false">Inativa</option>
+                    </select>
+                </label>
+
+                <label class="campo-tipo campo-cliente" id="campoTpCliente">
+                    Cliente
+                    <select id="tpCliente">
+                        <option value="">Selecione o cliente...</option>
+                    </select>
+                </label>
+
+                <div class="campo-tipo campo-pagamento campo-full" id="campoTpRegrasPagamento">
+                    <div class="tp-regras-header">
+                        <span class="tp-regras-label">Ajuste por forma de pagamento</span>
+                        <span class="tp-regras-dica">Negativo = desconto · Positivo = acréscimo · Zero ou vazio = sem ajuste</span>
+                    </div>
+                    <div class="tp-regras-pagamento" id="listaRegrasPagamento">
+                        <!-- preenchido pelo JS -->
+                    </div>
+                </div>
+
+                <div class="campo-full">
+                    <label>
+                        Quantidade mínima para ativar no caixa
+                        <input type="number" id="tpQuantMin" value="0" min="0" placeholder="0 = aplica sempre">
+                    </label>
+                    <p class="campo-dica">Quando maior que zero, o preço da tabela é aplicado automaticamente no caixa ao atingir essa quantidade do produto no carrinho.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba: Produtos -->
+        <div class="aba-tp-conteudo" id="aba-produtos">
+            <div class="tp-prod-barra">
+                <input type="search" id="buscaProdutoTabela" placeholder="Buscar produto por nome ou código...">
+                <label class="tp-toggle">
+                    <input type="checkbox" id="filtroSoComPreco"> Só com preço definido
+                </label>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Código</th>
+                            <th>Preço padrão</th>
+                            <th>Preço nesta tabela</th>
+                            <th>Ativo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaProdutosTabela">
+                        <tr><td colspan="5" class="vazio">Salve a configuração para definir os preços dos produtos.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer class="modal-tp-footer">
+            <button type="button" class="btn claro" data-fechar-modal>Cancelar</button>
+            <button type="button" class="btn btn-primario" id="btnSalvarTabela">
+                <i class="fa-solid fa-floppy-disk"></i> Salvar
+            </button>
+        </footer>
+    </div>
+</div>
+<div class="tp-backdrop" id="backdropTabela"></div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/cadastros/js/tabelaprecos.js"></script>
+</body>
+</html>
+

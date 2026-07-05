@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Conversão de Dados</title>
+
+<link rel="stylesheet" href="telas/configuracoes/css/conversaodados.css">
+
+<link rel="stylesheet"
+href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Conversão de Dados</h1>
+                <p>Importe dados antigos e converta para o padrão interno.</p>
+            </div>
+            <a class="btn-voltar" href="telas/configuracoes/manutenção.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <section class="painel painel-expansivel conversao-dados" id="conversaoDados">
+        <div class="painel-cabecalho">
+            <div>
+                <span>Manutencao</span>
+                <h2>Conversao e Importacao de Dados</h2>
+                <p>Importe arquivos CSV, XLSX, TXT, JSON, XML e SQL exportados de outros sistemas de gestao comercial.</p>
+            </div>
+            <strong id="statusConversaoDados">Aguardando arquivo</strong>
+        </div>
+        <div class="conversao-mensagem" id="conversaoMensagem" aria-live="polite"></div>
+
+        <div class="conversao-layout">
+            <div class="secao-form conversao-card">
+                <h3>1. Upload e destino</h3>
+                <div class="grid-form conversao-grid">
+                    <label>
+                        Entidade
+                        <select id="conversaoEntidade">
+                            <option value="produtos">Produtos</option>
+                            <option value="clientes">Clientes</option>
+                            <option value="fornecedores">Fornecedores</option>
+                            <option value="estoque">Estoque</option>
+                            <option value="tabelasPreco">Tabela de precos</option>
+                            <option value="formasPagamento">Formas de pagamento</option>
+                            <option value="contasReceber">Contas a receber</option>
+                            <option value="contasPagar">Contas a pagar</option>
+                            <option value="vendasHistoricas">Vendas historicas</option>
+                            <option value="usuarios">Usuarios</option>
+                            <option value="regrasFiscais">Regras fiscais</option>
+                        </select>
+                    </label>
+                    <label>
+                        Duplicados
+                        <select id="conversaoDuplicados">
+                            <option value="perguntar">Perguntar antes de importar</option>
+                            <option value="ignorar">Ignorar existentes</option>
+                            <option value="atualizar">Atualizar existentes</option>
+                            <option value="novo">Cadastrar como novo</option>
+                        </select>
+                    </label>
+                    <label class="campo-largo">
+                        Arquivo
+                        <input type="file" id="conversaoArquivo" accept=".csv,.xlsx,.xls,.txt,.json,.xml,.sql,application/json,text/csv,text/plain,application/xml">
+                    </label>
+                </div>
+                <div class="acoes-form">
+                    <button type="button" class="btn-secundario" id="btnConversaoLimpar">Limpar</button>
+                    <button type="button" class="btn-primario" id="btnConversaoLer">Ler arquivo</button>
+                </div>
+            </div>
+
+            <div class="secao-form conversao-card">
+                <h3>Exportar dados do sistema</h3>
+                <div class="grid-form conversao-grid">
+                    <label>
+                        Tipo
+                        <select id="conversaoExportarEntidade">
+                            <option value="produtos">Produtos</option>
+                            <option value="clientes">Clientes</option>
+                            <option value="fornecedores">Fornecedores</option>
+                            <option value="estoque">Estoque</option>
+                            <option value="tabelasPreco">Tabela de precos</option>
+                            <option value="formasPagamento">Formas de pagamento</option>
+                            <option value="contasReceber">Contas a receber</option>
+                            <option value="contasPagar">Contas a pagar</option>
+                            <option value="vendasHistoricas">Vendas historicas</option>
+                            <option value="usuarios">Usuarios</option>
+                            <option value="regrasFiscais">Regras fiscais</option>
+                        </select>
+                    </label>
+                    <label>
+                        Formato
+                        <select id="conversaoExportarFormato">
+                            <option value="xls">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="conversao-export-info">
+                    <span>As colunas saem no padrao interno e podem ser importadas novamente selecionando o mesmo tipo.</span>
+                </div>
+                <div class="acoes-form conversao-acoes">
+                    <button type="button" class="btn-secundario" id="btnConversaoModelo">Baixar modelo vazio</button>
+                    <button type="button" class="btn-secundario" id="btnConversaoExportar">Baixar tipo selecionado</button>
+                    <button type="button" class="btn-primario" id="btnConversaoExportarTudo">Baixar tudo em Excel</button>
+                </div>
+            </div>
+
+            <div class="secao-form conversao-card">
+                <h3>2. Mapeamento manual</h3>
+                <div class="conversao-mapeamento" id="conversaoMapeamento">
+                    <div class="conversao-vazio">Selecione e leia um arquivo para mapear as colunas.</div>
+                </div>
+            </div>
+
+            <div class="secao-form conversao-card campo-total">
+                <div class="conversao-topo-lista">
+                    <h3>3. Pre-visualizacao</h3>
+                    <div class="conversao-resumo" id="conversaoResumo">
+                        <span>Lidos: 0</span>
+                        <span>Validos: 0</span>
+                        <span>Alertas: 0</span>
+                        <span>Erros: 0</span>
+                    </div>
+                </div>
+                <div class="conversao-preview" id="conversaoPreview">
+                    <div class="conversao-vazio">A previa sera exibida apos a leitura do arquivo.</div>
+                </div>
+                <div class="acoes-form conversao-acoes">
+                    <button type="button" class="btn-secundario" id="btnConversaoRelatorio" disabled>Baixar relatorio em Excel</button>
+                    <button type="button" class="btn-secundario" id="btnConversaoRollback">Desfazer ultima importacao</button>
+                    <button type="button" class="btn-primario" id="btnConversaoImportar" disabled>Importar registros validos</button>
+                </div>
+            </div>
+
+            <div class="secao-form conversao-card campo-total">
+                <h3>4. Log da importacao</h3>
+                <div class="conversao-log" id="conversaoLog">
+                    <div class="conversao-vazio">Nenhuma importacao registrada.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/configuracoes/js/conversaodados.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,44 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+body{background:#f1f5f9;padding:30px}
+.container{max-width:1400px;margin:auto}
+
+/* ── TOPO ── */
+.topo{margin-bottom:30px}
+.topo-com-acoes{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.topo h1{font-size:35px;color:#0f172a}
+.topo p{color:#64748b;margin-top:10px}
+.btn-voltar{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:10px 18px;font-weight:800;color:#0f172a;cursor:pointer;font-size:14px;white-space:nowrap;transition:.2s}
+.btn-voltar:hover{background:#f1f5f9}
+
+/* ── PAINEL ── */
+.painel{background:#fff;border-radius:20px;box-shadow:0 5px 20px rgba(0,0,0,.08);padding:24px}
+.painel-topo{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.barra-filtros{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.barra-filtros input,.barra-filtros select{border:1px solid #cbd5e1;border-radius:8px;padding:10px 12px;font:inherit;height:40px;background:#fff}
+.barra-filtros input[type="search"]{min-width:200px}
+
+/* ── TABELA ── */
+.tabela-doc-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:12px}
+.tabela-doc-wrap table{width:100%;border-collapse:collapse;min-width:700px}
+.tabela-doc-wrap th,.tabela-doc-wrap td{padding:12px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:14px;vertical-align:middle}
+.tabela-doc-wrap th{background:#0f172a;color:#fff;font-size:13px;font-weight:800;position:sticky;top:0;z-index:1}
+.tabela-doc-wrap tbody tr:hover{background:#f8fafc}
+.tabela-doc-wrap tbody tr:last-child td{border-bottom:none}
+.vazio{text-align:center;color:#64748b;padding:40px !important;border-bottom:none !important}
+
+/* ── BOTÕES ── */
+.btn-doc{border:0;border-radius:8px;padding:10px 16px;font-weight:800;cursor:pointer;background:#2563eb;color:#fff;font:inherit;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:.2s}
+.btn-doc:hover{background:#1d4ed8}
+
+/* ── INPUT DE PROMOÇÃO ── */
+.input-promocao{width:100px;height:34px;padding:0 8px;text-align:center;border:1px solid #cbd5e1;border-radius:8px;font:inherit;font-size:14px}
+
+.btn-remover-promo{background:none;border:none;color:#dc2626;cursor:pointer;font-weight:700;font-size:13px;padding:4px 8px;border-radius:6px}
+.btn-remover-promo:hover{background:#fee2e2}
+
+@media(max-width:900px){
+body{padding:18px}
+.topo-com-acoes{flex-direction:column}
+.barra-filtros{flex-direction:column}
+.barra-filtros input,.barra-filtros select{width:100%}
+}

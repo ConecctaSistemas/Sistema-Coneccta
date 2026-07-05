@@ -1,0 +1,333 @@
+.cadastro-cliente-app{
+    width:min(1480px,100%);
+    padding:22px 24px 32px;
+}
+
+.cadastro-cliente-topo{
+    min-height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding-bottom:18px;
+    border-bottom:1px solid #d5dde8;
+}
+
+.cadastro-cliente-titulo{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    min-width:0;
+}
+
+.cadastro-cliente-titulo > i{
+    color:#0b2b73;
+    font-size:18px;
+}
+
+.cadastro-cliente-titulo h1{
+    color:#1f2937;
+    font-size:24px;
+    font-weight:500;
+    padding-right:18px;
+    border-right:1px solid #d5dde8;
+}
+
+.cadastro-cliente-titulo nav{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:#6b7280;
+    font-size:14px;
+}
+
+.cadastro-cliente-titulo nav a{
+    color:#6b7280;
+    text-decoration:none;
+}
+
+.cadastro-cliente-titulo nav span::after{
+    content:">";
+    margin-left:9px;
+    color:#9ca3af;
+}
+
+.cadastro-cliente-titulo nav strong{
+    color:#4b5563;
+    font-weight:500;
+}
+
+.btn-voltar-cliente{
+    min-height:38px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #d4e2f1;
+    border-radius:8px;
+    padding:0 14px;
+    background:#fff;
+    color:#0b2b73;
+    font-weight:800;
+    text-decoration:none;
+}
+
+.cadastro-cliente-main{
+    padding-top:24px;
+}
+
+.cadastro-cliente-form{
+    display:grid;
+    gap:22px;
+}
+
+.cliente-status-grid{
+    display:grid;
+    grid-template-columns:minmax(260px,414px) minmax(0,1fr);
+    gap:22px;
+}
+
+.cliente-card{
+    background:#fff;
+    border:1px solid #dbe4ef;
+    border-radius:4px;
+    padding:22px;
+    box-shadow:0 8px 18px rgba(15,23,42,.05);
+}
+
+.cliente-card h2{
+    color:#0f172a;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.cliente-card-descricao{
+    max-width:760px;
+    color:#64748b;
+    font-size:14px;
+    line-height:1.45;
+    margin-bottom:24px;
+}
+
+.cliente-card-toggle{
+    min-height:102px;
+    display:grid;
+    place-items:center;
+    align-content:center;
+    gap:14px;
+}
+
+.cliente-card-toggle > span{
+    color:#24344d;
+    font-weight:700;
+}
+
+.tipo-cadastro-card{
+    min-height:102px;
+    display:grid;
+    grid-template-columns:minmax(180px,.7fr) repeat(3,minmax(150px,1fr));
+    align-items:center;
+    gap:18px;
+}
+
+.tipo-cadastro-card h2{
+    margin:0;
+    text-align:center;
+    font-weight:500;
+}
+
+.switch-cliente,
+.switch-texto{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    color:#24344d;
+    font-weight:700;
+}
+
+.switch-cliente input,
+.switch-texto input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.switch-cliente span,
+.switch-texto span{
+    width:58px;
+    height:30px;
+    border-radius:999px;
+    background:#d1d5db;
+    position:relative;
+    transition:.2s;
+}
+
+.switch-cliente span::after,
+.switch-texto span::after{
+    content:"";
+    position:absolute;
+    width:22px;
+    height:22px;
+    left:4px;
+    top:4px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 1px 4px rgba(15,23,42,.25);
+    transition:.2s;
+}
+
+.switch-cliente input:checked + span,
+.switch-texto input:checked + span{
+    background:#2596d9;
+}
+
+.switch-cliente input:checked + span::after,
+.switch-texto input:checked + span::after{
+    transform:translateX(28px);
+}
+
+.cliente-form-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(170px,1fr));
+    gap:18px 24px;
+}
+
+.endereco-grid{
+    grid-template-columns:minmax(180px,.8fr) minmax(260px,2fr) minmax(110px,.4fr) minmax(180px,1fr);
+}
+
+.cliente-form-grid label{
+    color:#24344d;
+    font-weight:700;
+}
+
+.cliente-form-grid input,
+.cliente-form-grid select{
+    height:42px;
+    border-radius:3px;
+    border-color:#cbd5e1;
+    color:#0f172a;
+    font-weight:500;
+    background:#fff;
+}
+
+.cliente-form-grid input::placeholder{
+    color:#9aa5b1;
+    font-weight:500;
+}
+
+.campo-2{
+    grid-column:span 2;
+}
+
+.abas-cliente{
+    width:max-content;
+    max-width:100%;
+    display:flex;
+    gap:0;
+    margin:-22px 0 22px -22px;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+}
+
+.abas-cliente .aba-cadastro{
+    min-width:150px;
+    min-height:44px;
+    border-radius:0;
+    border:0;
+    border-top:4px solid transparent;
+    border-bottom:1px solid #dde4ee;
+    background:transparent;
+    color:#4b5563;
+    padding:0 16px;
+    font-weight:700;
+}
+
+.abas-cliente .aba-cadastro.ativa{
+    border-top-color:#082a78;
+    border-bottom-color:#082a78;
+    background:#1A436B !important;
+    color:#fff !important;
+    box-shadow:none;
+}
+
+.rodape-cliente{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+}
+
+.rodape-cliente .btn{
+    min-width:88px;
+    border-radius:4px;
+}
+
+.rodape-cliente .salvar{
+    flex:0 0 auto;
+    background:#1A436B;
+    color:#fff;
+    box-shadow:none;
+}
+
+.rodape-cliente .limpar{
+    flex:0 0 auto;
+    background:#fff;
+    color:#082a78;
+    border:1px solid #c7d7ee;
+}
+
+@media(max-width:1100px){
+    .cliente-status-grid,
+    .tipo-cadastro-card,
+    .cliente-form-grid,
+    .endereco-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .tipo-cadastro-card h2,
+    .campo-2{
+        grid-column:1 / -1;
+    }
+}
+
+@media(max-width:720px){
+    .cadastro-cliente-app{
+        padding:12px;
+    }
+
+    .cadastro-cliente-topo,
+    .cadastro-cliente-titulo{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .cadastro-cliente-titulo h1{
+        border-right:0;
+        padding-right:0;
+    }
+
+    .cliente-status-grid,
+    .tipo-cadastro-card,
+    .cliente-form-grid,
+    .endereco-grid{
+        grid-template-columns:1fr;
+    }
+
+    .abas-cliente{
+        width:100%;
+        display:grid;
+        grid-template-columns:1fr;
+        margin:-22px 0 22px;
+    }
+
+    .rodape-cliente{
+        flex-direction:column;
+    }
+
+    .rodape-cliente .btn{
+        width:100%;
+    }
+}

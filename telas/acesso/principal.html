@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coneccta Sistemas</title>
+<script>
+(function(){
+    try{
+        if(sessionStorage.getItem("transicaoLoginSistema")){
+            document.documentElement.classList.add("transicao-login-pendente");
+        }
+    }catch(erro){}
+})();
+</script>
+<style>
+html.transicao-login-pendente::before{
+content:"";
+position:fixed;
+inset:0;
+z-index:2147483647;
+background:#eef3f8;
+}
+</style>
+
+<link rel="stylesheet" href="telas/acesso/css/principalstyle.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="conteudo">
+
+    <div class="topo-sistema">
+        <div class="empresa-resumo">
+            <span>Empresa</span>
+            <h1 data-empresa-titulo>Coneccta Sistemas - CNPJ não informado</h1>
+        </div>
+
+        <div class="usuario-resumo">
+            <div class="avatar-usuario" data-usuario-inicial>AD</div>
+            <div>
+                <span>Usuário logado</span>
+                <strong data-usuario-nome>ADM</strong>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-icone">👤</div>
+            <h2>Clientes</h2>
+            <span id="clientes">0</span>
+        </div>
+
+        <div class="card">
+            <div class="card-icone">📦</div>
+            <h2>Produtos</h2>
+            <span id="produtos">0</span>
+        </div>
+
+        <div class="card">
+            <div class="card-icone">💸</div>
+            <h2>Vendas</h2>
+            <span id="vendas">0</span>
+        </div>
+
+        <div class="card">
+            <div class="card-icone">🏦</div>
+            <h2>Caixa</h2>
+            <span id="caixa">R$ 0,00</span>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="telas/acesso/js/principalapp.js"></script>
+
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Mercadorias</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/cadastros/css/mercadorias.css?v=20260617-lote-scroll">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div>
+            <a href="telas/cadastros/abacadastros.html" class="voltar">Cadastros</a>
+            <h1>Lista de Mercadorias</h1>
+            <p>Itens, preços, estoque e informações fiscais.</p>
+        </div>
+
+        <a href="telas/cadastros/abacadastros.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="resumo">
+        <div>
+            <strong id="totalProdutos">0</strong>
+            <span>Produtos</span>
+        </div>
+        <div>
+            <strong id="totalEstoque">0,00</strong>
+            <span>Itens em estoque</span>
+        </div>
+        <div>
+            <strong id="totalVendaEstoque">R$ 0,00</strong>
+            <span>Total em estoque</span>
+        </div>
+        <div>
+            <strong id="totalInvestido">R$ 0,00</strong>
+            <span>Custo do estoque</span>
+        </div>
+    </section>
+
+    <nav class="setores" aria-label="Abas de mercadorias">
+        <button type="button" class="setor-tab ativo" data-setor="lista"><i class="fa-solid fa-list"></i> Itens cadastrados</button>
+        <button type="button" class="setor-tab" data-abrir-cadastro><i class="fa-solid fa-plus"></i> Cadastro</button>
+        <button type="button" class="setor-tab" data-setor="precos"><i class="fa-solid fa-tags"></i> Ajuste de preços</button>
+        <button type="button" class="setor-tab" data-setor="tributos"><i class="fa-solid fa-percent"></i> Tributações</button>
+    </nav>
+
+    <main>
+
+        <section class="setor-view" id="setor-itens" aria-hidden="true">
+            <div class="layout">
+                <section class="painel cadastro">
+                    <div class="secao-titulo">
+                        <div>
+                            <h2>Cadastro do item</h2>
+                            <p>Preencha os dados por abas para manter o cadastro mais limpo.</p>
+                        </div>
+                        <span id="statusFormulario">Novo cadastro</span>
+                        <button type="button" class="fechar-cadastro" data-fechar-cadastro aria-label="Voltar para lista">Voltar</button>
+                    </div>
+
+                    <form id="formMercadoria" novalidate>
+                        <input type="hidden" id="mercadoriaId">
+
+                        <div class="abas-cadastro" role="tablist" aria-label="Abas do cadastro">
+                            <button type="button" class="aba-cadastro ativa" data-aba="basicos">Dados básicos</button>
+                            <button type="button" class="aba-cadastro" data-aba="tributacoes">Tributações</button>
+                            <button type="button" class="aba-cadastro" data-aba="precos">Tabela de preço</button>
+                        </div>
+
+                        <div class="conteudo-aba ativa" id="aba-basicos">
+                            <div class="grupo-form">
+                                <h3>Dados básicos</h3>
+                                <div class="form-grid">
+                                    <label>
+                                        Código interno
+                                        <input type="text" id="codigo" inputmode="numeric" pattern="[0-9]*" placeholder="Gerado automaticamente">
+                                    </label>
+
+                                    <label>
+                                        EAN / Código de barras
+                                        <input type="text" id="ean" placeholder="7890000000000">
+                                    </label>
+
+                                    <label class="campo-largo">
+                                        Descrição do produto
+                                        <input type="text" id="descricao" placeholder="Ex.: Arroz tipo 1 5kg" required>
+                                    </label>
+
+                                    <label>
+                                        Descrição reduzida
+                                        <input type="text" id="descricaoReduzida" placeholder="Nome curto">
+                                    </label>
+
+                                    <label>
+                                        Marca
+                                        <input type="text" id="marca" placeholder="Marca">
+                                    </label>
+
+                                    <label>
+                                        Fornecedor
+                                        <input type="text" id="fornecedor" placeholder="Fornecedor principal">
+                                    </label>
+
+                                    <label>
+                                        Referência
+                                        <input type="text" id="referencia" placeholder="REF-001">
+                                    </label>
+
+                                    <label>
+                                        Setor / categoria
+                                        <input type="text" id="categoria" list="listaCategorias" placeholder="Alimentos">
+                                    </label>
+
+                                    <label>
+                                        Unidade
+                                        <select id="unidade">
+                                            <option value="UN">UN</option>
+                                            <option value="KG">KG</option>
+                                            <option value="CX">CX</option>
+                                            <option value="PC">PC</option>
+                                            <option value="LT">LT</option>
+                                            <option value="MT">MT</option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        Peso líquido
+                                        <input type="number" id="pesoLiquido" min="0" step="0.001" placeholder="0,000">
+                                    </label>
+
+                                    <label>
+                                        Peso bruto
+                                        <input type="number" id="pesoBruto" min="0" step="0.001" placeholder="0,000">
+                                    </label>
+
+
+                                    <label>
+                                        Situação
+                                        <select id="ativo">
+                                            <option value="true">Ativo</option>
+                                            <option value="false">Inativo</option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        Preço livre no PDV
+                                        <select id="precoLivre">
+                                            <option value="false">Não</option>
+                                            <option value="true">Sim</option>
+                                        </select>
+                                    </label>
+
+                                    <label>
+                                        Venda fracionada
+                                        <select id="vendaFracionada">
+                                            <option value="false">Não</option>
+                                            <option value="true">Sim</option>
+                                        </select>
+                                    </label>
+
+                                    <label data-config-recurso="controleEstoque">
+                                        Estoque atual
+                                        <input type="number" id="estoque" min="0" step="0.01" value="0">
+                                    </label>
+
+                                    <label data-config-recurso="controleEstoque">
+                                        Estoque mínimo
+                                        <input type="number" id="estoqueMinimo" min="0" step="0.01" value="0">
+                                    </label>
+
+                                    <label data-config-recurso="controleValidade">
+                                        Data de validade
+                                        <input type="date" id="validade">
+                                    </label>
+
+                                    <label data-config-recurso="controleValidade">
+                                        Lote
+                                        <input type="text" id="lote" placeholder="Lote do produto">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="conteudo-aba" id="aba-tributacoes">
+                            <div class="grupo-form">
+                                <h3>Tributações</h3>
+                                <p class="texto-fiscal-ajuda">Campos em vermelho são necessários para emitir NF-e/NFC-e. Os demais ficam em informações fiscais avançadas.</p>
+                                <div class="form-grid">
+                                    <div class="campo-largo acoes-form acoes-inline">
+                                        <button type="button" class="btn secundario" id="btnSugerirFiscalProduto">Aplicar sugestão fiscal</button>
+                                    </div>
+
+                                    <div class="campo-largo subtitulo-fiscal obrigatorio-nf-titulo">Dados fiscais obrigatórios para NF-e/NFC-e</div>
+
+                                    <label class="obrigatorio-nf">
+                                        NCM
+                                        <input type="text" id="ncm" placeholder="00000000">
+                                        <small>Obrigatório para praticamente todos os produtos.</small>
+                                    </label>
+
+                                    <label class="obrigatorio-nf">
+                                        Origem da mercadoria
+                                        <select id="origemMercadoria">
+                                            <option value="0">0 - Nacional</option>
+                                            <option value="1">1 - Estrangeira - Importação Direta</option>
+                                            <option value="2">2 - Estrangeira - Adquirida no Mercado Interno</option>
+                                            <option value="3">3 - Nacional com conteúdo de importação superior a 40%</option>
+                                            <option value="4">4 - Nacional produzida conforme PPB</option>
+                                            <option value="5">5 - Nacional com conteúdo de importação inferior ou igual a 40%</option>
+                                            <option value="6">6 - Estrangeira importação direta sem similar nacional</option>
+                                            <option value="7">7 - Estrangeira adquirida no mercado interno sem similar nacional</option>
+                                            <option value="8">8 - Nacional conteúdo importação superior a 70%</option>
+                                        </select>
+                                    </label>
+
+                                    <label class="obrigatorio-nf">
+                                        CSOSN
+                                        <select id="csosn"></select>
+                                        <small>Obrigatório para empresas do Simples Nacional.</small>
+                                    </label>
+
+                                    <label class="obrigatorio-nf">
+                                        CST ICMS
+                                        <select id="cstIcms"></select>
+                                        <small>Obrigatório para Lucro Presumido ou Lucro Real.</small>
+                                    </label>
+
+                                    <label class="obrigatorio-nf">
+                                        Alíquota ICMS %
+                                        <input type="number" id="aliquotaIcms" min="0" step="0.01" placeholder="0">
+                                    </label>
+
+                                    <label class="obrigatorio-nf">
+                                        CST PIS
+                                        <select id="cstPis"></select>
+                                        <small>Simples: 49 | Presumido: 99 | Real: 01, 50 ou 51.</small>
+                                    </label>
+
+                                    <label class="obrigatorio-nf">
+                                        CST COFINS
+                                        <select id="cstCofins"></select>
+                                        <small>Simples: 49 | Presumido: 99 | Real: 01, 50 ou 51.</small>
+                                    </label>
+
+                                    <label class="obrigatorio-condicional" id="campoCestFiscal">
+                                        CEST
+                                        <input type="text" id="cest" placeholder="Somente para ST">
+                                        <small>Obrigatório apenas para produtos sujeitos - Substituição Tributária.</small>
+                                    </label>
+
+                                    <label>
+                                        Substituição tributária
+                                        <select id="icmsSt">
+                                            <option value="false">Não</option>
+                                            <option value="true">Sim</option>
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <details class="fiscal-avancado">
+                                    <summary>Informações fiscais avançadas e opcionais</summary>
+                                    <div class="form-grid">
+                                        <label>
+                                            CFOP venda estadual
+                                            <input type="text" id="cfopVendaEstadual" placeholder="5102">
+                                        </label>
+
+                                        <label>
+                                            CFOP venda interestadual
+                                            <input type="text" id="cfopVendaInterestadual" placeholder="6102">
+                                        </label>
+
+                                        <label>
+                                            CFOP consumidor final
+                                            <input type="text" id="cfopConsumidorFinal" placeholder="5102">
+                                        </label>
+
+                                        <label>
+                                            CFOP devolução
+                                            <input type="text" id="cfopDevolucao" placeholder="1202">
+                                        </label>
+
+                                        <label>
+                                            PIS %
+                                            <input type="number" id="aliquotaPis" min="0" step="0.01" placeholder="0">
+                                        </label>
+
+                                        <label>
+                                            COFINS %
+                                            <input type="number" id="aliquotaCofins" min="0" step="0.01" placeholder="0">
+                                        </label>
+
+                                        <label>
+                                            IPI %
+                                            <input type="number" id="aliquotaIpi" min="0" step="0.01" placeholder="0">
+                                        </label>
+
+                                        <label>
+                                            CST IPI
+                                            <select id="cstIpi"></select>
+                                        </label>
+
+                                        <label>
+                                            Monofásico PIS/COFINS
+                                            <select id="monofasico">
+                                                <option value="false">Não</option>
+                                                <option value="true">Sim</option>
+                                            </select>
+                                        </label>
+
+                                        <label>
+                                            ANP (combustíveis)
+                                            <input type="text" id="codigoAnp" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            % LP
+                                            <input type="number" id="percentualLp" min="0" step="0.01" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            % NI
+                                            <input type="number" id="percentualNi" min="0" step="0.01" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            % NN
+                                            <input type="number" id="percentualNn" min="0" step="0.01" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            % VPart
+                                            <input type="number" id="percentualVPart" min="0" step="0.01" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            Benefício fiscal
+                                            <input type="text" id="beneficioFiscal" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            MVA original %
+                                            <input type="number" id="mvaOriginal" min="0" step="0.01" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            Diferimento %
+                                            <input type="number" id="diferimento" min="0" step="0.01" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            Natureza da receita
+                                            <input type="text" id="naturezaReceita" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            CST IBS/CBS
+                                            <select id="cstIbsCbs">
+                                                <option value="000">000 - Tributa&ccedil;&atilde;o Integral</option>
+                                                <option value="010">010 - Tributa&ccedil;&atilde;o com Al&iacute;quota Reduzida</option>
+                                                <option value="020">020 - Tributa&ccedil;&atilde;o Monof&aacute;sica</option>
+                                                <option value="030">030 - Tributa&ccedil;&atilde;o com Diferimento</option>
+                                                <option value="040">040 - Isenta</option>
+                                                <option value="050">050 - Imune</option>
+                                                <option value="060">060 - Suspensa</option>
+                                                <option value="070">070 - Al&iacute;quota Zero</option>
+                                                <option value="080">080 - N&atilde;o Incid&ecirc;ncia</option>
+                                                <option value="090">090 - Outros</option>
+                                            </select>
+                                        </label>
+
+                                        <label>
+                                            cClassTrib IBS/CBS
+                                            <select id="classificacaoIbsCbs">
+                                                <option value="01">01 - Tributa&ccedil;&atilde;o Normal</option>
+                                                <option value="02">02 - Redu&ccedil;&atilde;o de Al&iacute;quota</option>
+                                                <option value="03">03 - Redu&ccedil;&atilde;o de Base</option>
+                                                <option value="04">04 - Cr&eacute;dito Presumido</option>
+                                                <option value="05">05 - Isen&ccedil;&atilde;o</option>
+                                                <option value="06">06 - Imunidade</option>
+                                                <option value="07">07 - Suspens&atilde;o</option>
+                                                <option value="08">08 - N&atilde;o Incid&ecirc;ncia</option>
+                                                <option value="09">09 - Al&iacute;quota Zero</option>
+                                                <option value="10">10 - Monof&aacute;sico</option>
+                                                <option value="99">99 - Outros</option>
+                                            </select>
+                                        </label>
+
+                                        <label>
+                                            Unidade tributável
+                                            <input type="text" id="unidadeTributavel" placeholder="Opcional">
+                                        </label>
+
+                                        <label>
+                                            Fator de conversão
+                                            <input type="number" id="fatorConversao" min="0" step="0.0001" placeholder="Opcional">
+                                        </label>
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div class="conteudo-aba" id="aba-precos">
+                            <div class="grupo-form">
+                                <h3>Tabela de preço</h3>
+                                <div class="form-grid">
+                                    <label>
+                                        Preço de custo
+                                        <input type="text" id="precoCusto" inputmode="decimal" value="0,00">
+                                    </label>
+
+                                    <label>
+                                        Preço de venda
+                                        <input type="text" id="precoVenda" inputmode="decimal" value="0,00" required>
+                                    </label>
+
+                                    <label>
+                                        Preço promocional
+                                        <input type="text" id="precoPromocional" inputmode="decimal" placeholder="Opcional">
+                                    </label>
+                                </div>
+                                <div class="tabelas-produto-box">
+                                    <h3>Tabelas cadastradas</h3>
+                                    <div id="tabelasPrecoProduto" class="tabelas-produto-lista">
+                                        <div class="vazio-mini">Nenhuma tabela de preço cadastrada.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="acoes-form">
+                            <button type="submit" class="btn salvar">Salvar mercadoria</button>
+                            <button type="button" class="btn limpar" id="btnLimpar">Limpar</button>
+                            <button type="button" class="btn secundario" data-fechar-cadastro>Cancelar</button>
+                        </div>
+                    </form>
+                </section>
+
+                <aside class="painel ajuda-setor">
+                    <div class="secao-titulo">
+                        <div>
+                            <h2>Organização por setores</h2>
+                            <p>Use o campo Setor / categoria para separar produtos por área.</p>
+                        </div>
+                    </div>
+
+                    <div class="lista-setores" id="listaSetores">
+                        <div class="vazio-mini">Nenhum setor cadastrado.</div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="setor-view ativo" id="setor-lista">
+            <section class="painel listagem">
+                <div class="secao-titulo">
+                    <div>
+                        <h2>Mercadorias cadastradas</h2>
+                        <p>Consulte os produtos cadastrados e ajuste o preço de venda direto na lista.</p>
+                    </div>
+                    <div class="topo-lista-acoes">
+                        <span id="contadorMercadorias">0 mercadorias</span>
+                        <button type="button" class="btn novo-registro" id="btnNovoProduto">
+                            <i class="fa-solid fa-plus"></i>
+                            Novo registro
+                        </button>
+                    </div>
+                </div>
+
+                <div class="barra-lista">
+                    <input type="search" id="buscaMercadoria" placeholder="Buscar por código, EAN, descrição ou referência">
+                    <select id="filtroCategoriaLista">
+                        <option value="">Todos os setores</option>
+                    </select>
+                    <select id="filtroSituacaoLista">
+                        <option value="">Todas as situações</option>
+                        <option value="ativo">Ativos</option>
+                        <option value="inativo">Inativos</option>
+                    </select>
+                </div>
+
+                <div class="tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="coluna-selecao">
+                                    <input type="checkbox" id="selecionarTodosMercadorias" aria-label="Selecionar mercadorias visíveis">
+                                </th>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Setor</th>
+                                <th>Estoque</th>
+                                <th>Venda</th>
+                                <th>Tributos</th>
+                                <th>Situação</th>
+                                <th class="coluna-acoes-produto">A&ccedil;&otilde;es</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaMercadorias">
+                            <tr>
+                                <td colspan="9" class="vazio">Nenhuma mercadoria cadastrada.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+
+        <section class="setor-view painel tabela-preco-sistema" id="setor-tabelas">
+            <div class="secao-titulo">
+                <div>
+                    <h2>Tabelas de preço</h2>
+                    <p>Cadastre tabelas simples para liberar preços específicos por produto no Caixa PDV.</p>
+                </div>
+                <span id="contadorTabelasPreco">0 tabelas</span>
+            </div>
+
+            <div class="form-grid tabela-preco-form">
+                <label>
+                    Nome da tabela
+                    <input type="text" id="nomeTabelaPreco" placeholder="Ex.: Atacado, Cartão, Promoção">
+                </label>
+                <label>
+                    Situação
+                    <select id="ativoTabelaPreco">
+                        <option value="true">Ativa</option>
+                        <option value="false">Inativa</option>
+                    </select>
+                </label>
+                <button type="button" class="btn salvar" id="btnSalvarTabelaPreco">Cadastrar tabela</button>
+            </div>
+
+            <div id="listaTabelasPreco" class="lista-tabelas-preco"></div>
+        </section>
+
+        <section class="setor-view" id="setor-precos">
+            <section class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <h2>Ajuste de preço em massa</h2>
+                        <p>Atualize preços por setor e situação sem editar item por item.</p>
+                    </div>
+                    <span id="previewPrecoMassa">0 itens</span>
+                </div>
+
+                <div class="form-grid ajuste-grid">
+                    <label>
+                        Setor
+                        <select id="precoCategoria">
+                            <option value="">Todos os setores</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Situação
+                        <select id="precoSituacao">
+                            <option value="">Todos</option>
+                            <option value="ativo">Ativos</option>
+                            <option value="inativo">Inativos</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Campo de preço
+                        <select id="precoCampo">
+                            <option value="precoVenda">Preço de venda</option>
+                            <option value="precoCusto">Preço de custo</option>
+                            <option value="precoPromocional">Preço promocional</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Tipo de ajuste
+                        <select id="precoTipo">
+                            <option value="percentual">Percentual %</option>
+                            <option value="valor">Valor fixo R$</option>
+                            <option value="definir">Definir preço R$</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Valor do ajuste
+                        <input type="number" id="precoValor" step="0.01" placeholder="Ex.: 10">
+                    </label>
+                </div>
+
+                <div class="lista-massa" id="listaProdutosPrecoMassa"></div>
+
+                <div class="acoes-form">
+                    <button type="button" class="btn salvar" id="btnAplicarPreco">Aplicar ajuste</button>
+                </div>
+            </section>
+        </section>
+
+        <section class="setor-view" id="setor-tributos">
+            <section class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <h2>Ajuste de tributos</h2>
+                        <p>Padronize NCM, CFOP, CST/CSOSN, CEST e ICMS por setor.</p>
+                    </div>
+                    <span id="previewTributos">0 itens</span>
+                </div>
+
+                <div class="form-grid ajuste-grid">
+                    <label>
+                        Setor
+                        <select id="tributoCategoria">
+                            <option value="">Todos os setores</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Situação
+                        <select id="tributoSituacao">
+                            <option value="">Todos</option>
+                            <option value="ativo">Ativos</option>
+                            <option value="inativo">Inativos</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        NCM
+                        <input type="text" id="tributoNcm" placeholder="Não alterar">
+                    </label>
+
+                    <label>
+                        CEST
+                        <input type="text" id="tributoCest" placeholder="Não alterar">
+                    </label>
+
+                    <label>
+                        CFOP
+                        <input type="text" id="tributoCfop" placeholder="Não alterar">
+                    </label>
+
+                    <label>
+                        CST / CSOSN
+                        <input type="text" id="tributoCst" placeholder="Não alterar">
+                    </label>
+
+                    <label>
+                        ICMS %
+                        <input type="number" id="tributoIcms" min="0" step="0.01" placeholder="Não alterar">
+                    </label>
+                </div>
+
+                <div class="lista-massa" id="listaProdutosTributosMassa"></div>
+
+                <div class="acoes-form">
+                    <button type="button" class="btn salvar" id="btnAplicarTributos">Aplicar tributos</button>
+                </div>
+            </section>
+        </section>
+
+    </main>
+
+</div>
+
+<datalist id="listaCategorias"></datalist>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/mercadorias.js?v=20260617-lote-scroll"></script>
+</body>
+</html>
+

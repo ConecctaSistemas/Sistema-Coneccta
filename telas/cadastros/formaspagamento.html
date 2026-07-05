@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formas de Pagamento</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/cadastros/css/formaspagamento.css?v=20260702-modal">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+<div class="pagamentos-app">
+    <header class="pagamentos-topo">
+        <div>
+            <span>CADASTROS</span>
+            <h1>Formas de Pagamento</h1>
+            <p>Cadastre as formas que aparecem no Caixa PDV e na emissao de NF-e.</p>
+        </div>
+        <a href="telas/cadastros/abacadastros.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <main class="pagamentos-layout pagamentos-layout-lista">
+        <section class="painel formas-pagamento-listagem">
+            <div class="secao-titulo formas-lista-topo">
+                <div>
+                    <h2>Formas cadastradas</h2>
+                    <span id="contadorFormasPagamento">0 formas</span>
+                </div>
+                <button type="button" class="btn salvar" id="btnNovoFormaPagamento"><i class="fa-solid fa-plus"></i> Novo registro</button>
+            </div>
+
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Descricao</th>
+                            <th>Codigo NF-e</th>
+                            <th>Atalho</th>
+                            <th>Uso</th>
+                            <th>Situacao</th>
+                            <th>Acoes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaFormasPagamento">
+                        <tr><td colspan="6" class="vazio">Nenhuma forma cadastrada.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div class="modal-forma-pagamento" id="modalFormaPagamento" aria-hidden="true">
+    <div class="modal-forma-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloModalFormaPagamento">
+        <section class="painel pagamento-formulario">
+            <div class="secao-titulo">
+                <h2 id="tituloModalFormaPagamento">Cadastro</h2>
+                <span id="statusFormaPagamento">Novo registro</span>
+                <button type="button" class="modal-forma-fechar" id="btnFecharModalFormaPagamento" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="formFormaPagamento">
+                <input type="hidden" id="formaPagamentoId">
+                <label class="campo-total">
+                    Descricao
+                    <input type="text" id="formaDescricao" placeholder="Ex.: Cartao de credito" required>
+                </label>
+                <label>
+                    Codigo fiscal NF-e
+                    <select id="formaCodigoFiscal">
+                        <option value="01">01 - Dinheiro</option>
+                        <option value="02">02 - Cheque</option>
+                        <option value="03">03 - Cartao de credito</option>
+                        <option value="04">04 - Cartao de debito</option>
+                        <option value="05">05 - Credito loja</option>
+                        <option value="10">10 - Vale alimentacao</option>
+                        <option value="11">11 - Vale refeicao</option>
+                        <option value="15">15 - Boleto</option>
+                        <option value="17">17 - PIX</option>
+                        <option value="90">90 - Sem pagamento</option>
+                        <option value="99">99 - Outros</option>
+                    </select>
+                </label>
+                <label>
+                    Tipo
+                    <select id="formaTipo">
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="pix">PIX</option>
+                        <option value="cartao_credito">Cartao de credito</option>
+                        <option value="cartao_debito">Cartao de debito</option>
+                        <option value="credito_loja">Credito loja</option>
+                        <option value="boleto">Boleto</option>
+                        <option value="sem_pagamento">Sem pagamento</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </label>
+                <label>
+                    Situacao
+                    <select id="formaAtiva">
+                        <option value="true">Ativa</option>
+                        <option value="false">Inativa</option>
+                    </select>
+                </label>
+                <label>
+                    Tecla de atalho (Caixa PDV)
+                    <select id="formaAtalho">
+                        <option value="">Nenhum atalho</option>
+                        <option value="F1">F1</option>
+                        <option value="F2">F2</option>
+                        <option value="F3">F3</option>
+                        <option value="F4">F4</option>
+                        <option value="F5">F5</option>
+                        <option value="F6">F6</option>
+                        <option value="F7">F7</option>
+                        <option value="F8">F8</option>
+                        <option value="F9">F9</option>
+                        <option value="F11">F11</option>
+                        <option value="F12">F12</option>
+                    </select>
+                    <small class="dica-campo-forma">F10 é reservado para Confirmar Venda.</small>
+                </label>
+                <label class="check-linha">
+                    <input type="checkbox" id="formaAparecePdv" checked>
+                    Aparece no Caixa PDV
+                </label>
+                <label class="check-linha">
+                    <input type="checkbox" id="formaApareceNfe" checked>
+                    Aparece na Emissao de NF-e
+                </label>
+                <label class="campo-total campo-condicional-forma" id="campoChavePix" hidden>
+                    <span class="check-linha">
+                        <input type="checkbox" id="formaUsarQrPix">
+                        Exibir QR Code PIX no caixa
+                    </span>
+                    <input type="text" id="formaChavePix" placeholder="CNPJ, CPF, e-mail, telefone ou chave aleatoria" disabled>
+                </label>
+                <label class="campo-total campo-condicional-forma" id="campoIntegracaoCartao" hidden>
+                    <span class="check-linha">
+                        <input type="checkbox" id="formaUsarIntegracaoCartao">
+                        Usar integração POS/TEF
+                    </span>
+                    <select id="formaIntegracaoCartao" disabled>
+                        <option value="pos">POS</option>
+                        <option value="tef">TEF</option>
+                    </select>
+                </label>
+                <div class="acoes-forma campo-total">
+                    <button type="button" class="btn limpar" id="btnLimparForma">Limpar</button>
+                    <button type="submit" class="btn salvar">Salvar</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="shared/js/formaspagamento.js"></script>
+<script src="telas/cadastros/js/cadastroformaspagamento.js?v=20260702-modal"></script>
+</body>
+</html>
+

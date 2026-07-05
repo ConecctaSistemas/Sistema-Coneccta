@@ -1,0 +1,217 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+body{background:#edf1f5;padding:30px;color:#1e3048}
+.container{max-width:1560px;margin:0 auto}
+
+/* ── TOPO ── */
+.topo{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:22px}
+.topo h1{font-size:28px;font-weight:900;color:#0b2f6b}
+.topo p{margin-top:5px;color:#64748b;font-size:13.5px}
+.btn-voltar{display:inline-flex;align-items:center;gap:7px;border:1.5px solid #cbd5e1;background:#fff;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;color:#1e3048;text-decoration:none;cursor:pointer;transition:.18s}
+.btn-voltar:hover{background:#eef3f8;border-color:#b3c9e0}
+
+/* ── CARDS RESUMO ── */
+.cards-resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.card-resumo{background:#fff;border-radius:16px;border:1.5px solid #e2edf8;box-shadow:0 2px 10px rgba(17,45,78,.07);padding:20px;display:flex;flex-direction:column;gap:6px;transition:.2s}
+.card-resumo:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(17,45,78,.10)}
+.card-filtro-receber{cursor:pointer}
+.card-filtro-receber:focus-visible{outline:3px solid rgba(26,67,107,.22);outline-offset:3px}
+.card-filtro-receber.ativo{border-color:#1A436B;box-shadow:0 8px 24px rgba(26,67,107,.18)}
+.card-resumo i{font-size:22px;color:#1A436B}
+.card-resumo span{font-size:11.5px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.4px}
+.card-resumo strong{font-size:24px;font-weight:900;color:#1A436B}
+.card-resumo.alerta i,.card-resumo.alerta strong{color:#b42318}
+.card-resumo.sucesso i,.card-resumo.sucesso strong{color:#0e7a57}
+.card-resumo.aviso i,.card-resumo.aviso strong{color:#985200}
+
+/* ── ABAS ── */
+.abas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.aba{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border:1.5px solid #d9e4f0;border-radius:10px;background:#fff;color:#3a5570;font-size:13px;font-weight:700;cursor:pointer;transition:.18s}
+.aba:hover:not(.ativa){background:#eef5ff;border-color:#b3d0f0;color:#1A436B}
+.aba.ativa{background:#1A436B;border-color:#1A436B;color:#fff;box-shadow:0 3px 10px rgba(26,67,107,.22)}
+.aba i{font-size:14px}
+
+/* ── PAINEL ── */
+.painel{background:#fff;border-radius:16px;border:1.5px solid #e2edf8;box-shadow:0 2px 14px rgba(17,45,78,.07);padding:22px}
+.aba-view{display:none}
+.aba-view.ativa{display:block}
+
+/* ── BARRA DE AÇÕES ── */
+.barra-acoes{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.barra-acoes input,.barra-acoes select{height:38px;border:1.5px solid #d9e4f0;border-radius:9px;padding:0 11px;font:inherit;font-size:13px;background:#fff;color:#1e3048;width:auto;min-width:150px;flex:0 1 auto}
+.barra-acoes input[type="search"]{flex:1 1 220px}
+.barra-acoes input:focus,.barra-acoes select:focus{border-color:#1A436B;outline:none;box-shadow:0 0 0 3px rgba(26,67,107,.09)}
+.spacer{flex:1}
+
+/* ── BOTÕES ── */
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:10px;padding:9px 16px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:.18s;text-decoration:none;white-space:nowrap}
+.btn-primario{background:linear-gradient(135deg,#1464d6,#0c52bc);color:#fff;box-shadow:0 3px 12px rgba(11,102,221,.28)}
+.btn-primario:hover{background:linear-gradient(135deg,#1770e8,#0e5fd6);transform:translateY(-1px);box-shadow:0 5px 18px rgba(11,102,221,.36)}
+.btn-secundario{background:#fff;color:#1A436B;border:1.5px solid #d9e4f0}
+.btn-secundario:hover{background:#eef5ff;border-color:#b3d0f0;transform:translateY(-1px)}
+.btn-sucesso{background:linear-gradient(135deg,#0e7a57,#0a5e42);color:#fff;box-shadow:0 3px 10px rgba(14,122,87,.25)}
+.btn-sucesso:hover{background:linear-gradient(135deg,#0f8a62,#0b6b4c);transform:translateY(-1px)}
+.btn-perigo{background:#fff;color:#b42318;border:1.5px solid #f8b4b1}
+.btn-perigo:hover{background:#fff4f4;transform:translateY(-1px)}
+.btn-sm{padding:5px 11px;font-size:12px;border-radius:7px}
+.btn-pago{background:linear-gradient(135deg,#0e7a57,#0a5e42);color:#fff;border:none;border-radius:7px;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;transition:.18s}
+.btn-pago:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(14,122,87,.3)}
+
+/* ── TABELA ── */
+.tabela-wrap{border:1.5px solid #e2edf8;border-radius:13px;overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+thead th{background:#f2f7fc;color:#1a3f63;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:11px 14px;border-bottom:1.5px solid #d9e4f0;position:sticky;top:0;white-space:nowrap}
+tbody td{padding:11px 14px;font-size:13.5px;color:#1e3048;border-bottom:1px solid #edf1f5;vertical-align:middle}
+tbody td small{display:block;font-size:11.5px;color:#8299b0;margin-top:2px}
+tbody tr:hover td{background:#f5f9fe}
+tbody tr:last-child td{border-bottom:none}
+td.vazio{text-align:center;color:#8299b0;padding:36px 14px;font-size:13px}
+
+/* ── BADGE STATUS ── */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:800;white-space:nowrap}
+.badge-pendente{background:#fff3e0;color:#985200;border:1px solid #f5cc85}
+.badge-pago{background:#e6f4ee;color:#0e7a57;border:1px solid #a7d9bf}
+.badge-vencido{background:#fff4f4;color:#b42318;border:1px solid #f8b4b1}
+.badge-hoje{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.badge-aberto{background:#eef5ff;color:#0b55b8;border:1px solid #b3d0f8}
+.badge-projecao{background:#f5f0ff;color:#6d28d9;border:1px solid #ddd6fe}
+
+/* ── MODAL ── */
+.modal-fundo{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:9000;align-items:center;justify-content:center;padding:20px}
+.modal-fundo.aberto{display:flex}
+.modal{background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(15,23,42,.22);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:28px}
+.modal h2{font-size:18px;font-weight:900;color:#0b2f6b;margin-bottom:20px}
+.modal-fechar{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:#8299b0;margin-top:-4px}
+.modal-fechar:hover{color:#b42318}
+.grade-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:18px}
+.grade-form.col1{grid-template-columns:1fr}
+.grade-form.col3{grid-template-columns:repeat(3,1fr)}
+label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;font-weight:700;color:#3a4f66}
+label input,label select,label textarea{height:40px;border:1.5px solid #d9e4f0;border-radius:9px;padding:0 11px;font:inherit;font-size:13.5px;color:#1e3048;background:#fff;outline:none;transition:.18s}
+label input:focus,label select:focus,label textarea:focus{border-color:#1A436B;box-shadow:0 0 0 3px rgba(26,67,107,.09)}
+label textarea{height:80px;resize:vertical;padding:10px}
+.modal-acoes{display:flex;gap:10px;justify-content:flex-end;margin-top:4px;padding-top:16px;border-top:1.5px solid #edf1f5}
+
+/* ── FLUXO DE CAIXA ── */
+.fluxo-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:18px;align-items:start}
+.grafico-wrap{overflow-x:auto;padding:10px 0 4px}
+.grafico-barras{display:flex;align-items:flex-end;gap:10px;min-height:200px;padding-bottom:4px}
+.col-mes{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:64px;flex:1}
+.col-mes .label-mes{font-size:11px;font-weight:700;color:#64748b;white-space:nowrap}
+.col-mes .barras-duplas{display:flex;gap:3px;align-items:flex-end;height:160px}
+.col-mes .barra{width:22px;border-radius:5px 5px 2px 2px;min-height:6px;transition:.3s}
+.barra-entrada{background:linear-gradient(180deg,#22c55e,#16a34a)}
+.barra-saida{background:linear-gradient(180deg,#f87171,#dc2626)}
+.col-mes .valor-label{font-size:10px;font-weight:800;color:#475569;text-align:center}
+.fluxo-legenda{display:flex;gap:16px;margin-bottom:14px}
+.fluxo-legenda span{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#475569}
+.fluxo-legenda i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.legenda-entrada{background:#16a34a}
+.legenda-saida{background:#dc2626}
+.indicadores-fluxo{display:grid;gap:10px}
+.ind-card{background:#f7fafd;border:1.5px solid #e2edf8;border-radius:11px;padding:14px}
+.ind-card span{font-size:11.5px;font-weight:700;color:#8299b0;display:block;margin-bottom:3px}
+.ind-card strong{font-size:20px;font-weight:900;color:#1A436B}
+.ind-card.positivo strong{color:#0e7a57}
+.ind-card.negativo strong{color:#b42318}
+
+/* ── DRE ── */
+.dre-filtros{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.dre-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.7fr);gap:18px;align-items:start}
+.dre-tabela .linha-dre{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #edf1f5;font-size:13.5px}
+.dre-tabela .linha-dre:last-child{border-bottom:none}
+.dre-tabela .linha-dre.grupo{background:#f7fafd;font-size:11.5px;font-weight:800;color:#8299b0;text-transform:uppercase;letter-spacing:.5px;padding:8px 14px}
+.dre-tabela .linha-dre.subtotal{background:#eef5ff;font-weight:800;color:#0b55b8}
+.dre-tabela .linha-dre.resultado{background:linear-gradient(135deg,#183d63,#1e5496);color:#fff;border-radius:10px;margin-top:6px;padding:14px}
+.dre-tabela .linha-dre.resultado strong{color:#fff}
+.linha-dre span:last-child{font-weight:800;min-width:110px;text-align:right}
+.positivo-val{color:#0e7a57}
+.negativo-val{color:#b42318}
+
+/* ── PROJEÇÃO MENSAL ── */
+.proj-tabela-wrap{overflow-x:auto;margin-top:14px}
+.proj-tabela-wrap table{min-width:800px}
+.mes-passado td{background:#f7fafd}
+.mes-atual td{background:#eef5ff}
+.mes-futuro td{background:#fdfcff}
+.mes-atual td:first-child{font-weight:900;color:#1A436B}
+
+/* ── SALÁRIOS ── */
+.sal-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.funcionarios-lista{display:grid;gap:10px}
+.func-card{background:#f7fafd;border:1.5px solid #e2edf8;border-radius:11px;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.func-card .func-info strong{display:block;font-size:14px;color:#1A436B}
+.func-card .func-info span{font-size:12px;color:#64748b}
+.func-acoes{display:flex;gap:8px}
+
+/* ── MESES SALÁRIO ── */
+.meses-sal{display:grid;gap:8px;margin-top:14px}
+.mes-sal-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f7fafd;border:1.5px solid #e2edf8;border-radius:10px}
+.mes-sal-row .mes-nome{font-size:13px;font-weight:700;color:#1e3048;min-width:100px}
+.mes-sal-row .mes-valor{font-size:14px;font-weight:800;color:#1A436B}
+
+/* ── SELETOR MÊS ── */
+.seletor-mes{display:flex;align-items:center;gap:8px}
+.seletor-mes button{background:#fff;border:1.5px solid #d9e4f0;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:14px;color:#1A436B;display:flex;align-items:center;justify-content:center;transition:.15s}
+.seletor-mes button:hover{background:#eef5ff;border-color:#b3d0f0}
+.seletor-mes span{font-size:15px;font-weight:800;color:#1A436B;min-width:120px;text-align:center}
+
+/* ── SECAO TITULO ── */
+.secao-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.secao-h h2{font-size:16px;font-weight:900;color:#1A436B}
+.secao-h p{font-size:13px;color:#8299b0;margin-top:3px}
+.badge-count{background:#eef5ff;color:#0b55b8;border:1px solid #b3d0f8;border-radius:99px;padding:4px 11px;font-size:12px;font-weight:800}
+
+/* ── METAS ── */
+.metas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:4px}
+
+.meta-card{background:#f7fafd;border:1.5px solid #e2edf8;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;position:relative;transition:.2s}
+.meta-card:hover{box-shadow:0 4px 16px rgba(17,45,78,.1);transform:translateY(-2px)}
+.meta-card-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.meta-card-mes{font-size:14px;font-weight:900;color:#1A436B}
+.meta-card-acoes{display:flex;gap:6px}
+
+.meta-item{display:flex;flex-direction:column;gap:4px}
+.meta-item-label{font-size:11px;font-weight:700;color:#8299b0;text-transform:uppercase;letter-spacing:.4px}
+.meta-item-vals{display:flex;align-items:baseline;gap:6px}
+.meta-item-vals strong{font-size:15px;font-weight:900;color:#1e3048}
+.meta-item-vals span{font-size:12px;color:#8299b0}
+
+/* barra de progresso */
+.progress-wrap{background:#e2edf8;border-radius:99px;height:7px;overflow:hidden;margin-top:2px}
+.progress-bar{height:100%;border-radius:99px;transition:width .4s ease}
+.progress-ok{background:linear-gradient(90deg,#16a34a,#22c55e)}
+.progress-quase{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.progress-baixo{background:linear-gradient(90deg,#b42318,#ef4444)}
+.progress-label{font-size:11.5px;font-weight:800;margin-top:3px}
+.progress-label.ok{color:#16a34a}
+.progress-label.quase{color:#d97706}
+.progress-label.baixo{color:#b42318}
+
+/* badge meta na tabela de projeção */
+.meta-prog-cell{min-width:130px}
+.meta-prog-mini{display:flex;flex-direction:column;gap:3px}
+.meta-prog-mini .progress-wrap{height:5px}
+.meta-prog-mini span{font-size:11px;font-weight:800;color:#64748b}
+.sem-meta{font-size:11.5px;color:#cbd5e1;font-style:italic}
+
+/* divisor dentro do modal */
+.meta-divisor{font-size:11px;font-weight:800;color:#8299b0;text-transform:uppercase;letter-spacing:.6px;padding:8px 0 6px;border-bottom:1.5px solid #edf1f5;margin-bottom:12px}
+
+/* painel meta do mês — indicadores compactos */
+.meta-mes-grid{display:grid;gap:8px}
+.meta-mes-row{background:#f7fafd;border:1.5px solid #e2edf8;border-radius:10px;padding:12px}
+.meta-mes-row .mm-label{font-size:11px;font-weight:700;color:#8299b0;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.meta-mes-row .mm-vals{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.meta-mes-row .mm-vals strong{font-size:14px;font-weight:900;color:#1A436B}
+.meta-mes-row .mm-vals span{font-size:12px;color:#64748b}
+
+@media(max-width:1100px){
+.fluxo-grid,.dre-grid,.sal-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+body{padding:16px}
+.topo{flex-direction:column}
+.cards-resumo{grid-template-columns:repeat(2,1fr)}
+.aba span{display:none}
+.grade-form{grid-template-columns:1fr}
+}

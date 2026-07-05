@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boletos Bancarios</title>
+<link rel="stylesheet" href="telas/movimento/css/boleto.css?v=20260701-modal-altura">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+
+<main class="container">
+    <header class="topo">
+        <div>
+            <h1>Boletos Bancarios</h1>
+            <p>Criacao de cobrancas, emissao de boletos e acompanhamento de pagamentos.</p>
+        </div>
+        <a class="btn-voltar" href="telas/movimento/movimento.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="cards-resumo">
+        <article class="card-resumo">
+            <i class="fa-solid fa-barcode"></i>
+            <span>Emitidos no periodo</span>
+            <strong id="kpiEmitidos">0</strong>
+        </article>
+        <article class="card-resumo alerta">
+            <i class="fa-solid fa-clock"></i>
+            <span>Em aberto</span>
+            <strong id="kpiAbertos">0</strong>
+        </article>
+        <article class="card-resumo sucesso">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Pagos</span>
+            <strong id="kpiPagos">0</strong>
+        </article>
+        <article class="card-resumo">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            <span>Gerados</span>
+            <strong id="kpiGerados">0</strong>
+        </article>
+        <article class="card-resumo">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>Valor gerado</span>
+            <strong id="kpiValorGerado">R$ 0,00</strong>
+        </article>
+    </section>
+
+    <section class="painel">
+        <div class="painel-topo">
+            <div>
+                <h2>Boletos emitidos</h2>
+                <p>Consulte por cliente, periodo, estado e numero do boleto.</p>
+            </div>
+            <button type="button" class="btn" id="btnAbrirCriarCobranca"><i class="fa-solid fa-plus"></i>Criar cobranca</button>
+        </div>
+        <div class="grade-filtros">
+            <label>Data inicial
+                <input type="date" id="filtroDataInicio">
+            </label>
+            <label>Data final
+                <input type="date" id="filtroDataFim">
+            </label>
+            <label>Estado
+                <select id="filtroStatus">
+                    <option value="">Todos</option>
+                    <option value="gerado">Gerados</option>
+                    <option value="aberto">Em aberto</option>
+                    <option value="pago">Pagos</option>
+                    <option value="cancelado">Cancelados</option>
+                </select>
+            </label>
+            <label>Pesquisar cliente
+                <input type="search" id="filtroBusca" placeholder="Cliente, numero, usuario ou produto">
+            </label>
+        </div>
+        <div class="painel-topo contador-modal">
+            <span id="contadorBoletos">0 boleto(s)</span>
+        </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Numero</th>
+                        <th>Data e hora</th>
+                        <th>Cliente</th>
+                        <th>Produtos</th>
+                        <th>Valor</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
+                        <th>Integracao</th>
+                        <th>Acoes</th>
+                    </tr>
+                </thead>
+                <tbody id="listaBoletos">
+                    <tr><td colspan="9" class="vazio">Nenhum boleto emitido.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div class="modal-boletos recolhido" id="modalCriarCobranca" role="dialog" aria-modal="true" aria-labelledby="tituloCriarCobranca">
+    <div class="modal-card">
+        <form class="formulario-modal" id="formBoleto">
+            <div class="painel-topo">
+                <h2 id="tituloCriarCobranca">Criar cobranca</h2>
+                <div class="topo-acoes-cobranca">
+                    <span id="statusIntegracao">Integracao pendente</span>
+                    <button type="button" class="btn secundario btn-icone" id="btnFecharCriarCobranca" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+
+            <div class="form-grid-estavel">
+                <section class="bloco-form bloco-dados">
+                    <div class="grade-form">
+                        <label class="campo-produto">Cliente
+                            <input type="search" id="buscaClienteBoleto" placeholder="Digite nome, CPF ou CNPJ" autocomplete="off">
+                            <div class="resultado-produtos recolhido" id="resultadoClientesBoleto"></div>
+                        </label>
+                        <label>Primeiro vencimento
+                            <input type="date" id="boletoVencimento">
+                        </label>
+                        <label>Parcelas
+                            <input type="number" id="boletoParcelas" min="1" max="60" step="1" value="1">
+                        </label>
+                        <label>Nosso numero
+                            <input type="text" id="boletoNossoNumero" placeholder="Gerado automaticamente">
+                        </label>
+                        <label class="campo-observacao">Observacoes
+                            <textarea id="boletoObservacao" rows="3" placeholder="Informacoes internas da cobranca"></textarea>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="bloco-form bloco-produto">
+                    <div class="itens-topo fixo">
+                        <h3>Produto</h3>
+                        <button type="button" class="btn secundario" id="btnAdicionarProduto"><i class="fa-solid fa-plus"></i>Adicionar</button>
+                    </div>
+                    <div class="grade-produto">
+                        <label class="campo-produto">Pesquisar produto
+                            <input type="search" id="buscaProdutoBoleto" placeholder="Digite codigo, nome ou referencia">
+                            <div class="resultado-produtos recolhido" id="resultadoProdutosBoleto"></div>
+                        </label>
+                        <label>Quantidade
+                            <input type="number" id="boletoQuantidade" min="1" step="1" value="1">
+                        </label>
+                        <label>Valor
+                            <input type="number" id="boletoValor" min="0" step="0.01" value="0">
+                        </label>
+                    </div>
+                </section>
+
+                <section class="bloco-form bloco-lista">
+                    <div class="itens-topo fixo">
+                        <h3>Produtos da cobranca</h3>
+                    </div>
+                    <div class="lista-itens" id="listaItensBoleto">
+                        <div class="vazio">Nenhum produto adicionado.</div>
+                    </div>
+                </section>
+
+                <section class="bloco-form bloco-parcelas">
+                    <div class="itens-topo fixo">
+                        <h3>Boletos que serao gerados</h3>
+                        <span id="totalParcelas">1 boleto</span>
+                    </div>
+                    <div class="lista-parcelas" id="listaParcelasBoleto"></div>
+                </section>
+            </div>
+
+            <div class="opcoes-emissao">
+                <span>Emitir</span>
+                <label class="opcao-emissao">
+                    <input type="radio" name="modoEmissaoBoleto" id="modoApenasBoleto" value="boleto" checked>
+                    Apenas boleto
+                </label>
+                <label class="opcao-emissao">
+                    <input type="radio" name="modoEmissaoBoleto" id="modoBoletoNfe" value="nfe">
+                    Emitir NF-e + Boleto
+                </label>
+            </div>
+
+            <div class="acoes">
+                <div class="total-cobranca">
+                    <span>Total</span>
+                    <strong id="totalCobranca">R$ 0,00</strong>
+                </div>
+                <button type="submit" class="btn" id="btnEmitirCobranca"><i class="fa-solid fa-barcode"></i>Emitir cobranca</button>
+                <button type="button" class="btn secundario" id="btnLimparBoleto"><i class="fa-solid fa-eraser"></i>Limpar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/boleto.js?v=20260701-overflow-produto"></script>
+</body>
+</html>
+

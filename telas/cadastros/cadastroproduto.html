@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastrar Mercadoria</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/cadastros/css/mercadorias.css?v=20260617-lote-scroll">
+<link rel="stylesheet" href="telas/cadastros/css/cadastroproduto.css?v=20260702-ean-camera">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body data-tela-cadastro-produto="true">
+
+<div class="app cadastro-produto-app">
+    <header class="cadastro-produto-topo">
+        <div class="cadastro-produto-titulo">
+            <i class="fa-solid fa-box-open"></i>
+            <h1>Cadastrar</h1>
+            <nav aria-label="Caminho">
+                <a href="telas/cadastros/abacadastros.html">Cadastros</a>
+                <span>Produtos</span>
+                <strong>Cadastrar</strong>
+            </nav>
+        </div>
+        <a href="telas/cadastros/abacadastros.html" class="btn-voltar-produto"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <main class="cadastro-produto-main">
+        <form id="formMercadoria" class="cadastro-produto-form" novalidate>
+            <input type="hidden" id="mercadoriaId">
+
+            <div class="abas-cadastro abas-produto" role="tablist" aria-label="Abas do cadastro de produto">
+                <button type="button" class="aba-cadastro ativa" data-aba="basicos">
+                    <i class="fa-regular fa-square"></i> Dados do Produto
+                </button>
+                <button type="button" class="aba-cadastro" data-aba="tributacoes">
+                    <i class="fa-solid fa-scale-balanced"></i> Tributação
+                </button>
+                <button type="button" class="aba-cadastro" data-aba="outras">
+                    <i class="fa-solid fa-circle-info"></i> Outras informações
+                </button>
+            </div>
+
+            <section class="conteudo-aba ativa" id="aba-basicos">
+                <div class="produto-card">
+                    <h2>Dados Gerais</h2>
+                    <p class="produto-card-descricao">Identifique a mercadoria, defina como ela será vendida no PDV e informe os saldos de estoque.</p>
+                    <div class="produto-basico-layout">
+                        <label class="imagem-produto-box">
+                            <span>Imagem do Produto</span>
+                            <input type="file" id="imagemProduto" accept="image/*">
+                            <strong>Clique aqui ou arraste sua imagem</strong>
+                        </label>
+
+                        <div class="produto-form-grid">
+                            <label>
+                                Situação
+                                <select id="ativo">
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Inativo</option>
+                                </select>
+                            </label>
+                            <label>
+                                Código
+                                <input type="text" id="codigo" inputmode="numeric" pattern="[0-9]*" placeholder="Gerado automaticamente">
+                            </label>
+                            <label class="campo-2">
+                                Descrição
+                                <input type="text" id="descricao" placeholder="Ex.: Arroz tipo 1 5kg" required>
+                                <small>Nome que aparecerá no caixa, relatórios e documentos fiscais.</small>
+                            </label>
+                            <label>
+                                Forma de venda
+                                <select id="unidade">
+                                    <option value="UN">UN - Unidade</option>
+                                    <option value="KG">KG - Quilo</option>
+                                    <option value="G">G - Grama</option>
+                                    <option value="LT">LT - Litro</option>
+                                    <option value="MT">MT - Metro</option>
+                                    <option value="CX">CX - Caixa</option>
+                                    <option value="PC">PC - Pacote</option>
+                                </select>
+                            </label>
+                            <label>
+                                Preço de custo
+                                <input type="text" id="precoCusto" inputmode="decimal" value="0,00">
+                            </label>
+                            <label>
+                                Preço de venda
+                                <input type="text" id="precoVenda" inputmode="decimal" value="0,00" required>
+                            </label>
+                            <label>
+                                Quantidade de estoque
+                                <input type="number" id="estoque" min="0" step="0.01" value="0">
+                            </label>
+                            <label>
+                                Estoque mínimo
+                                <input type="number" id="estoqueMinimo" min="0" step="0.01" value="0">
+                            </label>
+                            <label>
+                                Venda fracionada
+                                <select id="vendaFracionada">
+                                    <option value="false">Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                            </label>
+                            <label>
+                                Grupo
+                                <select id="grupo">
+                                    <option value="">— Selecione —</option>
+                                </select>
+                            </label>
+                            <label>
+                                Marca
+                                <select id="marcaSelect">
+                                    <option value="">— Selecione —</option>
+                                </select>
+                            </label>
+                            <label>
+                                Nível
+                                <select id="nivel">
+                                    <option value="">— Selecione —</option>
+                                </select>
+                            </label>
+                            <label>
+                                Preço livre PDV
+                                <select id="precoLivre">
+                                    <option value="false">Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                                <small>Permite digitar o preço na venda.</small>
+                            </label>
+                            <label>
+                                Código de Barras (EAN)
+                                <span class="campo-ean-camera">
+                                    <input type="text" id="ean" placeholder="7890000000000" inputmode="numeric">
+                                    <button type="button" id="btnScannerEanProduto" class="btn-scanner-ean-produto" aria-label="Ler codigo de barras pela camera">
+                                        <i class="fa-solid fa-barcode"></i>
+                                    </button>
+                                </span>
+                            </label>
+                            <label class="campo-2">
+                                Descrição reduzida
+                                <input type="text" id="descricaoReduzida" placeholder="Nome curto para telas compactas">
+                            </label>
+                            <label class="check-linha">
+                                <input type="checkbox" id="fabricacaoPropria">
+                                Fabricação própria
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="conteudo-aba" id="aba-tributacoes">
+                <div class="produto-card">
+                    <h2>Grupo Tributário</h2>
+                    <p class="produto-card-descricao">Use a sugestão fiscal para preencher CFOP, CST/CSOSN e alíquotas conforme o regime da empresa.</p>
+                    <div class="produto-form-grid tributacao-grid">
+
+                            <label>
+                                NCM
+                                <input type="text" id="ncm" placeholder="00000000" maxlength="8">
+                                <small>Obrigatório para NF-e/NFC-e.</small>
+                            </label>
+
+                            <label id="campoCestFiscal">
+                                CEST
+                                <input type="text" id="cest" placeholder="Somente quando há ST">
+                                <small>Preencher apenas para produtos com Substituição Tributária.</small>
+                            </label>
+                        <label class="campo-2">
+                            Grupo Tributário
+                            <select id="grupoTributarioProduto">
+                                <option value="simples102">Simples Nacional - CSOSN 102</option>
+                                <option value="simples500">Simples Nacional ST - CSOSN 500</option>
+                                <option value="normal00">Regime Normal - CST 00</option>
+                                <option value="normal40">Regime Normal - CST 40</option>
+                            </select>
+                        </label>
+                        <label>
+                            Origem
+                            <select id="origemMercadoria">
+                                <option value="0">0 - Nacional</option>
+                                <option value="1">1 - Estrangeira - Importação Direta</option>
+                                <option value="2">2 - Estrangeira - Adquirida no Mercado Interno</option>
+                                <option value="3">3 - Nacional com conteúdo de importação superior a 40%</option>
+                                <option value="4">4 - Nacional produzida conforme PPB</option>
+                                <option value="5">5 - Nacional com conteúdo de importação inferior ou igual a 40%</option>
+                                <option value="6">6 - Estrangeira importação direta sem similar nacional</option>
+                                <option value="7">7 - Estrangeira adquirida no mercado interno sem similar nacional</option>
+                                <option value="8">8 - Nacional conteúdo importação superior a 70%</option>
+                            </select>
+                        </label>
+                        <label>
+                            CSOSN
+                            <select id="csosn"></select>
+                        </label>
+                        <label>
+                            CST ICMS
+                            <select id="cstIcms"></select>
+                        </label>
+                        <label>
+                            ICMS %
+                            <input type="number" id="aliquotaIcms" min="0" step="0.01" placeholder="0">
+                        </label>
+                        <label class="campo-2">
+                            Situação Tributária PIS/COFINS
+                            <select id="cstPis"></select>
+                        </label>
+                        <label>
+                            Alíquota PIS %
+                            <input type="number" id="aliquotaPis" min="0" step="0.0001" placeholder="0">
+                        </label>
+                        <label>
+                            Alíquota COFINS %
+                            <input type="number" id="aliquotaCofins" min="0" step="0.0001" placeholder="0">
+                        </label>
+                        <label>
+                            CST IPI
+                            <select id="cstIpi"></select>
+                        </label>
+                        <label>
+                            Alíquota IPI %
+                            <input type="number" id="aliquotaIpi" min="0" step="0.01" placeholder="0">
+                        </label>
+                        <label>
+                            CST IBS/CBS
+                            <select id="cstIbsCbs">
+                                <option value="000">000 - Tributa&ccedil;&atilde;o Integral</option>
+                                <option value="010">010 - Tributa&ccedil;&atilde;o com Al&iacute;quota Reduzida</option>
+                                <option value="020">020 - Tributa&ccedil;&atilde;o Monof&aacute;sica</option>
+                                <option value="030">030 - Tributa&ccedil;&atilde;o com Diferimento</option>
+                                <option value="040">040 - Isenta</option>
+                                <option value="050">050 - Imune</option>
+                                <option value="060">060 - Suspensa</option>
+                                <option value="070">070 - Al&iacute;quota Zero</option>
+                                <option value="080">080 - N&atilde;o Incid&ecirc;ncia</option>
+                                <option value="090">090 - Outros</option>
+                            </select>
+                        </label>
+                        <label>
+                            Substituição tributária
+                            <select id="icmsSt">
+                                <option value="false">Não</option>
+                                <option value="true">Sim</option>
+                            </select>
+                        </label>
+                        <label>
+                            CFOP venda estadual
+                            <input type="text" id="cfopVendaEstadual" placeholder="5102">
+                        </label>
+                        <label>
+                            CFOP venda interestadual
+                            <input type="text" id="cfopVendaInterestadual" placeholder="6102">
+                        </label>
+                        <label>
+                            Cód. Benefício Fiscal (cBenef)
+                            <input type="text" id="beneficioFiscal" placeholder="Opcional">
+                            <small>Exigido por alguns estados.</small>
+                        </label>
+                    </div>
+                    <div class="acoes-form acoes-produto-inline">
+                        <button type="button" class="btn secundario" id="btnSugerirFiscalProduto">Aplicar sugestão fiscal</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="conteudo-aba" id="aba-outras">
+                <div class="produto-card">
+                    <h2>Derivados de Petróleo</h2>
+                    <p class="produto-card-descricao">Preencha somente para combustíveis, GLP e produtos que exigem informações ANP.</p>
+                    <div class="produto-form-grid outras-grid">
+                        <label>
+                            Código ANP
+                            <input type="text" id="codigoAnp">
+                        </label>
+                        <label class="campo-2">
+                            Descrição ANP
+                            <input type="text" id="descricaoAnp">
+                        </label>
+                        <label>
+                            R$/KG sem ICMS
+                            <input type="text" id="valorKgSemIcms" inputmode="decimal" value="0,00">
+                        </label>
+                        <label>
+                            KG/UN GLP
+                            <input type="text" id="kgUnGlp" inputmode="decimal" value="0,000 KG">
+                        </label>
+                        <label>
+                            % de GLP
+                            <input type="number" id="percentualLp" min="0" step="0.01" placeholder="0,00">
+                        </label>
+                        <label>
+                            % GN Nacional
+                            <input type="number" id="percentualNn" min="0" step="0.01" placeholder="0,00">
+                        </label>
+                        <label>
+                            % GN Importado
+                            <input type="number" id="percentualNi" min="0" step="0.01" placeholder="0,00">
+                        </label>
+                        <label>
+                            CODIF
+                            <input type="text" id="codif">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="produto-card">
+                    <h2>Outras Informações</h2>
+                    <p class="produto-card-descricao">Dados complementares usados em documentos fiscais, conferência e operação no PDV.</p>
+                    <div class="produto-form-grid outras-grid">
+                        <label>
+                            Peso Líquido (KG)
+                            <input type="number" id="pesoLiquido" min="0" step="0.001" placeholder="0,000">
+                        </label>
+                        <label>
+                            Peso Bruto (KG)
+                            <input type="number" id="pesoBruto" min="0" step="0.001" placeholder="0,000">
+                        </label>
+                        <label class="campo-total">
+                            Informações adicionais (NFe)
+                            <textarea id="informacoesAdicionaisNfe" maxlength="500" rows="5"></textarea>
+                            <small>Até 500 caracteres</small>
+                        </label>
+                        <label class="check-linha campo-total">
+                            <input type="checkbox" id="alterarValorQuantidadePdv">
+                            Alterar valor/quantidade ao inserir no PDV (Mobile)
+                        </label>
+                        <label class="check-linha campo-total">
+                            <input type="checkbox" id="bemMovelUsado">
+                            Bem móvel usado (RTC)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="produto-card">
+                    <h2>Balança</h2>
+                    <p class="produto-card-descricao">Configure este produto para envio à balança e leitura automática da etiqueta no caixa PDV.</p>
+                    <div class="produto-form-grid outras-grid">
+                        <label class="check-linha campo-total">
+                            <input type="checkbox" id="balancaAtivo">
+                            Produto de balança (peso variável — lido pelo PDV via código de barras)
+                        </label>
+                        <label>
+                            Código PLU na balança
+                            <input type="text" id="balancaPlu" maxlength="6" placeholder="000001" inputmode="numeric">
+                            <small>Código numérico que identifica o produto na balança (1 a 6 dígitos)</small>
+                        </label>
+                        <label>
+                            Tara (gramas)
+                            <input type="number" id="balancaTara" min="0" value="0">
+                            <small>Peso da embalagem a ser descontado</small>
+                        </label>
+                        <label>
+                            Validade (dias)
+                            <input type="number" id="balancaValidade" min="0" value="0">
+                            <small>0 = sem validade impressa</small>
+                        </label>
+                        <label>
+                            Departamento na balança
+                            <input type="text" id="balancaDepartamento" maxlength="20" placeholder="GERAL">
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <input type="hidden" id="fornecedor">
+            <input type="hidden" id="referencia">
+            <input type="hidden" id="validade">
+            <input type="hidden" id="lote">
+            <input type="hidden" id="precoPromocional">
+            <input type="hidden" id="cfopConsumidorFinal">
+            <input type="hidden" id="cfopDevolucao">
+            <input type="hidden" id="cstCofins">
+            <input type="hidden" id="monofasico" value="false">
+            <input type="hidden" id="percentualVPart">
+            <input type="hidden" id="mvaOriginal">
+            <input type="hidden" id="diferimento">
+            <input type="hidden" id="naturezaReceita">
+            <input type="hidden" id="unidadeTributavel">
+            <input type="hidden" id="fatorConversao">
+            <div id="tabelasPrecoProduto" hidden></div>
+
+            <footer class="rodape-produto">
+                <button type="button" class="btn limpar" id="btnLimpar">Limpar</button>
+                <button type="submit" class="btn salvar">Salvar</button>
+            </footer>
+        </form>
+    </main>
+</div>
+
+<div id="overlayScannerEanProduto" class="scanner-ean-produto-overlay" aria-hidden="true"></div>
+<section id="scannerEanProduto" class="scanner-ean-produto" aria-hidden="true" role="dialog" aria-modal="true">
+    <header>
+        <strong>Ler codigo de barras</strong>
+        <button type="button" id="btnFecharScannerEanProduto" aria-label="Fechar leitor">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </header>
+    <video id="videoScannerEanProduto" playsinline muted></video>
+    <p id="statusScannerEanProduto">Aponte a camera para o codigo de barras do produto.</p>
+</section>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/mercadorias.js?v=20260702-ean-camera"></script>
+</body>
+</html>
+

@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contagem de Estoque</title>
+<link rel="stylesheet" href="telas/movimento/css/controle-estoque.css?v=20260702-modal5">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+
+<main class="container">
+    <header class="topo">
+        <div>
+            <h1>Contagem de Estoque</h1>
+            <p>Contagem fisica, saldos, estoque minimo e ajustes de produtos.</p>
+        </div>
+        <a class="btn-voltar" href="telas/movimento/movimento.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="painel nova-contagem">
+        <div class="painel-topo">
+            <h2>Contagens</h2>
+            <span id="contagemAtivaStatus">Nenhuma contagem aberta</span>
+        </div>
+        <div class="acoes-contagem">
+            <button type="button" class="btn" id="btnAbrirModalContagem"><i class="fa-solid fa-plus"></i>Criar contagem</button>
+        </div>
+    </section>
+
+    <section class="painel aba-contagens">
+        <div class="painel-topo">
+            <h2>Aba Contagem</h2>
+            <span id="totalContagens">0 contagem(ns)</span>
+        </div>
+        <div class="lista-contagens" id="listaContagens"></div>
+    </section>
+
+    <section class="painel painel-contagem recolhido" id="painelContagemProdutos">
+        <div class="painel-topo">
+            <h2>Produtos da contagem</h2>
+            <div class="acoes-topo">
+                <button type="button" class="btn secundario" id="btnRecarregar"><i class="fa-solid fa-rotate"></i>Recarregar</button>
+                <button type="button" class="btn" id="btnSalvar"><i class="fa-solid fa-floppy-disk"></i>Salvar contagem</button>
+            </div>
+        </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Estoque atual</th>
+                        <th>Nova contagem</th>
+                        <th>Diferenca</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaEstoque"></tbody>
+            </table>
+        </div>
+    </section>
+    <div class="modal-contagem recolhido" id="modalContagem" role="dialog" aria-modal="true" aria-labelledby="tituloModalContagem">
+        <div class="modal-card">
+            <div class="modal-topo">
+                <div>
+                    <h2 id="tituloModalContagem">Criar contagem</h2>
+                    <p>Selecione os produtos que farão parte da contagem.</p>
+                </div>
+                <button type="button" class="btn secundario btn-icone" id="btnFecharModalContagem" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="modal-grid">
+                <label>Nome da contagem
+                    <input type="text" id="modalContagemNome" placeholder="Ex.: Contagem geral de junho">
+                </label>
+                <label>Responsavel
+                    <select id="modalContagemResponsavel"></select>
+                </label>
+                <label>Data
+                    <input type="date" id="modalContagemData">
+                </label>
+                <label>Tipo
+                    <select id="modalContagemTipo">
+                        <option value="geral">Geral</option>
+                        <option value="parcial">Parcial</option>
+                        <option value="ciclica">Ciclica</option>
+                        <option value="auditoria">Auditoria</option>
+                    </select>
+                </label>
+                <label>Contagem
+                    <select id="modalContagemEscopo">
+                        <option value="manual">Selecionar produtos</option>
+                        <option value="todos">Todos os produtos</option>
+                        <option value="categoria">Por categoria</option>
+                    </select>
+                </label>
+                <label>Categoria
+                    <select id="modalContagemCategoria"><option value="">Todas</option></select>
+                </label>
+                <label class="campo-observacao">Observacoes
+                    <textarea id="modalContagemObservacao" rows="3" placeholder="Observacao interna"></textarea>
+                </label>
+            </div>
+
+            <div class="modal-produtos-topo">
+                <label class="selecionar-todos">
+                    <input type="checkbox" id="modalSelecionarTodosProdutos">
+                    Selecionar todos
+                </label>
+                <span id="modalTotalProdutos">0 selecionado(s)</span>
+            </div>
+            <div class="modal-produtos" id="modalListaProdutos"></div>
+
+            <div class="modal-acoes">
+                <button type="button" class="btn secundario" id="btnCancelarModalContagem">Cancelar</button>
+                <button type="button" class="btn" id="btnSalvarModalContagem"><i class="fa-solid fa-floppy-disk"></i>Salvar</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/controle-estoque.js?v=20260702-modal5"></script>
+</body>
+</html>
+

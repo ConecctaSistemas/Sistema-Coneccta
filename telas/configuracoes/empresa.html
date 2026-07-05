@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cadastro da Empresa</title>
+
+<link rel="stylesheet" href="telas/configuracoes/css/empresa.css">
+
+<link rel="stylesheet"
+href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Cadastro da Empresa</h1>
+                <p>Dados cadastrais.</p>
+            </div>
+            <a class="btn-voltar" href="telas/configuracoes/manutenção.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <section class="painel painel-expansivel cadastro-empresa" id="cadastroEmpresa">
+
+        <div class="painel-cabecalho">
+            <div>
+                <span>Manutenção</span>
+                <h2>Cadastro da Empresa</h2>
+                <p>As informaçoes salvas aqui serão usadas no cabeçalho do sistema, PDV e configurações fiscais.</p>
+            </div>
+            <strong id="statusEmpresa">Cadastro não salvo</strong>
+        </div>
+
+        <form id="formEmpresa" class="form-empresa">
+            <div class="secao-form">
+                <h3>Dados cadastrais</h3>
+                <div class="grid-form">
+                    <label>
+                        CNPJ
+                        <input type="text" id="empresaCnpj" name="cnpj" placeholder="00.000.000/0000-00">
+                    </label>
+                    <label>
+                        Razão social
+                        <input type="text" id="empresaRazaoSocial" name="razaoSocial" placeholder="Razão social da empresa">
+                    </label>
+                    <label>
+                        Nome fantasia
+                        <input type="text" id="empresaNomeFantasia" name="nomeFantasia" placeholder="Nome exibido no sistema">
+                    </label>
+                    <label>
+                        Inscrição Estadual
+                        <input type="text" id="empresaInscricaoEstadual" name="inscricaoEstadual" placeholder="IE da empresa">
+                    </label>
+                    <label>
+                        CNAE principal
+                        <input type="text" id="empresaCnae" name="cnae" placeholder="Ex.: 4751201">
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Contato</h3>
+                <div class="grid-form">
+                    <label>
+                        Telefone / WhatsApp
+                        <input type="tel" id="empresaTelefone" name="telefone" placeholder="(00) 00000-0000">
+                    </label>
+                    <label>
+                        Email
+                        <input type="email" id="empresaEmail" name="email" placeholder="empresa@email.com">
+                    </label>
+                    <label class="campo-largo">
+                        Site
+                        <input type="url" id="empresaSite" name="site" placeholder="https://site.com.br">
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Endereço</h3>
+                <div class="grid-form">
+                    <label>
+                        CEP
+                        <input type="text" id="empresaCep" name="cep" placeholder="00000-000">
+                    </label>
+                    <label class="campo-largo">
+                        Endereço
+                        <input type="text" id="empresaEndereco" name="endereco" placeholder="Rua, avenida, bairro">
+                    </label>
+                    <label>
+                        Número
+                        <input type="text" id="empresaNumero" name="numero" placeholder="Número">
+                    </label>
+                    <label>
+                        Cidade
+                        <input type="text" id="empresaCidade" name="cidade" placeholder="Cidade">
+                    </label>
+                    <label>
+                        Estado
+                        <select id="empresaEstado" name="estado">
+                            <option value="">Selecione</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-form">
+                <button type="button" class="btn-secundario" id="btnLimparEmpresa">Limpar</button>
+                <button type="submit" class="btn-primario">Salvar cadastro</button>
+            </div>
+        </form>
+
+    </section>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/configuracoes/js/empresa.js"></script>
+
+</body>
+</html>
+

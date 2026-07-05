@@ -1,0 +1,390 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+background:#eef3f8;
+color:#0f172a;
+padding:30px;
+}
+
+.container{
+max-width:1500px;
+margin:0 auto;
+}
+
+.topo{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:20px;
+margin-bottom:28px;
+}
+
+.topo h1{
+font-size:36px;
+color:#0b2f6b;
+}
+
+.topo p{
+margin-top:10px;
+color:#64748b;
+}
+
+.btn-voltar,
+.btn{
+border:0;
+border-radius:8px;
+padding:10px 16px;
+font-weight:800;
+cursor:pointer;
+background:#2563eb;
+color:#fff;
+font:inherit;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+text-decoration:none;
+white-space:nowrap;
+}
+
+.btn-voltar,
+.btn.secundario{
+background:#fff;
+border:1px solid #cbd5e1;
+color:#0f172a;
+}
+
+.cards-resumo{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:16px;
+margin-bottom:20px;
+}
+
+.card-resumo,
+.painel{
+background:#fff;
+border-radius:16px;
+box-shadow:0 8px 22px rgba(15,23,42,.08);
+}
+
+.card-resumo{
+padding:22px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.card-resumo i{
+font-size:26px;
+color:#2563eb;
+}
+
+.card-resumo span,
+.indicadores span{
+font-size:12px;
+font-weight:800;
+color:#64748b;
+text-transform:uppercase;
+}
+
+.card-resumo strong{
+font-size:26px;
+font-weight:900;
+}
+
+.card-resumo.destaque strong{
+color:#16a34a;
+}
+
+.painel{
+padding:22px;
+}
+
+.painel h2{
+font-size:20px;
+margin-bottom:16px;
+}
+
+.painel-topo{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:16px;
+}
+
+.painel-topo h2{
+margin-bottom:0;
+}
+
+.painel-topo span{
+border-radius:999px;
+background:#eff6ff;
+color:#1d4ed8;
+padding:8px 12px;
+font-size:13px;
+font-weight:800;
+}
+
+.filtros,
+.layout-principal,
+.acoes{
+margin-top:20px;
+}
+
+.filtros{
+display:grid;
+gap:16px;
+}
+
+.periodos{
+display:flex;
+align-items:center;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.periodos > span,
+.grade-filtros label,
+.personalizado label{
+font-size:13px;
+font-weight:800;
+color:#475569;
+}
+
+.periodo-opcoes{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.periodo-opcoes button{
+height:38px;
+border:1px solid #cbd5e1;
+background:#fff;
+border-radius:8px;
+padding:0 14px;
+font-weight:800;
+cursor:pointer;
+}
+
+.periodo-opcoes button.ativo{
+background:#0f172a;
+color:#fff;
+border-color:#0f172a;
+}
+
+.grade-filtros,
+.personalizado{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:12px;
+}
+
+.grade-filtros label,
+.personalizado label{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+select,
+input{
+height:40px;
+border:1px solid #cbd5e1;
+border-radius:8px;
+padding:8px 10px;
+font:inherit;
+background:#fff;
+}
+
+.recolhido{
+display:none !important;
+}
+
+.layout-principal{
+display:grid;
+grid-template-columns:minmax(0,1fr) minmax(340px,.75fr);
+gap:20px;
+align-items:start;
+}
+
+.grafico-fluxo{
+display:flex;
+align-items:end;
+gap:10px;
+min-height:250px;
+overflow-x:auto;
+padding-top:16px;
+}
+
+.barra-dia{
+min-width:58px;
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:8px;
+}
+
+.barra-dia strong{
+font-size:11px;
+text-align:center;
+}
+
+.barra-dia span{
+width:100%;
+min-height:12px;
+border-radius:8px 8px 2px 2px;
+background:#16a34a;
+}
+
+.barra-dia.negativo span{
+background:#dc2626;
+}
+
+.barra-dia small{
+font-size:11px;
+font-weight:900;
+color:#64748b;
+}
+
+.indicadores{
+display:grid;
+gap:10px;
+}
+
+.indicadores div{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:10px;
+padding:12px;
+}
+
+.indicadores strong{
+display:block;
+margin-top:5px;
+font-size:18px;
+}
+
+.tabela-wrap{
+overflow:auto;
+border:1px solid #e2e8f0;
+border-radius:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:620px;
+}
+
+th,
+td{
+padding:12px;
+border-bottom:1px solid #e2e8f0;
+text-align:left;
+font-size:14px;
+}
+
+th{
+background:#0f172a;
+color:#fff;
+font-size:13px;
+font-weight:900;
+}
+
+tr:last-child td{
+border-bottom:none;
+}
+
+.positivo{
+color:#16a34a;
+font-weight:800;
+}
+
+.negativo{
+color:#dc2626;
+font-weight:800;
+}
+
+.lista-movimentos{
+display:grid;
+gap:10px;
+max-height:520px;
+overflow:auto;
+}
+
+.movimento-item{
+display:grid;
+grid-template-columns:minmax(0,1fr) auto;
+gap:12px;
+align-items:start;
+border:1px solid #e2e8f0;
+border-left:4px solid #16a34a;
+border-radius:12px;
+background:#f8fafc;
+padding:12px;
+}
+
+.movimento-item.saida{
+border-left-color:#dc2626;
+}
+
+.movimento-item strong{
+display:block;
+}
+
+.movimento-item small{
+display:block;
+margin-top:4px;
+color:#64748b;
+}
+
+.movimento-valor{
+font-size:16px;
+font-weight:900;
+white-space:nowrap;
+}
+
+.acoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.vazio{
+text-align:center;
+color:#64748b;
+padding:34px !important;
+}
+
+@media(max-width:1100px){
+.layout-principal{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:760px){
+body{
+padding:18px;
+}
+.topo{
+flex-direction:column;
+}
+.btn,
+.btn-voltar,
+.periodo-opcoes button{
+width:100%;
+}
+.movimento-item{
+grid-template-columns:1fr;
+}
+}

@@ -1,0 +1,293 @@
+body{
+    min-width:0;
+    min-height:100dvh !important;
+    height:auto !important;
+    overflow-x:hidden;
+    overflow-y:auto !important;
+    background:#edf1f5 !important;
+    padding:clamp(14px,2.2vw,34px) !important;
+}
+
+body.sistema-embed{
+    padding:0 !important;
+}
+
+body.sistema-embed > .container,
+body.sistema-embed > .app,
+body.sistema-embed > .pagamentos-app{
+    padding:clamp(14px,2.2vw,34px) !important;
+}
+
+.container,
+.app,
+.pagamentos-app,
+.cadastro-produto-app,
+.cadastro-cliente-app{
+    width:100% !important;
+    max-width:none !important;
+    margin:0 auto !important;
+}
+
+.topo,
+.topbar,
+.pagamentos-topo,
+.cadastro-produto-topo,
+.cadastro-cliente-topo{
+    width:100%;
+    min-height:auto !important;
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:space-between !important;
+    gap:16px !important;
+    margin:0 0 clamp(16px,2vw,26px) !important;
+    padding:0 0 18px !important;
+    border:0 !important;
+    border-bottom:1px solid #d4deea !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    color:#0f172a !important;
+}
+
+.topo > div,
+.topbar > div,
+.pagamentos-topo > div,
+.cadastro-produto-titulo,
+.cadastro-cliente-titulo,
+.topbar-info{
+    min-width:0;
+}
+
+.topo h1,
+.topbar h1,
+.pagamentos-topo h1,
+.cadastro-produto-topo h1,
+.cadastro-cliente-topo h1{
+    margin:0 !important;
+    color:#0b2f6b !important;
+    font-size:clamp(28px,2.15vw,38px) !important;
+    font-weight:900 !important;
+    line-height:1.08 !important;
+    letter-spacing:0 !important;
+    border:0 !important;
+    padding:0 !important;
+}
+
+.topo p,
+.topbar p,
+.pagamentos-topo p,
+.cadastro-produto-topo p,
+.cadastro-cliente-topo p{
+    max-width:760px;
+    margin:10px 0 0 !important;
+    color:#53677f !important;
+    font-size:clamp(13px,.82vw,15px) !important;
+    line-height:1.45 !important;
+}
+
+.cadastro-produto-titulo,
+.cadastro-cliente-titulo{
+    display:block !important;
+}
+
+.cadastro-produto-titulo > i,
+.cadastro-cliente-titulo > i,
+.pagamentos-topo span,
+.topo > div > span,
+.voltar,
+.breadcrumb,
+.topbar-info .breadcrumb,
+.cadastro-produto-titulo nav,
+.cadastro-cliente-titulo nav{
+    display:none !important;
+}
+
+.btn-voltar,
+.atalho,
+.atalho-pdv,
+.btn-voltar-produto,
+.btn-voltar-cliente,
+a.btn.btn-secundario[href*="abacadastros"],
+a.btn.btn-secundario[href*="cadastros"]{
+    min-height:44px !important;
+    width:auto !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    flex:0 0 auto !important;
+    padding:0 16px !important;
+    border:1px solid #c7d7ea !important;
+    border-radius:10px !important;
+    background:#fff !important;
+    color:#0f2f56 !important;
+    font-size:14px !important;
+    font-weight:800 !important;
+    text-decoration:none !important;
+    box-shadow:none !important;
+}
+
+.btn-voltar:hover,
+.atalho:hover,
+.atalho-pdv:hover,
+.btn-voltar-produto:hover,
+.btn-voltar-cliente:hover,
+a.btn.btn-secundario[href*="abacadastros"]:hover,
+a.btn.btn-secundario[href*="cadastros"]:hover{
+    background:#f8fbff !important;
+    border-color:#adc3de !important;
+}
+
+.topo-acoes-cadastro{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    flex:0 0 auto;
+}
+
+.resumo,
+.cards-resumo{
+    display:grid !important;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr)) !important;
+    gap:clamp(10px,1vw,16px) !important;
+    margin-bottom:clamp(14px,1.5vw,22px) !important;
+}
+
+.resumo > div,
+.resumo > article,
+.cards-resumo > article{
+    min-width:0 !important;
+}
+
+.painel,
+.produto-card,
+.cliente-card{
+    border-radius:16px !important;
+}
+
+.layout,
+.pagamentos-layout,
+.layout-lista-clientes,
+.produto-basico-layout,
+.recebimentos-layout{
+    gap:clamp(12px,1.2vw,20px) !important;
+}
+
+.tabela-wrap,
+.proj-tabela-wrap{
+    max-width:100%;
+    overflow:auto;
+}
+
+.tabela-wrap table,
+.proj-tabela-wrap table{
+    width:100%;
+}
+
+.barra-lista,
+.barra-acao,
+.acoes-lista-clientes,
+.barra-acoes,
+.grade-filtros,
+.produto-form-grid,
+.tributacao-grid,
+.outras-grid{
+    max-width:100%;
+}
+
+@media(max-width:1200px){
+    .layout,
+    .pagamentos-layout,
+    .layout-lista-clientes,
+    .produto-basico-layout,
+    .recebimentos-layout{
+        grid-template-columns:1fr !important;
+    }
+}
+
+@media(max-width:900px){
+    body,
+    body.sistema-embed > .container,
+    body.sistema-embed > .app,
+    body.sistema-embed > .pagamentos-app{
+        padding:14px !important;
+    }
+
+    .topo,
+    .topbar,
+    .pagamentos-topo,
+    .cadastro-produto-topo,
+    .cadastro-cliente-topo{
+        flex-direction:column !important;
+        align-items:stretch !important;
+        gap:12px !important;
+    }
+
+    .topo-acoes-cadastro{
+        display:grid;
+        grid-template-columns:1fr;
+    }
+
+    .btn-voltar,
+    .atalho,
+    .atalho-pdv,
+    .btn-voltar-produto,
+    .btn-voltar-cliente,
+    a.btn.btn-secundario[href*="abacadastros"],
+    a.btn.btn-secundario[href*="cadastros"],
+    .topo-acoes-cadastro > *{
+        width:100% !important;
+    }
+
+    .resumo,
+    .cards-resumo{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .painel,
+    .produto-card,
+    .cliente-card{
+        padding:14px !important;
+    }
+
+    .barra-lista,
+    .barra-acao,
+    .acoes-lista-clientes,
+    .barra-acoes,
+    .grade-filtros,
+    .produto-form-grid,
+    .tributacao-grid,
+    .outras-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    input,
+    select,
+    textarea,
+    button{
+        max-width:100%;
+    }
+}
+
+@media(max-width:640px){
+    body,
+    body.sistema-embed > .container,
+    body.sistema-embed > .app,
+    body.sistema-embed > .pagamentos-app{
+        padding:12px !important;
+    }
+
+    .topo h1,
+    .topbar h1,
+    .pagamentos-topo h1,
+    .cadastro-produto-topo h1,
+    .cadastro-cliente-topo h1{
+        font-size:25px !important;
+    }
+
+    .resumo,
+    .cards-resumo{
+        grid-template-columns:1fr !important;
+    }
+}

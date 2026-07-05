@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fornecedores</title>
+<link rel="stylesheet" href="telas/cadastros/css/fornecedores.css?v=20260702-modal">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div>
+            <a href="telas/cadastros/abacadastros.html" class="voltar">Cadastros</a>
+            <h1>Fornecedores</h1>
+            <p>Cadastro manual e importacao automatica a partir das entradas de notas.</p>
+        </div>
+        <a href="telas/cadastros/abacadastros.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="resumo">
+        <div>
+            <strong id="kpiTotal">0</strong>
+            <span>Fornecedores</span>
+        </div>
+        <div>
+            <strong id="kpiAtivos">0</strong>
+            <span>Ativos</span>
+        </div>
+        <div>
+            <strong id="kpiNfe">0</strong>
+            <span>Importados por NF-e</span>
+        </div>
+    </section>
+
+    <main class="layout layout-fornecedores-lista">
+        <!-- LISTAGEM -->
+        <section class="painel listagem">
+            <div class="secao-titulo fornecedores-lista-topo">
+                <div>
+                    <h2>Lista de fornecedores</h2>
+                    <span id="contadorFornecedores">0 fornecedores</span>
+                </div>
+                <button type="button" class="btn salvar" id="btnNovoFornecedor"><i class="fa-solid fa-plus"></i> Novo registro</button>
+            </div>
+
+            <div class="barra-lista">
+                <input type="search" id="buscaFornecedor" placeholder="Buscar por nome, CNPJ ou cidade">
+                <select id="filtroSituacao">
+                    <option value="">Todas as situacoes</option>
+                    <option value="true">Ativos</option>
+                    <option value="false">Inativos</option>
+                </select>
+            </div>
+
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fornecedor</th>
+                            <th>CNPJ / CPF</th>
+                            <th>Contato</th>
+                            <th>Cidade / UF</th>
+                            <th>Origem</th>
+                            <th>Situacao</th>
+                            <th>Acoes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaFornecedores">
+                        <tr><td colspan="7" class="vazio">Nenhum fornecedor cadastrado.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<div class="modal-fornecedor" id="modalFornecedor" aria-hidden="true">
+    <div class="modal-fornecedor-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloForm">
+        <section class="painel form-painel">
+            <div class="secao-titulo">
+                <div>
+                    <h2 id="tituloForm">Novo fornecedor</h2>
+                    <p>Preencha os dados e clique em Salvar.</p>
+                </div>
+                <button type="button" class="modal-fornecedor-fechar" id="btnFecharModalFornecedor" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <input type="hidden" id="fornecedorId">
+
+            <div class="form-grid">
+                <label class="campo-largo">
+                    Razao Social *
+                    <input type="text" id="razaoSocial" placeholder="Nome ou razao social">
+                </label>
+                <label class="campo-largo">
+                    Nome Fantasia
+                    <input type="text" id="nomeFantasia" placeholder="Nome fantasia (opcional)">
+                </label>
+                <label>
+                    CNPJ / CPF
+                    <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                </label>
+                <label>
+                    Telefone
+                    <input type="text" id="telefone" placeholder="(00) 00000-0000">
+                </label>
+                <label class="campo-largo">
+                    E-mail
+                    <input type="email" id="email" placeholder="contato@empresa.com">
+                </label>
+                <label class="campo-largo">
+                    Endereco
+                    <input type="text" id="endereco" placeholder="Rua, numero, bairro">
+                </label>
+                <label>
+                    Cidade
+                    <input type="text" id="cidade" placeholder="Cidade">
+                </label>
+                <label>
+                    Estado (UF)
+                    <input type="text" id="estado" placeholder="UF" maxlength="2">
+                </label>
+                <label class="campo-largo">
+                    Situacao
+                    <select id="ativo">
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="acoes-form">
+                <button type="button" class="btn limpar" onclick="limparForm()">Limpar</button>
+                <button type="button" class="btn salvar" onclick="salvarFornecedor()">
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                </button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/fornecedores.js?v=20260702-modal"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

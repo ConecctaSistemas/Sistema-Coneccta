@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eventos do Caixa</title>
+<link rel="stylesheet" href="telas/movimento/css/eventoscaixa.css?v=20260702">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Eventos do Caixa</h1>
+                <p>Historico de vendas, cancelamentos, sangrias e suprimentos.</p>
+            </div>
+            <a class="btn-voltar" href="telas/movimento/movimento.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel">
+        <div class="painel-topo">
+            <div class="barra-filtros">
+                <select id="filtroTipoEvento">
+                    <option value="">Todos os tipos</option>
+                    <option value="Venda finalizada">Vendas</option>
+                    <option value="Venda cancelada">Cancelamentos</option>
+                    <option value="Sangria">Sangria</option>
+                    <option value="Suprimento">Suprimento</option>
+                    <option value="Venda guardada">Guardadas</option>
+                </select>
+                <input type="search" id="buscaEventos" placeholder="Buscar operador, cliente...">
+            </div>
+            <span class="badge-setor" id="totalEventos">0 eventos</span>
+        </div>
+        <div id="listaEventos" class="lista-eventos"></div>
+    </div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/eventoscaixa.js?v=20260702"></script>
+</body>
+</html>
+

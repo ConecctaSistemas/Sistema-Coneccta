@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Usuários</title>
+<link rel="stylesheet" href="telas/cadastros/css/usuarios.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+
+<main class="container">
+    <header class="topo">
+        <div>
+            <a href="telas/cadastros/abacadastros.html" class="voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <span>Cadastros</span>
+            <h1>Usuários</h1>
+            <p>Gerencie usuários, permissões e acessos do sistema.</p>
+        </div>
+        <div class="topo-acoes-cadastro">
+            <a href="telas/cadastros/abacadastros.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <button type="button" class="btn-adicionar" id="btnAdicionarUsuario">
+                <i class="fa-solid fa-plus"></i> Adicionar
+            </button>
+        </div>
+    </header>
+
+    <section class="painel">
+        <div class="secao-titulo">
+            <h2>Usuários cadastrados</h2>
+            <span id="contadorUsuarios">0 usuário(s)</span>
+        </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Login</th>
+                        <th>Comissão</th>
+                        <th>Salário</th>
+                        <th>Contratação</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaUsuariosBody">
+                    <tr><td colspan="7" class="vazio">Carregando usuários...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<!-- Modal: Adicionar / Editar usuário -->
+<div class="modal-overlay" id="modalUsuario" aria-hidden="true">
+    <div class="modal-caixa" role="dialog" aria-labelledby="modalUsuarioTitulo">
+        <div class="modal-header">
+            <h2 class="modal-titulo" id="modalUsuarioTitulo">Novo usuário</h2>
+            <button type="button" class="modal-fechar" id="btnFecharModalUsuario" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="modal-corpo">
+            <form id="formUsuario">
+                <input type="hidden" id="usuarioId">
+
+                <div class="form-secao">
+                    <h3>Dados pessoais</h3>
+                    <div class="grid-form tripla">
+                        <label>Nome completo
+                            <input type="text" id="usuarioNome" placeholder="Nome completo" required>
+                        </label>
+                        <label>Login
+                            <input type="text" id="usuarioLogin" placeholder="Login de acesso" required>
+                        </label>
+                        <label>Senha
+                            <input type="password" id="usuarioSenha" placeholder="Senha" required>
+                        </label>
+                    </div>
+                    <div class="grid-form quatro">
+                        <label>Comissão (%)
+                            <input type="number" id="usuarioComissao" min="0" step="0.01" value="0">
+                        </label>
+                        <label>Salário
+                            <input type="number" id="usuarioSalario" min="0" step="0.01" value="0">
+                        </label>
+                        <label>Data de contratação
+                            <input type="date" id="usuarioContratacao">
+                        </label>
+                        <label>Data de aniversário
+                            <input type="date" id="usuarioAniversario">
+                        </label>
+                    </div>
+                </div>
+
+                <label class="admin-card" id="adminCard">
+                    <div class="admin-card-info">
+                        <div class="admin-card-icone"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div>
+                            <strong>Administrador</strong>
+                            <span>Acesso completo a todos os módulos e funcionalidades do sistema</span>
+                        </div>
+                    </div>
+                    <div class="admin-toggle-wrap">
+                        <input type="checkbox" id="usuarioAdministrador" class="admin-toggle-input">
+                        <span class="admin-toggle-track"><span class="admin-toggle-thumb"></span></span>
+                    </div>
+                </label>
+
+                <div class="form-secao">
+                    <h3>Permissões</h3>
+                    <fieldset class="permissoes">
+                        <div class="permissoes-grupo">
+                            <h4>Acesso aos módulos</h4>
+                            <label><input type="checkbox" data-permissao-campo="pdv"> Caixa PDV</label>
+                            <label><input type="checkbox" data-permissao-campo="comercial"> Comercial</label>
+                            <label><input type="checkbox" data-permissao-campo="cadastros"> Cadastros</label>
+                            <label><input type="checkbox" data-permissao-campo="notas"> Notas Fiscais</label>
+                            <label><input type="checkbox" data-permissao-campo="financeiro"> Financeiro</label>
+                            <label><input type="checkbox" data-permissao-campo="movimento"> Movimento</label>
+                            <label><input type="checkbox" data-permissao-campo="relatorios"> Relatórios</label>
+                            <label><input type="checkbox" data-permissao-campo="manutencao"> Configurações</label>
+                            <label><input type="checkbox" data-permissao-campo="dashboard"> Informações do sistema</label>
+                            <label><input type="checkbox" data-permissao-campo="usuarios"> Usuários</label>
+                        </div>
+                        <div class="permissoes-grupo">
+                            <h4>PDV e vendas</h4>
+                            <label><input type="checkbox" data-permissao-campo="pdvVender"> Registrar vendas</label>
+                            <label><input type="checkbox" data-permissao-campo="pdvGuardarVendas"> Guardar vendas</label>
+                            <label><input type="checkbox" data-permissao-campo="pdvRecebimento"> Recebimentos no caixa</label>
+                            <label><input type="checkbox" data-permissao-campo="descontos"> Dar descontos</label>
+                            <label><input type="checkbox" data-permissao-campo="pdvCancelarVendaAtual"> Cancelar venda em andamento</label>
+                            <label><input type="checkbox" data-permissao-campo="cancelarVendas"> Cancelar vendas registradas</label>
+                            <label><input type="checkbox" data-permissao-campo="pdvReimprimir"> Reimprimir vendas/NFC-e</label>
+                            <label><input type="checkbox" data-permissao-campo="pdvSangriaSuprimento"> Sangria e suprimento</label>
+                            <label><input type="checkbox" data-permissao-campo="alterarVendedor"> Alterar vendedor no PDV</label>
+                        </div>
+                        <div class="permissoes-grupo">
+                            <h4>Cadastros</h4>
+                            <label><input type="checkbox" data-permissao-campo="clientesEditar"> Criar/editar clientes</label>
+                            <label><input type="checkbox" data-permissao-campo="clientesExcluir"> Excluir clientes</label>
+                            <label><input type="checkbox" data-permissao-campo="mercadoriasEditar"> Criar/editar mercadorias</label>
+                            <label><input type="checkbox" data-permissao-campo="mercadoriasExcluir"> Excluir mercadorias</label>
+                            <label><input type="checkbox" data-permissao-campo="tabelasPrecoEditar"> Tabelas de preço</label>
+                            <label><input type="checkbox" data-permissao-campo="formasPagamentoEditar"> Formas de pagamento</label>
+                            <label><input type="checkbox" data-permissao-campo="usuariosEditar"> Criar/editar usuários</label>
+                            <label><input type="checkbox" data-permissao-campo="usuariosExcluir"> Desativar usuários</label>
+                        </div>
+                        <div class="permissoes-grupo">
+                            <h4>Fiscal e financeiro</h4>
+                            <label><input type="checkbox" data-permissao-campo="emitirNfe"> Emitir NF-e</label>
+                            <label><input type="checkbox" data-permissao-campo="emitirNfce"> Emitir NFC-e</label>
+                            <label><input type="checkbox" data-permissao-campo="importarXml"> Importar XML</label>
+                            <label><input type="checkbox" data-permissao-campo="cancelarNotas"> Cancelar notas</label>
+                            <label><input type="checkbox" data-permissao-campo="devolucaoFiscal"> Devolução fiscal</label>
+                            <label><input type="checkbox" data-permissao-campo="financeiroLancar"> Lançar financeiro</label>
+                            <label><input type="checkbox" data-permissao-campo="financeiroBaixar"> Baixar contas</label>
+                            <label><input type="checkbox" data-permissao-campo="financeiroExcluir"> Excluir financeiro</label>
+                        </div>
+                        <div class="permissoes-grupo">
+                            <h4>Relatórios e configurações</h4>
+                            <label><input type="checkbox" data-permissao-campo="relatoriosVer"> Visualizar relatórios</label>
+                            <label><input type="checkbox" data-permissao-campo="relatoriosExportar"> Exportar relatórios</label>
+                            <label><input type="checkbox" data-permissao-campo="configEmpresa"> Dados da empresa</label>
+                            <label><input type="checkbox" data-permissao-campo="configFiscal"> Fiscal e certificado</label>
+                            <label><input type="checkbox" data-permissao-campo="configSistema"> Recursos do sistema</label>
+                            <label><input type="checkbox" data-permissao-campo="integracoesEditar"> Integrações</label>
+                            <label><input type="checkbox" data-permissao-campo="backupSistema"> Backup e manutenção</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <section class="analise-usuario" id="analiseUsuarioAtual" hidden>
+                    <h3>Análise deste usuário</h3>
+                    <div class="mini-indicadores">
+                        <article>
+                            <span>Total de vendas</span>
+                            <strong id="usuarioTotalVendas">R$ 0,00</strong>
+                        </article>
+                        <article>
+                            <span>Descontos concedidos</span>
+                            <strong id="usuarioTotalDescontos">R$ 0,00</strong>
+                        </article>
+                        <article>
+                            <span>Total de comissões</span>
+                            <strong id="usuarioTotalComissoes">R$ 0,00</strong>
+                        </article>
+                    </div>
+                </section>
+
+                <div class="modal-acoes">
+                    <button type="button" class="btn-cancelar" id="btnCancelarModalUsuario">Cancelar</button>
+                    <button type="submit" class="btn-salvar" id="btnSalvarUsuario">
+                        <i class="fa-solid fa-floppy-disk"></i> Salvar usuário
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/usuarios.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

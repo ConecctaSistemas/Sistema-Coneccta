@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedidos de Venda</title>
+<link rel="stylesheet" href="telas/movimento/css/pedidosvenda.css?v=20260701-sem-login-extra">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+<main class="container">
+
+    <header class="topo">
+        <div class="topo-esq">
+            <h1>Pedidos de Venda</h1>
+            <p>Pré-atendimento de balcão. O pedido não emite documento fiscal — ele é importado no Caixa PDV para virar venda.</p>
+        </div>
+        <div class="pv-topo-dir">
+            <button type="button" class="btn-primario btn-novo-pedido" id="btnNovoPedidoVenda">
+                <i class="fa-solid fa-plus"></i> Novo pedido
+            </button>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <section class="pv-dashboard">
+        <div class="pv-stat">
+            <i class="fa-solid fa-folder-open"></i>
+            <div><strong id="pvEmAberto">0</strong><span>Pedidos em aberto</span></div>
+        </div>
+        <div class="pv-stat">
+            <i class="fa-solid fa-hourglass-half"></i>
+            <div><strong id="pvAguardandoPagamento">0</strong><span>Aguard. pagamento</span></div>
+        </div>
+        <div class="pv-stat">
+            <i class="fa-solid fa-circle-check"></i>
+            <div><strong id="pvFinalizadosHoje">0</strong><span>Finalizados hoje</span></div>
+        </div>
+        <div class="pv-stat">
+            <i class="fa-solid fa-sack-dollar"></i>
+            <div><strong id="pvValorEmAberto">R$ 0,00</strong><span>Valor em aberto</span></div>
+        </div>
+        <div class="pv-stat">
+            <i class="fa-solid fa-receipt"></i>
+            <div><strong id="pvTicketMedio">R$ 0,00</strong><span>Ticket médio</span></div>
+        </div>
+        <div class="pv-stat">
+            <i class="fa-solid fa-stopwatch"></i>
+            <div><strong id="pvTempoMedio">—</strong><span>Tempo médio atend.</span></div>
+        </div>
+    </section>
+
+    <!-- Filtros -->
+    <div class="barra-filtros">
+        <div class="filtros-linha">
+            <label class="busca-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="buscaPedidos" placeholder="Número, cliente, CPF, telefone, vendedor ou código...">
+            </label>
+            <select id="filtroStatusPedido">
+                <option value="ATIVOS" selected>Pedidos ativos</option>
+                <option value="">Todos os status</option>
+                <option value="EM_ABERTO">Em aberto</option>
+                <option value="ORCAMENTO">Orçamento</option>
+                <option value="RESERVADO">Reservado</option>
+                <option value="SEPARACAO">Separação</option>
+                <option value="PRONTO_RETIRADA">Pronto para retirada</option>
+                <option value="AGUARDANDO_PAGAMENTO">Aguardando pagamento</option>
+                <option value="IMPORTADO_PDV">Importado no PDV</option>
+                <option value="FINALIZADO">Finalizado</option>
+                <option value="CANCELADO">Cancelado</option>
+            </select>
+            <button type="button" class="btn-limpar-filtro" id="btnLimparFiltrosPedidos" title="Limpar filtros">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button type="button" class="btn-filtrar" onclick="alternarPainelRelatoriosPedidos()">
+                <i class="fa-solid fa-chart-simple"></i> Relatórios
+            </button>
+        </div>
+        <div class="filtros-linha filtros-periodo">
+            <button type="button" class="pv-periodo-btn" data-periodo="hoje">Hoje</button>
+            <button type="button" class="pv-periodo-btn" data-periodo="semana">Semana</button>
+            <button type="button" class="pv-periodo-btn ativo" data-periodo="mes">Mês</button>
+            <button type="button" class="pv-periodo-btn" data-periodo="personalizado">Personalizado</button>
+            <span class="pv-personalizado-wrap" id="filtroPersonalizadoWrap" hidden>
+                <input type="date" id="filtroPersonalizadoIni">
+                <span>até</span>
+                <input type="date" id="filtroPersonalizadoFim">
+            </span>
+        </div>
+    </div>
+
+    <!-- Relatórios (painel colapsável) -->
+    <section class="painel pv-painel-relatorios" id="pvPainelRelatorios" hidden>
+        <div class="pv-rel-cabecalho">
+            <h3><i class="fa-solid fa-chart-simple"></i> Relatórios do módulo</h3>
+        </div>
+        <div class="pv-rel-metricas">
+            <div><label>Cancelados</label><strong id="pvRelCancelados">0</strong></div>
+            <div><label>Convertidos em venda</label><strong id="pvRelConvertidos">0</strong></div>
+            <div><label>Em aberto</label><strong id="pvRelEmAberto">0</strong></div>
+            <div><label>Reservados</label><strong id="pvRelReservados">0</strong></div>
+            <div><label>Tempo médio conversão</label><strong id="pvRelTempoConversao">—</strong></div>
+            <div><label>Conversão orçamento → venda</label><strong id="pvRelConversaoTaxa">0%</strong></div>
+        </div>
+        <div class="pv-rel-grid">
+            <div class="pv-rel-bloco"><h4>Pedidos por vendedor</h4><div id="pvRelVendedores"></div></div>
+            <div class="pv-rel-bloco"><h4>Pedidos por cliente</h4><div id="pvRelClientes"></div></div>
+            <div class="pv-rel-bloco"><h4>Produtos mais orçados</h4><div id="pvRelProdutosOrcados"></div></div>
+            <div class="pv-rel-bloco"><h4>Produtos mais vendidos via pedidos</h4><div id="pvRelProdutosVendidos"></div></div>
+        </div>
+    </section>
+
+    <!-- Tabela principal -->
+    <section class="painel">
+        <div class="tabela-wrap">
+            <table id="tabelaPedidosVenda">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Telefone</th>
+                        <th>Vendedor</th>
+                        <th>Itens</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Status</th>
+                        <th>Origem</th>
+                        <th>Última alteração</th>
+                        <th class="col-acoes-pv">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaPedidosVenda">
+                    <tr><td colspan="12" class="vazio">Carregando pedidos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tabela-rodape">
+            <span id="infoResultadosPedidos">0 pedidos</span>
+            <button type="button" class="btn-secundario" id="btnCarregarMaisPedidos" hidden>Carregar mais</button>
+        </div>
+    </section>
+
+</main>
+
+<!-- Drawer: Tela do pedido -->
+<div class="pv-drawer-overlay" id="pvDrawerOverlay" hidden aria-hidden="true">
+    <form class="pv-drawer" id="formPedidoVenda" role="dialog" aria-labelledby="pvDrawerTitulo">
+
+        <div class="pv-drawer-header">
+            <div>
+                <h2 id="pvDrawerTitulo">Novo pedido</h2>
+                <div class="pv-cabecalho-grid">
+                    <span class="pv-cabecalho-item"><label>Número</label><strong id="pvCabecalhoNumero">—</strong></span>
+                    <span class="pv-cabecalho-item"><label>Data</label><strong id="pvCabecalhoData">—</strong></span>
+                    <span class="pv-cabecalho-item"><label>Vendedor</label><strong id="pvCabecalhoVendedor">—</strong></span>
+                    <span class="pv-cabecalho-item"><label>Empresa</label><strong id="pvCabecalhoEmpresa">—</strong></span>
+                    <span class="pv-cabecalho-item pv-cabecalho-item-status"><label>Status</label><strong id="pvCabecalhoStatus">—</strong></span>
+                </div>
+                <span class="pv-selo-reserva" id="pvSeloReserva" hidden><i class="fa-solid fa-lock"></i> Estoque reservado</span>
+            </div>
+            <button type="button" class="modal-fechar" id="btnFecharDrawerPedido" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <p class="pv-banner-travado" id="pvBannerTravado" hidden>
+            <i class="fa-solid fa-lock"></i> Este pedido já foi resolvido no Caixa PDV (ou cancelado) e não pode mais ser editado.
+        </p>
+
+        <div class="pv-drawer-body">
+            <div class="pv-drawer-coluna-principal">
+
+                <!-- Cliente -->
+                <section class="pv-secao">
+                    <h3><i class="fa-solid fa-user"></i> Cliente</h3>
+                    <div class="pv-busca-wrap">
+                        <input type="search" id="buscaClientePedidoVenda" placeholder="Buscar cliente por nome, CPF/CNPJ, telefone ou cidade...">
+                        <div class="pv-resultado-lista" id="resultadoBuscaClientePedido"></div>
+                    </div>
+                    <div id="clientePedidoSelecionado"><span class="pv-sem-cliente">Consumidor não identificado</span></div>
+                </section>
+
+                <!-- Produtos -->
+                <section class="pv-secao">
+                    <h3><i class="fa-solid fa-boxes-stacked"></i> Produtos</h3>
+                    <div class="pv-busca-wrap">
+                        <input type="search" id="buscaProdutoPedidoVenda" placeholder="Código, código de barras, descrição, referência, EAN, marca, NCM, grupo ou categoria...">
+                        <div class="pv-resultado-lista" id="resultadoBuscaProdutoPedido"></div>
+                    </div>
+                    <div class="tabela-wrap">
+                        <table class="pv-itens-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                    <th class="th-num">Qtd.</th>
+                                    <th class="th-num">Preço</th>
+                                    <th class="th-num">Desconto</th>
+                                    <th class="th-num">Acréscimo</th>
+                                    <th class="th-num">Total</th>
+                                    <th>Observações</th>
+                                    <th class="th-num">Estoque disp.</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="pvItensTabela">
+                                <tr><td colspan="10" class="vazio">Nenhum item adicionado. Use a busca acima.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Observações -->
+                <section class="pv-secao">
+                    <h3><i class="fa-solid fa-note-sticky"></i> Observações</h3>
+                    <textarea id="pvObservacoesPedido" rows="2" placeholder="Observações do pedido..." oninput="atualizarObservacoesPedido(this.value)"></textarea>
+                </section>
+
+                <!-- Histórico -->
+                <section class="pv-secao">
+                    <h3><i class="fa-solid fa-clock-rotate-left"></i> Histórico de alterações</h3>
+                    <div id="pvHistoricoLista"></div>
+                </section>
+            </div>
+
+            <!-- Resumo lateral -->
+            <aside class="pv-drawer-coluna-lateral">
+                <section class="pv-secao pv-resumo-lateral">
+                    <h3><i class="fa-solid fa-calculator"></i> Resumo</h3>
+                    <div class="pv-resumo-linha"><span>Itens</span><strong id="pvResumoQtdItens">0</strong></div>
+                    <div class="pv-resumo-linha"><span>Subtotal</span><strong id="pvResumoSubtotal">R$ 0,00</strong></div>
+                    <div class="pv-resumo-linha"><span>Desconto</span><strong id="pvResumoDesconto">R$ 0,00</strong></div>
+                    <div class="pv-resumo-linha"><span>Acréscimos</span><strong id="pvResumoAcrescimos">R$ 0,00</strong></div>
+                    <div class="pv-resumo-linha">
+                        <span>Frete</span>
+                        <input type="text" inputmode="decimal" class="pv-input-moeda" id="pvResumoFreteInput" data-moeda value="0,00">
+                    </div>
+                    <div class="pv-resumo-linha pv-resumo-total"><span>Valor final</span><strong id="pvResumoValorFinal">R$ 0,00</strong></div>
+                    <div class="pv-resumo-linha"><span>Margem estimada</span><strong id="pvResumoMargem">0%</strong></div>
+                    <div class="pv-resumo-linha"><span>Lucro estimado</span><strong id="pvResumoLucro">R$ 0,00</strong></div>
+                    <div class="pv-resumo-linha" id="pvLinhaPeso" hidden><span>Peso total</span><strong id="pvResumoPeso">0 kg</strong></div>
+                    <div class="pv-resumo-linha pv-resumo-comissao"><span>Comissão do vendedor</span><strong id="pvResumoComissao">R$ 0,00</strong></div>
+                </section>
+
+                <section class="pv-secao pv-qr-secao">
+                    <h3><i class="fa-solid fa-barcode"></i> Código do pedido</h3>
+                    <div id="pvQrContainer" class="pv-qr-container"></div>
+                </section>
+            </aside>
+        </div>
+
+        <div class="pv-drawer-footer">
+            <button type="button" class="btn-secundario" onclick="fecharDrawerPedido()">Fechar</button>
+            <button type="button" class="pv-btn-footer" data-pv-somente-edicao onclick="duplicarPedidoAtual()"><i class="fa-solid fa-copy"></i> Duplicar</button>
+            <button type="button" class="pv-btn-footer" data-pv-somente-edicao onclick="reservarEstoquePedidoAtual()"><i class="fa-solid fa-lock"></i> Reservar estoque</button>
+            <button type="button" class="pv-btn-footer" data-pv-somente-edicao onclick="enviarParaSeparacaoAtual()"><i class="fa-solid fa-dolly"></i> Enviar p/ separação</button>
+            <button type="button" class="pv-btn-footer" data-pv-somente-edicao onclick="enviarParaCaixaAtual()"><i class="fa-solid fa-cash-register"></i> Enviar p/ caixa</button>
+            <button type="button" class="pv-btn-footer" onclick="imprimirPedidoAtual()"><i class="fa-solid fa-print"></i> Imprimir / PDF</button>
+            <button type="button" class="pv-btn-footer" onclick="enviarWhatsappPedidoAtual()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+            <button type="button" class="pv-btn-footer pv-btn-perigo-footer" data-pv-somente-edicao onclick="cancelarPedidoAtual()"><i class="fa-solid fa-ban"></i> Cancelar pedido</button>
+            <button type="button" class="btn-secundario" data-pv-somente-edicao onclick="salvarPedidoAtual({comoOrcamento:true})">Salvar como orçamento</button>
+            <button type="button" class="btn-primario" data-pv-somente-edicao onclick="salvarPedidoAtual({})"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+        </div>
+    </form>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/pedidosvenda.js?v=20260701-sem-login-extra"></script>
+</body>
+</html>
+

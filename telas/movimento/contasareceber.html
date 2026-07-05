@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contas a Receber</title>
+<link rel="stylesheet" href="telas/movimento/css/contas-receber.css?v=20260701-barra-acoes">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+<main class="container">
+
+    <header class="topo">
+        <div>
+            <h1>Contas a Receber</h1>
+            <p>Crédito loja, vendas parceladas e lançamentos manuais.</p>
+        </div>
+        <a class="btn-voltar" href="telas/movimento/movimento.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="cards-resumo">
+        <article class="card-resumo alerta card-filtro-receber" data-filtro-receber="vencidos" tabindex="0">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Vencidos</span>
+            <strong id="cardVencidas">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo sucesso card-filtro-receber" data-filtro-receber="pagos" tabindex="0">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Pagos</span>
+            <strong id="cardPagos">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo aviso card-filtro-receber" data-filtro-receber="vencem-hoje" tabindex="0">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>Vencem Hoje</span>
+            <strong id="cardVencemHoje">R$ 0,00</strong>
+        </article>
+        <article class="card-resumo card-filtro-receber" data-filtro-receber="a-receber" tabindex="0">
+            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+            <span>A Receber</span>
+            <strong id="cardReceber">R$ 0,00</strong>
+        </article>
+    </section>
+
+    <div class="painel">
+        <div class="secao-h">
+            <div>
+                <h2>Recebimentos</h2>
+                <p>Pesquise o cliente para exibir pendências, ou clique em um resumo para abrir o grupo.</p>
+            </div>
+            <span class="badge-count" id="totalReceber">0 contas</span>
+        </div>
+        <div class="barra-acoes">
+            <select id="filtroStatusReceber">
+                <option value="">Todos os status</option>
+                <option value="pendente">A Receber</option>
+                <option value="vencido">Vencido</option>
+                <option value="baixada">Recebido</option>
+            </select>
+            <input type="date" id="filtroVencReceber">
+            <input type="search" id="buscaReceber" placeholder="Pesquisar cliente...">
+            <div class="spacer"></div>
+            <button class="btn btn-primario" id="btnNovoReceber">
+                <i class="fa-solid fa-plus"></i> Novo Recebimento
+            </button>
+        </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="checkTodosRec"></th>
+                        <th>Cliente</th>
+                        <th>Descrição / Origem</th>
+                        <th>Vencimento</th>
+                        <th>Valor</th>
+                        <th>Saldo</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="listaReceber">
+                    <tr><td colspan="8" class="vazio">Nenhuma conta a receber.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap;gap:10px">
+            <strong style="font-size:13px;color:#64748b" id="labelSelecionadosRec"></strong>
+            <button class="btn btn-sucesso btn-sm" id="btnBaixaRec">
+                <i class="fa-solid fa-check"></i> Dar baixa selecionados
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<!-- MODAL — Novo Recebimento -->
+<div class="modal-fundo" id="modalReceber">
+    <div class="modal">
+        <button class="modal-fechar" data-fechar="modalReceber">×</button>
+        <h2 id="tituloModalReceber">Novo Recebimento</h2>
+        <div class="grade-form">
+            <label>Cliente / Devedor
+                <input type="text" id="recClienteNome" placeholder="Nome do cliente">
+            </label>
+            <label>Descrição
+                <input type="text" id="recDescricao" placeholder="Ex: Parcela 1/3, sinal...">
+            </label>
+        </div>
+        <div class="grade-form col3">
+            <label>Valor (R$)
+                <input type="text" id="recValor" data-moeda placeholder="0,00">
+            </label>
+            <label>Vencimento
+                <input type="date" id="recVencimento">
+            </label>
+            <label>Origem
+                <select id="recOrigem">
+                    <option>Crédito loja</option>
+                    <option>Cheque</option>
+                    <option>Parcelamento</option>
+                    <option>Acordo</option>
+                    <option>Outros</option>
+                </select>
+            </label>
+        </div>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalReceber">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarReceber">
+                <i class="fa-solid fa-check"></i> Salvar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL — Dar Baixa -->
+<div class="modal-fundo" id="modalBaixa">
+    <div class="modal" style="max-width:400px">
+        <button class="modal-fechar" data-fechar="modalBaixa">×</button>
+        <h2>Confirmar Recebimento</h2>
+        <p style="color:#64748b;margin-bottom:8px;font-size:13.5px" id="labelBaixaDesc"></p>
+        <div id="baixaInfoAtraso" hidden style="margin-bottom:12px;padding:8px 12px;background:#fffbeb;border-radius:8px;border:1px solid #fcd34d"></div>
+        <div class="grade-form col1">
+            <label>Valor recebido (R$)
+                <small style="font-weight:400;color:#64748b">Inclui multa e juros se houver atraso</small>
+                <input type="text" id="baixaValor" data-moeda placeholder="0,00">
+            </label>
+            <label>Data do recebimento
+                <input type="date" id="baixaData">
+            </label>
+            <label>Forma de recebimento
+                <select id="baixaForma">
+                    <option>Dinheiro</option>
+                    <option>PIX</option>
+                    <option>Cartão de crédito</option>
+                    <option>Cartão de débito</option>
+                    <option>Transferência</option>
+                    <option>Cheque</option>
+                </select>
+            </label>
+        </div>
+        <div class="modal-acoes">
+            <button class="btn btn-secundario" data-fechar="modalBaixa">Cancelar</button>
+            <button class="btn btn-sucesso" id="btnConfirmarBaixa">
+                <i class="fa-solid fa-check"></i> Confirmar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/contas-receber.js"></script>
+</body>
+</html>
+

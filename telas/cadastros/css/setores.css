@@ -1,0 +1,368 @@
+/* ══════════════════════════════════════════════════════
+   setores.css — Grupos, Marcas e Níveis
+   ══════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: #edf1f5;
+    color: #1e3048;
+    font-size: 14px;
+    line-height: 1.55;
+    padding-bottom: 60px;
+}
+
+/* ─── APP SHELL ───────────────────────────────────────── */
+.app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 20px 0;
+}
+
+/* ─── TOPBAR ──────────────────────────────────────────── */
+.topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.topbar-info .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #8299b0;
+    text-decoration: none;
+    margin-bottom: 4px;
+    transition: color 140ms;
+}
+.topbar-info .breadcrumb:hover { color: #1A436B; }
+
+.topbar-info h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1A436B;
+    line-height: 1.2;
+}
+
+.topbar-info p {
+    font-size: 13px;
+    color: #8299b0;
+    margin-top: 3px;
+}
+
+/* ─── BOTÕES ──────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 150ms, transform 100ms;
+    white-space: nowrap;
+}
+.btn:active { transform: scale(.97); }
+
+.btn-primario  { background: #1A436B; color: #fff; }
+.btn-primario:hover { background: #122f4e; }
+
+.btn-secundario { background: #e2edf8; color: #1A436B; }
+.btn-secundario:hover { background: #d0e3f3; }
+
+.btn-perigo { background: #fff0f0; color: #b42318; border: 1px solid #f8b4b1; }
+.btn-perigo:hover { background: #ffe0e0; }
+
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+.btn-fechar {
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; border-radius: 8px;
+    background: #f1f5f9; color: #4a5d72;
+    cursor: pointer; font-size: 15px;
+    flex-shrink: 0;
+    transition: background 140ms;
+}
+.btn-fechar:hover { background: #e2edf8; color: #b42318; }
+
+/* ─── ABAS ────────────────────────────────────────────── */
+.abas {
+    display: flex;
+    gap: 4px;
+    background: #fff;
+    border-radius: 12px 12px 0 0;
+    border: 1px solid #d9e4f0;
+    border-bottom: none;
+    padding: 8px 12px 0;
+    overflow-x: auto;
+}
+
+.aba {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px 8px 0 0;
+    background: transparent;
+    color: #4a5d72;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: color 150ms, background 150ms;
+    white-space: nowrap;
+}
+.aba:hover { color: #1A436B; background: #eef5ff; }
+.aba.ativo {
+    color: #1A436B;
+    font-weight: 700;
+    background: #edf1f5;
+}
+.aba.ativo::after {
+    content: "";
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: #1A436B;
+    border-radius: 2px 2px 0 0;
+}
+
+/* ─── CONTEÚDO DAS ABAS ───────────────────────────────── */
+main {
+    background: #fff;
+    border: 1px solid #d9e4f0;
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    padding: 24px;
+    min-height: 420px;
+}
+
+.aba-view { display: block; }
+.aba-view.oculto { display: none; }
+
+/* ─── BARRA DE AÇÃO ───────────────────────────────────── */
+.barra-acao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.busca-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 360px;
+}
+.busca-wrap i {
+    position: absolute;
+    left: 11px; top: 50%;
+    transform: translateY(-50%);
+    color: #8299b0;
+    font-size: 13px;
+    pointer-events: none;
+}
+.busca-wrap input {
+    width: 100%;
+    padding: 8px 10px 8px 34px;
+    border: 1.5px solid #d9e4f0;
+    border-radius: 8px;
+    font-size: 13px;
+    background: #f7fafd;
+    color: #1e3048;
+    transition: border-color 150ms;
+    outline: none;
+}
+.busca-wrap input:focus { border-color: #1A436B; background: #fff; }
+
+/* ─── TABELA ──────────────────────────────────────────── */
+.tabela-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid #d9e4f0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+thead th {
+    background: #f7fafd;
+    color: #4a5d72;
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1.5px solid #d9e4f0;
+    white-space: nowrap;
+}
+
+tbody tr { border-bottom: 1px solid #e8f0f9; transition: background 120ms; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f7fafd; }
+
+tbody td {
+    padding: 10px 14px;
+    color: #1e3048;
+    vertical-align: middle;
+}
+
+.vazio {
+    text-align: center;
+    color: #8299b0;
+    font-style: italic;
+    padding: 32px 14px !important;
+}
+
+.col-cor  { width: 40px; }
+.col-acoes { width: 100px; text-align: right !important; }
+
+/* ─── BOLINHA COR ─────────────────────────────────────── */
+.bolinha-cor {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,.1);
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* ─── BADGE SITUAÇÃO ──────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+}
+.badge-ativo   { background: #e6f4ee; color: #0e7a57; }
+.badge-inativo { background: #fff4f4; color: #b42318; }
+
+/* ─── AÇÕES DA LINHA ──────────────────────────────────── */
+.acoes-linha {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+}
+
+/* ─── MODAIS ──────────────────────────────────────────── */
+.modal-fundo {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,30,55,.42);
+    z-index: 900;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-fundo.aberto { display: flex; }
+
+.modal {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 60px rgba(10,30,55,.18);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid #e8f0f9;
+}
+.modal-topo h2 { font-size: 16px; font-weight: 700; color: #1A436B; }
+.modal-topo p  { font-size: 12px; color: #8299b0; margin-top: 2px; }
+
+.modal-corpo {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-rodape {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding: 14px 20px;
+    border-top: 1px solid #e8f0f9;
+}
+
+/* ─── FORM GRID ───────────────────────────────────────── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #4a5d72;
+}
+
+.campo-total { grid-column: 1 / -1; }
+
+.form-grid input[type="text"],
+.form-grid input[type="number"],
+.form-grid select,
+.form-grid textarea {
+    padding: 8px 10px;
+    border: 1.5px solid #d9e4f0;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #1e3048;
+    background: #f7fafd;
+    outline: none;
+    transition: border-color 150ms;
+    font-family: inherit;
+    resize: vertical;
+}
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus { border-color: #1A436B; background: #fff; }
+
+.obrigatorio { color: #b42318; margin-left: 2px; }
+
+/* ─── CAMPO COR ───────────────────────────────────────── */
+.campo-cor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1.5px solid #d9e4f0;
+    border-radius: 8px;
+    background: #f7fafd;
+    transition: border-color 150ms;
+}
+.campo-cor:focus-within { border-color: #1A436B; background: #fff; }
+
+.campo-cor input[type="color"] {
+    width: 28px; height: 28px;
+    border: none; border-radius: 6px;
+    padding: 0; cursor: pointer;
+    background: transparent;
+}
+.campo-cor span {
+    font-size: 12px;
+    color: #4a5d72;
+    font-family: monospace;
+}

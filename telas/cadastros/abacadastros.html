@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastros</title>
+
+<link rel="stylesheet" href="telas/cadastros/css/abacadastros.css">
+
+<link rel="stylesheet"
+href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+
+        <h1>Cadastros</h1>
+
+        <p>
+            Gerencie clientes, mercadorias, fornecedores,
+            usuários e demais informações do sistema.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <a href="telas/cadastros/clientes.html" class="card" data-permissao="cadastros">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h2>Clientes</h2>
+
+            <span>Cadastro e crédito de clientes</span>
+
+        </a>
+
+        <a href="telas/cadastros/mercadorias.html" class="card" data-permissao="cadastros">
+
+            <i class="fa-solid fa-box"></i>
+
+            <h2>Mercadorias</h2>
+
+            <span>Produtos e estoque</span>
+
+        </a>
+
+        <a href="telas/cadastros/cadastroproduto.html?cadastro=novo" class="card" data-permissao="mercadoriasEditar">
+
+            <i class="fa-solid fa-square-plus"></i>
+
+            <h2>Cadastrar Produto</h2>
+
+            <span>Novo item, estoque, preços e tributação</span>
+
+        </a>
+
+        <a href="telas/cadastros/fornecedores.html" class="card" data-permissao="cadastros">
+
+            <i class="fa-solid fa-truck"></i>
+
+            <h2>Fornecedores</h2>
+
+            <span>Cadastro de fornecedores</span>
+
+        </a>
+
+        <a href="telas/cadastros/formaspagamento.html" class="card" data-permissao="formasPagamentoEditar">
+
+            <i class="fa-solid fa-credit-card"></i>
+
+            <h2>Formas de Pagamento</h2>
+
+            <span>PIX, cartão, dinheiro e boleto</span>
+
+        </a>
+
+        <a href="telas/cadastros/usuarios.html" class="card" data-permissao="usuarios">
+
+            <i class="fa-solid fa-user-shield"></i>
+
+            <h2>Usuários</h2>
+
+            <span>Permissões e acessos</span>
+
+        </a>
+
+        <a href="telas/cadastros/tabelaprecos.html" class="card" data-permissao="tabelasPrecoEditar">
+
+            <i class="fa-solid fa-tags"></i>
+
+            <h2>Tabela de Preço</h2>
+
+            <span>Varejo, atacado e promoções</span>
+
+        </a>
+
+        <a href="telas/cadastros/setores.html" class="card" data-permissao="cadastros">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            <h2>Setores</h2>
+
+            <span>Grupos, marcas e níveis</span>
+
+        </a>
+
+    </div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

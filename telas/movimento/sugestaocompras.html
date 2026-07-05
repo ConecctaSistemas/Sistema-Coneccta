@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sugestão de Compras</title>
+<link rel="stylesheet" href="telas/movimento/css/sugestaocompras.css?v=20260701-paginacao-direita">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702-voltar-sugestao">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div>
+            <a href="telas/movimento/movimento.html" class="voltar">Movimento</a>
+            <h1>Sugestão de Compras</h1>
+            <p>Analise o giro dos produtos e compre apenas o necessário para manter o estoque saudável.</p>
+        </div>
+        <a href="telas/movimento/movimento.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="painel painel-filtros">
+        <div class="secao-titulo">
+            <div>
+                <h2>Filtros de análise</h2>
+                <p>Defina o período histórico e refine por fornecedor, categoria ou situação do estoque.</p>
+            </div>
+        </div>
+
+        <form id="formFiltrosSugestao" class="grade-filtros-compras">
+            <label>
+                Período de análise
+                <select id="filtroPeriodo">
+                    <option value="7">Últimos 7 dias</option>
+                    <option value="15">Últimos 15 dias</option>
+                    <option value="30" selected>Últimos 30 dias</option>
+                    <option value="60">Últimos 60 dias</option>
+                    <option value="90">Últimos 90 dias</option>
+                    <option value="personalizado">Personalizado</option>
+                </select>
+            </label>
+
+            <label>
+                Cobertura desejada (dias)
+                <input type="number" id="filtroCobertura" min="1" step="1" value="30">
+            </label>
+
+            <label>
+                Fornecedor
+                <select id="filtroFornecedor"></select>
+            </label>
+
+            <label>
+                Categoria
+                <select id="filtroCategoria"></select>
+            </label>
+
+            <label>
+                Marca
+                <select id="filtroMarca"></select>
+            </label>
+
+            <label>
+                Departamento
+                <select id="filtroDepartamento"></select>
+            </label>
+
+            <label class="campo-busca-compras">
+                Busca
+                <input type="search" id="buscaSugestaoCompras" placeholder="Código, produto, categoria ou fornecedor...">
+            </label>
+
+            <label>
+                Estoque até (menor ou igual a)
+                <input type="number" id="filtroEstoqueAte" min="0" step="1" placeholder="Ex.: 10">
+            </label>
+
+            <label>
+                Ordenar por
+                <select id="filtroOrdenarPor">
+                    <option value="codigo">Código</option>
+                    <option value="descricao">Produto</option>
+                    <option value="estoque">Estoque atual</option>
+                    <option value="vendaMensal">Venda média mensal</option>
+                    <option value="diasCobertura">Dias de cobertura</option>
+                    <option value="valorEstimadoBase">Valor estimado</option>
+                    <option value="situacao">Situação</option>
+                </select>
+            </label>
+
+            <label>
+                Direção
+                <select id="filtroOrdenarDirecao">
+                    <option value="asc">Crescente</option>
+                    <option value="desc">Decrescente</option>
+                </select>
+            </label>
+        </form>
+
+        <div class="grupo-periodo-personalizado oculto" id="grupoPeriodoPersonalizado">
+            <label>
+                Data inicial
+                <input type="date" id="filtroDataInicio">
+            </label>
+            <label>
+                Data final
+                <input type="date" id="filtroDataFim">
+            </label>
+        </div>
+
+        <div class="linha-checkboxes-compras">
+            <label class="check-compras"><input type="checkbox" id="filtroEstoqueBaixo"> Apenas produtos com estoque baixo</label>
+            <label class="check-compras"><input type="checkbox" id="filtroRuptura"> Apenas produtos próximos de ruptura</label>
+            <label class="check-compras"><input type="checkbox" id="filtroSemVenda"> Apenas produtos sem venda</label>
+            <label class="check-compras"><input type="checkbox" id="filtroAltaSaida"> Apenas produtos com alta saída</label>
+        </div>
+
+        <div class="rodape-filtros-compras">
+            <button type="button" class="btn secundario" id="btnLimparFiltros"><i class="fa-solid fa-eraser"></i> Limpar filtros</button>
+            <button type="button" class="btn primario" id="btnAtualizarAnalise"><i class="fa-solid fa-rotate"></i> Atualizar análise</button>
+        </div>
+    </section>
+
+    <section class="resumo resumo-compras">
+        <div>
+            <strong id="kpiAnalisados">0</strong>
+            <span>Produtos analisados</span>
+        </div>
+        <div>
+            <strong id="kpiComSugestao">0</strong>
+            <span>Com sugestão de compra</span>
+        </div>
+        <div>
+            <strong id="kpiValorEstimado">R$ 0,00</strong>
+            <span>Valor estimado da compra</span>
+        </div>
+        <div>
+            <strong id="kpiRisco">0</strong>
+            <span>Em risco de faltar</span>
+        </div>
+        <div>
+            <strong id="kpiParados">0</strong>
+            <span>Produtos parados</span>
+        </div>
+        <div>
+            <strong id="kpiEstoqueTotal">0</strong>
+            <span>Estoque atual total</span>
+        </div>
+        <div>
+            <strong id="kpiGiroMedio">0</strong>
+            <span>Giro médio mensal</span>
+        </div>
+    </section>
+
+    <section class="painel painel-alertas-compras">
+        <div class="secao-titulo">
+            <div>
+                <h2>Alertas inteligentes</h2>
+                <p>Pontos de atenção identificados automaticamente na análise atual.</p>
+            </div>
+            <span id="contadorAlertasCompras">0</span>
+        </div>
+        <div class="lista-alertas-compras" id="listaAlertasCompras"></div>
+    </section>
+
+    <section class="painel painel-tabela-compras">
+        <div class="secao-titulo">
+            <div>
+                <h2>Produtos analisados</h2>
+                <p>Revise, altere ou ignore os produtos antes de gerar o pedido de compra.</p>
+            </div>
+            <span id="contadorTabelaSugestao">0 produto(s)</span>
+        </div>
+
+        <div class="barra-acoes-principais">
+            <button type="button" class="btn primario" id="btnGerarPedidoCompra"><i class="fa-solid fa-cart-shopping"></i> Gerar pedido de compra</button>
+            <button type="button" class="btn secundario" id="btnExportarExcel"><i class="fa-solid fa-file-csv"></i> Exportar Excel</button>
+            <button type="button" class="btn secundario" id="btnImprimirSugestao"><i class="fa-solid fa-print"></i> Imprimir relatório</button>
+
+            <div class="barra-paginacao-compras" id="paginacaoSugestao">
+                <button type="button" class="btn secundario btn-icone" id="btnPaginaAnterior" aria-label="Página anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                <input type="range" id="sliderPaginacao" min="1" max="1" value="1" step="1" aria-label="Navegar entre as páginas de produtos">
+                <button type="button" class="btn secundario btn-icone" id="btnPaginaProxima" aria-label="Próxima página"><i class="fa-solid fa-chevron-right"></i></button>
+                <span id="infoPaginacao">Página 1 de 1</span>
+                <label class="campo-itens-pagina">
+                    Itens por página
+                    <select id="filtroItensPorPagina">
+                        <option value="15">15</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="99999">Todos</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div class="tabela-wrap tabela-wrap-compras">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Produto</th>
+                        <th>Categoria</th>
+                        <th>Fornecedor</th>
+                        <th>Estoque atual</th>
+                        <th>Estoque mínimo</th>
+                        <th>Estoque máximo</th>
+                        <th>Venda média diária</th>
+                        <th>Venda média mensal</th>
+                        <th>Dias de cobertura</th>
+                        <th>Prazo de entrega</th>
+                        <th>Quantidade sugerida</th>
+                        <th>Custo unitário</th>
+                        <th>Valor estimado</th>
+                        <th>Situação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaSugestao"></tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+<!-- Cesta de compras (flutuante) -->
+<button type="button" class="botao-flutuante-cesta" id="btnAbrirCesta" aria-label="Abrir cesta de compras">
+    <i class="fa-solid fa-basket-shopping"></i>
+    <span id="contadorCesta">0</span>
+</button>
+
+<!-- Modal: cesta de compras -->
+<div class="modal-contagem recolhido" id="modalCestaCompras" role="dialog" aria-modal="true" aria-labelledby="tituloModalCesta">
+    <div class="modal-card modal-card-pedido">
+        <div class="modal-topo">
+            <div>
+                <h2 id="tituloModalCesta">Cesta de compras</h2>
+                <p>Produtos adicionados manualmente para consulta ou envio ao fornecedor.</p>
+            </div>
+            <button type="button" class="btn secundario btn-icone" id="btnFecharModalCesta" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="pedido-resumo-topo">
+            <span id="contadorCestaModal">0 produto(s)</span>
+            <span class="pedido-total-geral">Valor total geral: <strong id="cestaTotalGeral">R$ 0,00</strong></span>
+        </div>
+
+        <div id="blocosCestaFornecedor" class="blocos-pedido-fornecedor"></div>
+
+        <div class="modal-acoes-pedido cesta-toolbar">
+            <button type="button" class="btn secundario" id="btnLimparCesta"><i class="fa-solid fa-trash"></i> Limpar cesta</button>
+            <button type="button" class="btn primario" id="btnImprimirCesta"><i class="fa-solid fa-print"></i> Imprimir</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: histórico de vendas -->
+<div class="modal-contagem recolhido" id="modalHistoricoCompras" role="dialog" aria-modal="true" aria-labelledby="histTituloProduto">
+    <div class="modal-card modal-card-historico">
+        <div class="modal-topo">
+            <div>
+                <h2 id="histTituloProduto">Produto</h2>
+                <p id="histCodigoProduto"></p>
+            </div>
+            <button type="button" class="btn secundario btn-icone" id="btnFecharModalHistorico" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="historico-grafico-area">
+            <canvas id="histGraficoCanvas" width="640" height="140"></canvas>
+        </div>
+
+        <div class="modal-grid historico-grid">
+            <div class="historico-stat"><span>Estoque atual</span><strong id="histEstoqueAtual">0</strong></div>
+            <div class="historico-stat"><span>Vendido - 7 dias</span><strong id="histV7">0</strong></div>
+            <div class="historico-stat"><span>Vendido - 15 dias</span><strong id="histV15">0</strong></div>
+            <div class="historico-stat"><span>Vendido - 30 dias</span><strong id="histV30">0</strong></div>
+            <div class="historico-stat"><span>Vendido - 60 dias</span><strong id="histV60">0</strong></div>
+            <div class="historico-stat"><span>Vendido - 90 dias</span><strong id="histV90">0</strong></div>
+            <div class="historico-stat"><span>Última compra</span><strong id="histUltimaCompra">-</strong></div>
+            <div class="historico-stat"><span>Último fornecedor</span><strong id="histUltimoFornecedor">-</strong></div>
+            <div class="historico-stat"><span>Custo atual</span><strong id="histCustoAtual">-</strong></div>
+            <div class="historico-stat"><span>Preço de venda</span><strong id="histPrecoVenda">-</strong></div>
+            <div class="historico-stat"><span>Margem atual</span><strong id="histMargem">-</strong></div>
+            <div class="historico-stat"><span>Previsão de ruptura</span><strong id="histPrevisaoRuptura">-</strong></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: fornecedores do produto -->
+<div class="modal-contagem recolhido" id="modalFornecedoresProduto" role="dialog" aria-modal="true" aria-labelledby="fornTituloProduto">
+    <div class="modal-card modal-card-fornecedores">
+        <div class="modal-topo">
+            <div>
+                <h2 id="fornTituloProduto">Produto</h2>
+                <p>Fornecedores disponíveis para este departamento.</p>
+            </div>
+            <button type="button" class="btn secundario btn-icone" id="btnFecharModalFornecedores" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="listaFornecedoresProduto" class="lista-fornecedores-produto"></div>
+    </div>
+</div>
+
+<!-- Modal: gerar pedido de compra -->
+<div class="modal-contagem recolhido" id="modalPedidoCompra" role="dialog" aria-modal="true" aria-labelledby="tituloModalPedidoCompra">
+    <div class="modal-card modal-card-pedido">
+        <div class="modal-topo">
+            <div>
+                <h2 id="tituloModalPedidoCompra">Gerar pedido de compra</h2>
+                <p>Confira e ajuste as quantidades antes de confirmar. Um pedido será criado por fornecedor.</p>
+            </div>
+            <button type="button" class="btn secundario btn-icone" id="btnFecharModalPedido" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="pedido-resumo-topo">
+            <span id="pedidoQtdFornecedores">0 fornecedor(es)</span>
+            <span class="pedido-total-geral">Valor total geral: <strong id="pedidoTotalGeral">R$ 0,00</strong></span>
+        </div>
+
+        <div id="blocosPedidoFornecedor" class="blocos-pedido-fornecedor"></div>
+
+        <div class="modal-acoes-pedido">
+            <button type="button" class="btn secundario" id="btnCancelarPedido">Cancelar</button>
+            <button type="button" class="btn primario" id="btnConfirmarPedido"><i class="fa-solid fa-check"></i> Confirmar pedido(s) de compra</button>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="telas/movimento/js/sugestaocompras.js?v=20260701-cesta-paginacao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

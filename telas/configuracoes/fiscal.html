@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Configurações Fiscais</title>
+
+<link rel="stylesheet" href="telas/configuracoes/css/fiscal.css">
+
+<link rel="stylesheet"
+href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Configurações Fiscais</h1>
+                <p>Certificado digital, NF-e, NFC-e e parâmetros fiscais.</p>
+            </div>
+            <a class="btn-voltar" href="telas/configuracoes/manutenção.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <section class="painel painel-expansivel configuracoes-fiscais" id="configuracoesFiscais">
+
+        <div class="painel-cabecalho">
+            <div>
+                <span>Manutenção</span>
+                <h2>Configurações Fiscais</h2>
+                <p>Centralize os dados necessários para emissão de NF-e, NFC-e.</p>
+            </div>
+            <strong id="statusConfiguracoesFiscais">Configurações fiscais padrão</strong>
+        </div>
+
+        <nav class="abas-fiscais" aria-label="Abas de configurações fiscais">
+            <button type="button" class="aba-fiscal ativa" data-fiscal-aba-botao="tributacao">Tributação</button>
+            <button type="button" class="aba-fiscal" data-fiscal-aba-botao="certificado">Certificado Digital</button>
+            <button type="button" class="aba-fiscal" data-fiscal-aba-botao="notas">Notas Fiscais</button>
+            <button type="button" class="aba-fiscal" data-fiscal-aba-botao="avancado">Avançado</button>
+        </nav>
+
+        <form id="formConfiguracoesFiscais" class="form-empresa">
+            <div class="secao-form">
+                <h3>Certificado digital A1</h3>
+                <div class="grid-form grid-certificado-a1">
+                    <div class="campo-largo certificado-upload">
+                        <span class="rotulo-campo">Arquivo do certificado (.pfx / .p12)</span>
+                        <label class="certificado-upload-box" for="fiscalCertificadoUpload">
+                            <strong id="certificadoSelecionarAcao">Selecionar certificado</strong>
+                            <small id="certificadoUploadNome">Nenhum certificado selecionado</small>
+                        </label>
+                        <button type="button" class="btn-remover-certificado" id="btnRemoverCertificado" aria-label="Remover certificado atual" hidden>x</button>
+                        <input type="file" id="fiscalCertificadoUpload" class="input-arquivo-certificado" accept=".pfx,.p12,application/x-pkcs12">
+                        <input type="hidden" id="fiscalCertificadoArquivo" name="fiscalCertificadoArquivo">
+                        <input type="hidden" id="fiscalCertificadoConteudo" name="fiscalCertificadoConteudo">
+                        <input type="hidden" id="fiscalCertificadoTamanho" name="fiscalCertificadoTamanho">
+                        <input type="hidden" id="fiscalCertificadoUploadEm" name="fiscalCertificadoUploadEm">
+                        <input type="hidden" id="fiscalCertificadoValidade" name="fiscalCertificadoValidade">
+                    </div>
+                    <label>
+                        Senha do certificado
+                        <input type="password" id="fiscalCertificadoSenha" name="fiscalCertificadoSenha" placeholder="Senha A1">
+                    </label>
+                    <div class="campo-total licenca-resumo" id="certificadoResumo">
+                        <strong>Nenhum certificado carregado</strong>
+                        <span>Faça upload do arquivo A1. A validade será identificada pelo sistema.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secao-form">
+                <h3>Parâmetros fiscais</h3>
+                <div class="grid-form">
+                    <label>
+                        UF de emissão
+                        <select id="fiscalUf" name="fiscalUf">
+                            <option value="">Selecione</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
+                    </label>
+                    <label>
+                        Ambiente SEFAZ
+                        <select id="fiscalAmbiente" name="fiscalAmbiente">
+                            <option value="homologacao">Homologação</option>
+                            <option value="producao">Produção</option>
+                        </select>
+                    </label>
+                    <label>
+                        Regime tributário
+                        <select id="fiscalRegimeTributario" name="fiscalRegimeTributario">
+                            <option value="mei">MEI</option>
+                            <option value="simplesNacional">Simples Nacional</option>
+                            <option value="presumido">Lucro Presumido</option>
+                            <option value="real">Lucro Real</option>
+                            <option value="simplesExcessoSubLimite">Simples Excesso Sublimite</option>
+                            <option value="meiEmissaoFiscal">MEI - Emissão Fiscal</option>
+                        </select>
+                    </label>
+                    <div class="campo-total fiscal-regra-resumo" id="fiscalRegraResumo">
+                        <strong>Perfil fiscal automático</strong>
+                        <span>Selecione o regime tributário. CFOP e CST/CSOSN serão sugeridos automaticamente pela tributação de venda.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secao-form fiscal-aba-conteudo" data-fiscal-aba="tributacao" hidden>
+                <h3>TRIBUTAÇÃO</h3>
+                <div class="grid-form grid-fiscal-real">
+                    <label class="campo-total">
+                        Situação Tributária PIS/COFINS padrão
+                        <select id="fiscalCstPisPadrao" name="fiscalCstPisPadrao">
+                            <option value="01">01 - Operação Tributável com Alíquota Básica</option>
+                            <option value="02">02 - Operação Tributável com Alíquota Diferenciada</option>
+                            <option value="03">03 - Operação Tributável por Unidade de Medida de Produto</option>
+                            <option value="04">04 - Operação Tributável Monofásica</option>
+                            <option value="05">05 - Operação Tributável por Substituição Tributária</option>
+                            <option value="06">06 - Operação Tributável a Alíquota Zero</option>
+                            <option value="07">07 - Operação Isenta da Contribuição</option>
+                            <option value="08">08 - Operação sem Incidência da Contribuição</option>
+                            <option value="09">09 - Operação com Suspensão da Contribuição</option>
+                            <option value="49">49 - Outras Operações de Saída</option>
+                            <option value="99">99 - Outras Operações</option>
+                        </select>
+                    </label>
+                    <label>
+                        Alíquota PIS
+                        <input type="number" step="0.0001" id="fiscalAliquotaPisPadrao" name="fiscalAliquotaPisPadrao" placeholder="0,0000 %">
+                    </label>
+
+                    <label>
+                        Alíquota COFINS
+                        <input type="number" step="0.0001" id="fiscalAliquotaCofinsPadrao" name="fiscalAliquotaCofinsPadrao" placeholder="0,0000 %">
+                    </label>
+                    <label>
+                        Alíquota ICMS padrão
+                        <input type="number" step="0.01" id="fiscalAliquotaIcmsPadrao" name="fiscalAliquotaIcmsPadrao" placeholder="0">
+                    </label>
+                    <label>
+                        CSOSN padrão
+                        <input type="text" id="fiscalCsosnPadrao" name="fiscalCsosnPadrao" placeholder="102">
+                    </label>
+                    <label>
+                        CST ICMS padrão
+                        <input type="text" id="fiscalCstIcmsPadrao" name="fiscalCstIcmsPadrao" placeholder="00">
+                    </label>
+                    <label>
+                        CST IPI padrão
+                        <select id="fiscalCstIpiPadrao" name="fiscalCstIpiPadrao"></select>
+                    </label>
+                    <label>
+                        Origem da mercadoria padrão
+                        <select id="fiscalOrigemMercadoriaPadrao" name="fiscalOrigemMercadoriaPadrao"></select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="secao-form fiscal-aba-conteudo" data-fiscal-aba="tributacao" hidden>
+                <h3>IBS/CBS - Reforma Tributária</h3>
+                <p class="texto-apoio-fiscal">Prepare o cadastro fiscal para os novos campos da Reforma Tributária em NF-e, NFC-e e futuras notas técnicas.</p>
+                <div class="grid-form grid-fiscal-real">
+                    <label class="campo-largo">
+                        CST IBS/CBS
+                        <select id="fiscalCstIbsCbs" name="fiscalCstIbsCbs">
+                            <option value="000">000 - Tributação Integral</option>
+                            <option value="010">010 - Tributação com Alíquota Reduzida</option>
+                            <option value="020">020 - Tributação Monofásica</option>
+                            <option value="030">030 - Tributação com Diferimento</option>
+                            <option value="040">040 - Isenta</option>
+                            <option value="050">050 - Imune</option>
+                            <option value="060">060 - Suspensa</option>
+                            <option value="070">070 - Alíquota Zero</option>
+                            <option value="080">080 - Não Incidência</option>
+                            <option value="090">090 - Outros</option>
+                        </select>
+                    </label>
+                    <label class="campo-largo">
+                        Classificação Tributária (cClassTrib)
+                        <select id="fiscalClassificacaoIbsCbs" name="fiscalClassificacaoIbsCbs">
+                            <option value="01">01 - Tributação Normal</option>
+                            <option value="02">02 - Redução de Alíquota</option>
+                            <option value="03">03 - Redução de Base</option>
+                            <option value="04">04 - Crédito Presumido</option>
+                            <option value="05">05 - Isenção</option>
+                            <option value="06">06 - Imunidade</option>
+                            <option value="07">07 - Suspensão</option>
+                            <option value="08">08 - Não Incidência</option>
+                            <option value="09">09 - Alíquota Zero</option>
+                            <option value="10">10 - Monofásico</option>
+                            <option value="99">99 - Outros</option>
+                        </select>
+                    </label>
+                    <div class="campo-total fiscal-regra-resumo resumo-reforma-tributaria">
+                        <strong>Grupo IBS/CBS habilitado</strong>
+                        <span>Esses códigos ficam salvos como padrão fiscal para uso futuro na emissão e no cadastro de mercadorias.</span>
+                    </div>
+                </div>
+            </div>
+
+            <details class="secao-form secao-form-expansivel">
+                <summary>Cálculos fiscais</summary>
+                <div class="grid-form grid-calculos-fiscais">
+                    <label class="campo-largo">
+                        Cálculo IBPT
+                        <select id="fiscalCalculoIbpt" name="fiscalCalculoIbpt">
+                            <option value="automatico">Automático</option>
+                            <option value="sempre">Sempre</option>
+                            <option value="nunca">Nunca</option>
+                        </select>
+                    </label>
+                    <div class="campo-total texto-ajuda-fiscal">
+                        <strong>Automático:</strong> O sistema calcula IBPT automaticamente com base nas condições do documento fiscal.<br>
+                        <strong>Sempre:</strong> Sempre calcula IBPT independente das condições.<br>
+                        <strong>Nunca:</strong> Nunca calcula IBPT.
+                    </div>
+                    <label class="checkbox-fiscal campo-total">
+                        <input type="checkbox" id="fiscalSomarIcmsDesoneradoTotalNfe" name="fiscalSomarIcmsDesoneradoTotalNfe">
+                        Somar ICMS desonerado no total da NFe
+                    </label>
+                    <label class="checkbox-fiscal campo-total">
+                        <input type="checkbox" id="fiscalZerarBasesCalculoAliquotas" name="fiscalZerarBasesCalculoAliquotas">
+                        Zerar bases de cálculo e alíquotas
+                    </label>
+                    <label class="checkbox-fiscal campo-total">
+                        <input type="checkbox" id="fiscalSomarIbsCbsNoIcms" name="fiscalSomarIbsCbsNoIcms">
+                        Somar IBS/CBS no ICMS
+                    </label>
+                    <label class="checkbox-fiscal campo-total">
+                        <input type="checkbox" id="fiscalIncluirIcmsBasePisCofins" name="fiscalIncluirIcmsBasePisCofins">
+                        Incluir valor ICMS na base PIS/COFINS
+                    </label>
+                </div>
+            </details>
+
+            <details class="secao-form secao-form-expansivel">
+                <summary>NF-e e NFC-e</summary>
+                <div class="grid-form">
+                    <label>
+                        Série NF-e
+                        <input type="number" min="1" id="fiscalSerieNfe" name="fiscalSerieNfe" placeholder="1">
+                    </label>
+                    <label>
+                        Próximo número NF-e
+                        <input type="number" min="1" id="fiscalProximoNfe" name="fiscalProximoNfe" placeholder="1">
+                    </label>
+                    <label>
+                        Série NFC-e
+                        <input type="number" min="1" id="fiscalSerieNfce" name="fiscalSerieNfce" placeholder="1">
+                    </label>
+                    <label>
+                        Próximo número NFC-e
+                        <input type="number" min="1" id="fiscalProximoNfce" name="fiscalProximoNfce" placeholder="1">
+                    </label>
+                    <label>
+                        ID CSC / Token
+                        <input type="text" id="fiscalIdCsc" name="fiscalIdCsc" placeholder="Ex.: 000001">
+                    </label>
+                    <label class="campo-largo">
+                        CSC / Código de segurança
+                        <input type="password" id="fiscalCsc" name="fiscalCsc" placeholder="Código fornecido pela SEFAZ">
+                    </label>
+                    <label>
+                        Modelo padrão
+                        <select id="fiscalModeloPadrao" name="fiscalModeloPadrao">
+                            <option value="nfce">NFC-e no PDV</option>
+                            <option value="nfe">NF-e</option>
+                            <option value="ambos">NF-e e NFC-e</option>
+                        </select>
+                    </label>
+                    <label class="campo-total">
+                        Informações complementares padrão
+                        <textarea id="fiscalInformacoesComplementares" name="fiscalInformacoesComplementares" rows="3" placeholder="Texto padrão para notas fiscais"></textarea>
+                    </label>
+                </div>
+            </details>
+
+            <details class="secao-form secao-form-expansivel">
+                <summary>Contabilidade e envio</summary>
+                <div class="grid-form">
+                    <label>
+                        Email contabilidade
+                        <input type="email" id="fiscalEmailContabilidade" name="fiscalEmailContabilidade" placeholder="contador@email.com">
+                    </label>
+                    <label>
+                        Envio automático XML
+                        <select id="fiscalEnvioXmlAutomatico" name="fiscalEnvioXmlAutomatico">
+                            <option value="nao">Não</option>
+                            <option value="sim">Sim</option>
+                        </select>
+                    </label>
+                    <label id="campoDiaEnvioXmlAutomatico" class="campo-dia-envio-xml">
+                        Dia do envio automático
+                        <input type="number" min="1" max="31" id="fiscalDiaEnvioXmlAutomatico" name="fiscalDiaEnvioXmlAutomatico" placeholder="Ex.: 5">
+                    </label>
+                    <label class="campo-largo">
+                        Webservice personalizado
+                        <input type="url" id="fiscalWebserviceUrl" name="fiscalWebserviceUrl" placeholder="Opcional">
+                    </label>
+                </div>
+            </details>
+
+        </form>
+
+            <div class="acoes-form acoes-fiscais-finais">
+                <button type="button" class="btn-secundario" id="btnRestaurarFiscais">Restaurar padrão fiscal</button>
+                <button type="button" class="btn-primario" id="btnSalvarFiscalCompleto">Salvar fiscal</button>
+            </div>
+
+    </section>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/configuracoes/js/fiscal.js"></script>
+
+</body>
+</html>
+

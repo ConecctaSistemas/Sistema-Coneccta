@@ -1,0 +1,525 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --azul:#1A436B;
+    --azul-vivo:#0b66dd;
+    --fundo:#edf1f5;
+    --card:#fff;
+    --texto:#203047;
+    --muted:#68778b;
+    --borda:#d9e4f0;
+    --sucesso:#12805c;
+    --alerta:#b45309;
+    --perigo:#b42318;
+    --sombra:0 12px 28px rgba(17,45,78,.08);
+}
+
+body{
+    min-height:100vh;
+    font-family:"Segoe UI",sans-serif;
+    background:var(--fundo);
+    color:var(--texto);
+}
+
+button,input,select{font:inherit;}
+
+.app{
+    width:min(1500px,100%);
+    margin:0 auto;
+    padding:22px;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+    min-height:96px;
+    background:var(--azul);
+    color:#fff;
+    border-radius:16px;
+    padding:22px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    box-shadow:var(--sombra);
+}
+
+.topbar h1{margin-top:4px;font-size:28px;line-height:1.1;}
+.topbar p{margin-top:7px;color:rgba(255,255,255,.82);}
+
+.voltar,.atalho{color:#fff;text-decoration:none;font-weight:700;}
+.voltar{font-size:14px;opacity:.86;}
+
+.atalho{
+    min-height:46px;
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:12px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.12);
+}
+
+/* ── RESUMO ── */
+.resumo{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+}
+
+.resumo div{
+    border:1px solid #dbe7f3;
+    border-radius:13px;
+    padding:13px;
+    background:#fff;
+    box-shadow:0 8px 18px rgba(17,45,78,.04);
+}
+
+.resumo strong{display:block;color:var(--azul);font-size:22px;line-height:1;}
+.resumo span{display:block;margin-top:6px;color:var(--muted);font-size:13px;}
+
+/* ── LAYOUT ── */
+.layout{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:minmax(360px,420px) minmax(0,1fr);
+    gap:18px;
+    align-items:start;
+}
+
+.layout-fornecedores-lista{
+    grid-template-columns:1fr;
+}
+
+/* ── PAINEL ── */
+.painel{
+    background:var(--card);
+    border:1px solid var(--borda);
+    border-radius:16px;
+    padding:20px;
+    box-shadow:var(--sombra);
+}
+
+.secao-titulo{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.secao-titulo h2{font-size:20px;color:#12365d;}
+.secao-titulo p{margin-top:4px;color:var(--muted);font-size:14px;}
+
+.secao-titulo span{
+    border-radius:999px;
+    background:#eef5ff;
+    color:#0b58bd;
+    padding:7px 10px;
+    font-size:13px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.fornecedores-lista-topo{
+    align-items:center;
+}
+
+.fornecedores-lista-topo > div{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.fornecedores-lista-topo .btn{
+    flex:0 0 auto;
+}
+
+/* ── FORMULARIO ── */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+}
+
+.campo-largo{grid-column:1 / -1;}
+
+label{
+    display:grid;
+    gap:7px;
+    font-size:13px;
+    font-weight:800;
+    color:#3b4b60;
+}
+
+input,select{
+    width:100%;
+    height:46px;
+    border:1px solid #cfdced;
+    border-radius:11px;
+    padding:0 12px;
+    color:var(--texto);
+    background:#fff;
+    outline:none;
+    transition:border-color .2s,box-shadow .2s;
+}
+
+input:focus,select:focus{
+    border-color:var(--azul-vivo);
+    box-shadow:0 0 0 4px rgba(11,102,221,.12);
+}
+
+.acoes-form{
+    margin-top:18px;
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    min-height:46px;
+    border:none;
+    border-radius:11px;
+    padding:0 16px;
+    font-weight:800;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .2s,box-shadow .2s;
+}
+
+.btn:hover{transform:translateY(-1px);}
+
+.salvar{
+    flex:1;
+    background:var(--azul-vivo);
+    color:#fff;
+    justify-content:center;
+    box-shadow:0 8px 18px rgba(11,102,221,.18);
+}
+
+.limpar{
+    background:#f3f7fc;
+    color:#174370;
+    border:1px solid #d4e2f1;
+}
+
+/* ── LISTAGEM ── */
+.barra-lista{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(150px,190px);
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.tabela-wrap{
+    overflow:auto;
+    border:1px solid var(--borda);
+    border-radius:14px;
+}
+
+table{width:100%;min-width:800px;border-collapse:collapse;background:#fff;}
+
+th,td{
+    padding:13px 12px;
+    text-align:left;
+    border-bottom:1px solid #edf2f7;
+    font-size:14px;
+    vertical-align:middle;
+}
+
+td small{display:block;margin-top:4px;color:var(--muted);}
+
+th{
+    position:sticky;
+    top:0;
+    z-index:1;
+    background:#f6f9fd;
+    color:#143f6c;
+    font-weight:800;
+}
+
+tbody tr:hover{background:#f8fbff;}
+tbody tr:last-child td{border-bottom:none;}
+
+.vazio{height:120px;text-align:center;color:var(--muted);}
+
+/* ── TAGS ── */
+.tag{
+    display:inline-flex;
+    align-items:center;
+    border-radius:999px;
+    padding:5px 9px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.tag.ativo{background:#e8f8f1;color:var(--sucesso);}
+.tag.inativo{background:#fff3e8;color:var(--alerta);}
+.tag.nfe{background:#eff6ff;color:#1d4ed8;}
+.tag.manual{background:#f3f4f6;color:#374151;}
+
+/* ── ACOES TABELA ── */
+.acoes-tabela{display:flex;gap:8px;flex-wrap:wrap;}
+
+.acao{
+    min-height:34px;
+    border:1px solid #d4e2f1;
+    border-radius:9px;
+    padding:0 10px;
+    background:#fff;
+    color:#174370;
+    font-weight:700;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.acao.excluir{color:var(--perigo);}
+.acao:hover{background:#f0f6ff;}
+
+.modal-fornecedor{
+    position:fixed;
+    inset:0;
+    z-index:12000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(15,23,42,.58);
+}
+
+.modal-fornecedor.aberto{
+    display:flex;
+}
+
+.modal-fornecedor-caixa{
+    width:min(760px,100%);
+    max-height:calc(100dvh - 36px);
+    overflow:auto;
+}
+
+.modal-fornecedor-caixa .painel{
+    box-shadow:0 24px 70px rgba(15,23,42,.32);
+}
+
+.modal-fornecedor-fechar{
+    width:40px;
+    height:40px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #d4e2f1;
+    border-radius:10px;
+    background:#fff;
+    color:#0f2f58;
+    cursor:pointer;
+}
+
+body.modal-fornecedor-aberto{
+    overflow:hidden!important;
+}
+
+/* ── RESPONSIVO ── */
+@media(max-width:1100px){
+    .layout{grid-template-columns:1fr;}
+}
+
+@media(max-width:720px){
+    body{
+        min-width:0;
+        overflow-x:hidden;
+    }
+
+    .app{
+        width:100%;
+        padding:12px;
+    }
+
+    .topbar{
+        min-height:auto;
+        display:grid;
+        align-items:stretch;
+        gap:14px;
+        border-radius:12px;
+        padding:18px;
+    }
+
+    .topbar h1{font-size:24px;}
+    .topbar p{font-size:13px;line-height:1.35;}
+
+    .atalho{
+        min-height:42px;
+        width:100%;
+    }
+
+    .resumo{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:8px;
+    }
+
+    .resumo div{
+        min-width:0;
+        padding:12px 8px;
+        text-align:center;
+    }
+
+    .resumo strong{font-size:20px;}
+    .resumo span{font-size:11px;line-height:1.2;}
+
+    .layout{
+        gap:12px;
+        margin-top:12px;
+    }
+
+    .painel{
+        border-radius:12px;
+        padding:14px;
+    }
+
+    .secao-titulo{
+        display:grid;
+        gap:8px;
+        margin-bottom:14px;
+    }
+
+    .secao-titulo h2{font-size:18px;}
+    .secao-titulo p{font-size:12px;}
+    .secao-titulo span{justify-self:start;}
+
+    .fornecedores-lista-topo,
+    .fornecedores-lista-topo > div{
+        display:grid;
+        grid-template-columns:1fr;
+        align-items:stretch;
+    }
+
+    .fornecedores-lista-topo .btn{
+        width:100%;
+    }
+
+    .form-grid,
+    .barra-lista{
+        grid-template-columns:1fr;
+    }
+
+    .campo-largo{grid-column:unset;}
+
+    input,
+    select{
+        min-height:46px;
+        font-size:16px;
+    }
+
+    .acoes-form{
+        display:grid;
+        grid-template-columns:1fr;
+    }
+
+    .btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .tabela-wrap{
+        overflow:visible;
+        border:0;
+        border-radius:0;
+    }
+
+    table,
+    thead,
+    tbody,
+    tr,
+    td{
+        display:block;
+        width:100%;
+        min-width:0;
+    }
+
+    thead{display:none;}
+
+    tbody tr{
+        border:1px solid var(--borda);
+        border-radius:12px;
+        background:#fff;
+        box-shadow:0 8px 18px rgba(17,45,78,.05);
+        overflow:hidden;
+    }
+
+    tbody tr + tr{margin-top:10px;}
+    tbody tr:hover{background:#fff;}
+
+    td{
+        min-height:42px;
+        display:grid;
+        grid-template-columns:minmax(92px,38%) minmax(0,1fr);
+        gap:10px;
+        align-items:center;
+        padding:10px 12px;
+        border-bottom:1px solid #edf2f7;
+        font-size:13px;
+        word-break:break-word;
+    }
+
+    td:last-child{border-bottom:0;}
+
+    td::before{
+        color:#64748b;
+        font-size:11px;
+        font-weight:900;
+        text-transform:uppercase;
+        letter-spacing:.02em;
+    }
+
+    td:nth-child(1)::before{content:"Fornecedor";}
+    td:nth-child(2)::before{content:"Documento";}
+    td:nth-child(3)::before{content:"Contato";}
+    td:nth-child(4)::before{content:"Cidade";}
+    td:nth-child(5)::before{content:"Origem";}
+    td:nth-child(6)::before{content:"Situacao";}
+    td:nth-child(7)::before{content:"Acoes";}
+
+    .acoes-tabela{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .acao{
+        min-height:40px;
+        justify-content:center;
+    }
+
+    .vazio{
+        display:block;
+        height:auto;
+        padding:22px 14px;
+        text-align:center;
+    }
+
+    .vazio::before{
+        content:"";
+        display:none;
+    }
+
+    .modal-fornecedor{
+        padding:10px;
+        align-items:flex-end;
+    }
+
+    .modal-fornecedor-caixa{
+        max-height:calc(100dvh - 20px);
+    }
+
+    .modal-fornecedor-fechar{
+        width:42px;
+        height:42px;
+        justify-self:end;
+    }
+}

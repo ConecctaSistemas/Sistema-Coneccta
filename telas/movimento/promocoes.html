@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promoções</title>
+<link rel="stylesheet" href="telas/movimento/css/promocoes.css?v=20260702">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Promoções</h1>
+                <p>Defina ou remova preços promocionais dos produtos.</p>
+            </div>
+            <a class="btn-voltar" href="telas/movimento/movimento.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel">
+        <div class="painel-topo">
+            <div class="barra-filtros">
+                <input type="search" id="buscaPromocoes" placeholder="Buscar produto...">
+                <select id="filtroPromocoes">
+                    <option value="">Todos os produtos</option>
+                    <option value="ativas">Com promoção ativa</option>
+                    <option value="sem">Sem promoção</option>
+                </select>
+            </div>
+            <button type="button" class="btn-doc" id="btnSalvarPromocoes">Salvar promoções</button>
+        </div>
+        <div class="tabela-doc-wrap">
+            <table>
+                <thead><tr><th>Código</th><th>Produto</th><th>Preço normal</th><th>Preço promocional</th><th>Desconto</th><th>Ação</th></tr></thead>
+                <tbody id="listaPromocoes"><tr><td colspan="6" class="vazio">Carregando...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/promocoes.js?v=20260702"></script>
+</body>
+</html>
+

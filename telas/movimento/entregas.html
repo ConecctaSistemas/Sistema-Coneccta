@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Entregas</title>
+<link rel="stylesheet" href="telas/movimento/css/entregas.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+
+<main class="container">
+
+    <header class="topo">
+        <div class="topo-esq">
+            <h1>Controle de Entregas</h1>
+            <p>Gerencie as entregas originadas pelo caixa PDV em tempo real.</p>
+        </div>
+        <a href="telas/movimento/movimento.html" class="btn-voltar">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+        </a>
+    </header>
+
+    <div class="stats-topo">
+        <div class="stat-card stat-pendente" id="statPendente">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+                <strong id="numPendente">0</strong>
+                <span>Pendentes</span>
+            </div>
+        </div>
+        <div class="stat-card stat-rota" id="statRota">
+            <i class="fa-solid fa-truck-fast"></i>
+            <div>
+                <strong id="numRota">0</strong>
+                <span>Em rota</span>
+            </div>
+        </div>
+        <div class="stat-card stat-entregue" id="statEntregue">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+                <strong id="numEntregue">0</strong>
+                <span>Entregues hoje</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Abas de status -->
+    <nav class="abas-status" id="abasStatus">
+        <button class="aba-status ativo" data-filtro="pendente">
+            <i class="fa-solid fa-clock"></i> Pendentes
+            <span class="aba-badge" id="badgePendente">0</span>
+        </button>
+        <button class="aba-status" data-filtro="em rota">
+            <i class="fa-solid fa-truck-fast"></i> Em Rota
+            <span class="aba-badge" id="badgeRota">0</span>
+        </button>
+        <button class="aba-status" data-filtro="entregue">
+            <i class="fa-solid fa-circle-check"></i> Entregues
+            <span class="aba-badge" id="badgeEntregue">0</span>
+        </button>
+        <button class="aba-status" data-filtro="">
+            <i class="fa-solid fa-list"></i> Todas
+            <span class="aba-badge" id="badgeTodas">0</span>
+        </button>
+    </nav>
+
+    <!-- Filtros -->
+    <div class="barra-filtros">
+        <div class="filtros-linha">
+            <label class="filtro-label">
+                <i class="fa-solid fa-calendar-day"></i>
+                <input type="date" id="filtroDataInicio" title="Data início">
+            </label>
+            <span class="filtro-sep">até</span>
+            <label class="filtro-label">
+                <input type="date" id="filtroDataFim" title="Data fim">
+            </label>
+            <label class="busca-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="buscaEntregas" placeholder="Buscar cliente ou endereço...">
+            </label>
+            <button type="button" class="btn-filtrar" id="btnAgruparProximos" onclick="sugerirAgrupamento()">
+                <i class="fa-solid fa-route"></i> Agrupar próximos
+            </button>
+            <button type="button" class="btn-limpar-filtro" id="btnLimparFiltro" onclick="limparFiltros()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Barra de ações em lote (visível quando há selecionados) -->
+    <div class="barra-lote" id="barraLote" hidden>
+        <span class="lote-info"><i class="fa-solid fa-check-square"></i> <strong id="numSelecionados">0</strong> selecionados</span>
+        <div class="lote-acoes">
+            <button type="button" class="btn-lote btn-rota" onclick="enviarLoteParaRota()">
+                <i class="fa-solid fa-truck-fast"></i> Sair para entrega
+            </button>
+            <button type="button" class="btn-lote btn-entregue" onclick="marcarLoteEntregue()">
+                <i class="fa-solid fa-circle-check"></i> Marcar entregues
+            </button>
+            <button type="button" class="btn-lote btn-romaneio" onclick="imprimirRomaneio()">
+                <i class="fa-solid fa-print"></i> Imprimir romaneio
+            </button>
+            <button type="button" class="btn-lote btn-cancelar-sel" onclick="limparSelecao()">
+                <i class="fa-solid fa-xmark"></i> Cancelar seleção
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabela principal -->
+    <section class="painel">
+        <div class="tabela-wrap">
+            <table id="tabelaEntregas">
+                <thead>
+                    <tr>
+                        <th class="col-check">
+                            <input type="checkbox" id="checkTodos" title="Selecionar todos" onchange="toggleTodos(this.checked)">
+                        </th>
+                        <th>Pedido</th>
+                        <th>Cliente / Destinatário</th>
+                        <th>Endereço</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th class="col-acoes">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaEntregas">
+                    <tr><td colspan="8" class="vazio">Carregando entregas...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tabela-rodape" id="tabelaRodape">
+            <span id="infoResultados">0 entregas</span>
+        </div>
+    </section>
+
+</main>
+
+<!-- Modal: Detalhes da entrega -->
+<div class="modal-overlay" id="modalEntrega" aria-hidden="true">
+    <div class="modal-caixa modal-largo" role="dialog" aria-labelledby="modalEntregaTitulo">
+        <div class="modal-header">
+            <h3 class="modal-titulo" id="modalEntregaTitulo">Detalhes da entrega</h3>
+            <button type="button" class="modal-fechar" id="btnFecharModal" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo" id="modalEntregaCorpo"></div>
+        <div class="modal-footer" id="modalEntregaFooter"></div>
+    </div>
+</div>
+
+<!-- Modal: Sugestão de agrupamento por proximidade -->
+<div class="modal-overlay" id="modalAgrupamento" aria-hidden="true">
+    <div class="modal-caixa modal-largo" role="dialog" aria-labelledby="modalAgrupTitulo">
+        <div class="modal-header">
+            <h3 class="modal-titulo" id="modalAgrupTitulo">
+                <i class="fa-solid fa-route"></i> Agrupar por proximidade
+            </h3>
+            <button type="button" class="modal-fechar" onclick="fecharModal('modalAgrupamento')" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo" id="modalAgrupCorpo">
+            <p class="modal-dica">Entregas agrupadas por logradouro. Selecione os grupos para imprimir juntos.</p>
+            <div id="listaGrupos"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-secundario" onclick="fecharModal('modalAgrupamento')">Fechar</button>
+            <button type="button" class="btn-primario" onclick="selecionarGruposMarcados()">
+                <i class="fa-solid fa-check"></i> Selecionar e imprimir
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Template de impressão (oculto na tela, visível ao imprimir) -->
+<div id="romaneioTemplate" class="romaneio-template" hidden></div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/entregas.js"></script>
+</body>
+</html>
+

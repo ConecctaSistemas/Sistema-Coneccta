@@ -1,0 +1,94 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI;
+}
+
+body{
+background:#f1f5f9;
+padding:30px;
+}
+
+.container{
+max-width:1400px;
+margin:auto;
+}
+
+.topo{
+margin-bottom:40px;
+}
+
+.topo h1{
+font-size:35px;
+color:#0f172a;
+}
+
+.topo p{
+color:#64748b;
+margin-top:10px;
+}
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+background:white;
+
+border-radius:20px;
+
+padding:35px;
+
+text-decoration:none;
+
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+
+.card i{
+
+font-size:45px;
+
+color:#2563eb;
+
+margin-bottom:20px;
+
+}
+
+.card h2{
+
+color:#0f172a;
+
+margin-bottom:10px;
+
+}
+
+.card span{
+
+color:#64748b;
+
+}
+
+.card.sem-permissao{
+opacity:.55;
+filter:grayscale(.3);
+}

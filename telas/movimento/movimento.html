@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movimentos</title>
+<link rel="stylesheet" href="telas/movimento/css/movimento.css?v=20260618f">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topo" id="topoHub">
+        <h1>Movimentos</h1>
+        <p>Vendas, entregas, estoque, financeiro e caixa em um único painel.</p>
+    </div>
+
+    <div class="topo topo-setor recolhido" id="topoSetor">
+        <div class="topo-com-acoes">
+            <div>
+                <h1 id="tituloSetor">Vendas PDV</h1>
+                <p id="descSetor"></p>
+            </div>
+            <button type="button" class="btn-voltar" onclick="voltarHub()">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </button>
+        </div>
+    </div>
+
+    <!-- KPIs sempre visíveis -->
+    <div class="kpis">
+        <div class="kpi-card">
+            <span>Vendas hoje</span>
+            <strong id="kpiVendasHoje">R$ 0,00</strong>
+        </div>
+        <div class="kpi-card">
+            <span>A receber</span>
+            <strong id="kpiReceber">R$ 0,00</strong>
+        </div>
+        <div class="kpi-card">
+            <span>A pagar</span>
+            <strong id="kpiPagar">R$ 0,00</strong>
+        </div>
+        <div class="kpi-card">
+            <span>Saldo</span>
+            <strong id="kpiSaldo">R$ 0,00</strong>
+        </div>
+    </div>
+
+    <!------------------------------------- cards da tela --------------->
+    <div class="cards" id="hubCards">
+
+        <a class="card" href="telas/movimento/vendaspdv.html" data-permissao="movimento">
+            <i class="fa-solid fa-cash-register"></i>
+            <h2>Vendas PDV</h2>
+            <span>Consulte e filtre as vendas realizadas</span>
+        </a>
+
+        <a class="card" href="telas/movimento/entregas.html" data-permissao="movimento">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h2>Controle de Entregas</h2>
+            <span>Pendentes, em rota, entregues e romaneio</span>
+        </a>
+
+        <a class="card" href="telas/movimento/etiquetas.html" data-permissao="movimento">
+            <i class="fa-solid fa-tags"></i>
+            <h2>Etiquetas</h2>
+            <span>Crie modelos e imprima etiquetas de produtos</span>
+        </a>
+
+        <a class="card" href="telas/movimento/sugestaocompras.html" data-permissao="movimento">
+            <i class="fa-solid fa-cart-plus"></i>
+            <h2>Sugestão de Compras</h2>
+            <span>Analise o giro e gere pedidos de reposição de estoque</span>
+        </a>
+
+    <a class="card" href="telas/movimento/controleestoque.html" data-permissao="movimento">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <h2>Contagem de Estoque</h2>
+            <span>Ajuste o estoque físico dos produtos</span>
+        </a>
+
+
+        <a class="card" href="telas/movimento/contasareceber.html">
+            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+            <h2>Contas a Receber</h2>
+            <span>Crédito loja, parcelas e recebimentos manuais</span>
+        </a>
+
+        <a class="card" href="telas/movimento/financeiro.html">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <h2>Financeiro</h2>
+            <span>Boletos NF, lançamentos, despesas e folha de pagamento</span>
+        </a>
+
+        <a class="card" href="telas/movimento/boleto.html">
+            <i class="fa-solid fa-barcode"></i>
+            <h2>Boletos Bancários</h2>
+            <span>Consulte boletos emitidos e status de pagamento</span>
+        </a>
+
+
+        <a class="card" href="telas/movimento/movimento-fluxo.html">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+            <h2>Fluxo de Caixa</h2>
+            <span>Entradas e saídas agrupadas por dia</span>
+        </a>
+
+
+    </div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/financeiro.js?v=20260617-movimento"></script>
+<script src="telas/movimento/js/movimento.js?v=20260701-sem-card-pedidos"></script>
+</body>
+</html>
+

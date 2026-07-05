@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etiquetas – Coneccta</title>
+<link rel="stylesheet" href="telas/movimento/css/etiquetas.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/movimento/css/movimento-padrao.css?v=20260702">
+</head>
+<body>
+<main class="etq-page">
+
+<!-- Topo -->
+<header class="etq-topo">
+    <div class="etq-topo-titulo">
+        <h1><i class="fa-solid fa-tags"></i> Impressão de Etiquetas</h1>
+        <p>Selecione o modelo, configure os campos e escolha os produtos</p>
+    </div>
+    <a href="telas/movimento/movimento.html" class="btn-voltar-etq">
+        <i class="fa-solid fa-arrow-left"></i> Voltar
+    </a>
+</header>
+
+<!-- Corpo -->
+<div class="etq-corpo">
+
+    <!-- ── Painel esquerdo ── -->
+    <aside class="etq-config">
+        <div class="etq-config-scroll">
+
+            <!-- Modelo -->
+            <div class="etq-sec">
+                <div class="etq-sec-titulo">Modelo de etiqueta</div>
+                <div class="etq-modelos-grid" id="etqModelosGrid"></div>
+            </div>
+
+            <!-- Campos -->
+            <div class="etq-sec">
+                <div class="etq-sec-titulo">Campos da etiqueta</div>
+                <div class="etq-campos-lista" id="etqCamposLista"></div>
+            </div>
+
+            <!-- Opções -->
+            <div class="etq-sec">
+                <div class="etq-sec-titulo">Opções</div>
+
+                <div class="etq-toggle-row">
+                    <span>Usar preço promocional</span>
+                    <label class="etq-sw">
+                        <input type="checkbox" id="etqTogglePromo" checked onchange="etqSetPromo(this.checked)">
+                        <span class="etq-sw-track"></span>
+                    </label>
+                </div>
+
+                <div class="etq-sec-titulo" style="margin-top:4px">Nome da loja na etiqueta</div>
+                <input type="text" class="etq-input" id="etqNomeLoja"
+                    placeholder="Deixe vazio para ocultar"
+                    oninput="etqSetNomeLoja(this.value)">
+            </div>
+
+        </div><!-- /scroll -->
+
+        <!-- Ações fixas -->
+        <div class="etq-acoes">
+            <span class="etq-sel-info" id="etqSelInfo">Nenhum produto selecionado</span>
+            <button type="button" class="btn-etq-print" id="btnEtqImprimir"
+                onclick="imprimirEtiquetas()" disabled>
+                <i class="fa-solid fa-print"></i> Imprimir etiquetas
+            </button>
+            <button type="button" class="btn-etq-sec" onclick="limparSelEtq()">
+                <i class="fa-solid fa-xmark"></i> Limpar seleção
+            </button>
+        </div>
+    </aside>
+
+    <!-- ── Painel direito ── -->
+    <section class="etq-produtos">
+
+        <div class="etq-prod-barra">
+            <label class="etq-busca">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="etqBuscaProd" placeholder="Buscar produto por nome ou código...">
+            </label>
+            <select class="etq-cat" id="etqCategoria">
+                <option value="">Todas as categorias</option>
+            </select>
+            <button type="button" class="etq-btn-mini" onclick="selecionarTodosEtq()">
+                <i class="fa-solid fa-check-double"></i> Todos
+            </button>
+            <button type="button" class="etq-btn-mini danger" onclick="limparSelEtq()">
+                <i class="fa-solid fa-xmark"></i> Limpar
+            </button>
+        </div>
+
+        <div class="etq-grid" id="etqProdGrid">
+            <div class="etq-vazio">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Carregando produtos...</p>
+            </div>
+        </div>
+
+    </section>
+
+</div><!-- /corpo -->
+</main>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/movimento/js/etiquetas.js"></script>
+</body>
+</html>
+

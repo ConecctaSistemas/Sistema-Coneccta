@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clientes</title>
+<link rel="stylesheet" href="telas/cadastros/css/clientes.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div>
+            <a href="telas/cadastros/abacadastros.html" class="voltar">Cadastros</a>
+            <h1>Clientes cadastrados</h1>
+            <p>Consulte clientes, acompanhe crédito e acesse as ações de manutenção.</p>
+        </div>
+
+        <a href="telas/cadastros/abacadastros.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <section class="resumo">
+        <div>
+            <strong id="totalClientes">0</strong>
+            <span>Clientes</span>
+        </div>
+        <div>
+            <strong id="totalLimite">R$ 0,00</strong>
+            <span>Limite total</span>
+        </div>
+        <div>
+            <strong id="totalDisponivel">R$ 0,00</strong>
+            <span>Disponível</span>
+        </div>
+    </section>
+
+    <main class="layout-lista-clientes">
+        <section class="painel listagem">
+            <div class="secao-titulo">
+                <div>
+                    <h2>Lista de clientes</h2>
+                    <p>Use a busca para localizar o cadastro e as ações para adicionar, alterar, excluir ou ver movimentações.</p>
+                </div>
+                <span id="contadorClientes">0 clientes</span>
+            </div>
+
+            <div class="acoes-lista-clientes">
+                <a class="btn salvar" href="telas/cadastros/cadastrocliente.html?cadastro=novo">Adicionar</a>
+            </div>
+
+            <div class="barra-lista">
+                <input type="search" id="buscaCliente" placeholder="Buscar por nome, CPF/CNPJ, telefone, cidade ou cartão">
+                <select id="filtroSituacaoCliente">
+                    <option value="">Todas as situações</option>
+                    <option value="ativo">Ativos</option>
+                    <option value="inativo">Inativos</option>
+                </select>
+            </div>
+
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Contato</th>
+                            <th>Cidade</th>
+                            <th>Crédito</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaClientes">
+                        <tr>
+                            <td colspan="6" class="vazio">Nenhum cliente cadastrado.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+<!-- -- Painel lateral: Movimentações do cliente ------------------- -->
+<div id="movPainel" class="mov-painel" aria-hidden="true" hidden>
+    <div class="mov-overlay" onclick="fecharMovimentacoesCliente()"></div>
+    <aside class="mov-drawer">
+
+        <div class="mov-header">
+            <div class="mov-header-topo">
+                <div>
+                    <h2 id="movNomeCliente">-</h2>
+                    <p id="movSubtitulo"></p>
+                </div>
+                <button type="button" class="mov-btn-fechar" onclick="fecharMovimentacoesCliente()" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="mov-tabs">
+                <button type="button" class="mov-tab ativa" data-aba="compras"   onclick="_movTrocarTab('compras')">
+                    <i class="fa-solid fa-bag-shopping"></i> Compras
+                </button>
+                <button type="button" class="mov-tab" data-aba="financeiro" onclick="_movTrocarTab('financeiro')">
+                    <i class="fa-solid fa-credit-card"></i> Financeiro
+                </button>
+                <button type="button" class="mov-tab" data-aba="analise"    onclick="_movTrocarTab('analise')">
+                    <i class="fa-solid fa-chart-bar"></i> Análise
+                </button>
+            </div>
+        </div>
+
+        <div class="mov-body" id="movBodyContent">
+            <div class="mov-loading"><div class="mov-spinner"></div> Carregando...</div>
+        </div>
+
+    </aside>
+</div>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/clientes.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

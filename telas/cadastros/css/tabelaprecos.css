@@ -1,0 +1,577 @@
+/* =============================================
+   TABELAS DE PREÇO — estilos específicos
+   ============================================= */
+
+/* ─── LAYOUT GERAL ─────────────────────────────── */
+.conteudo {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ─── BOTÕES: PADDING BASE ──────────────────────── */
+/* design-base.css não define padding para .btn — definimos aqui */
+.btn {
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    line-height: 1.2;
+    min-height: 38px;
+    white-space: nowrap;
+}
+
+/* ─── TOPBAR: BOTÃO ─────────────────────────────── */
+/* Sobrescreve o gradiente azul do btn-primario dentro do topbar */
+.topbar .btn,
+.topbar button.btn {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 9px 18px !important;
+    border-radius: var(--radius-sm) !important;
+    color: rgba(255,255,255,.92) !important;
+    background: rgba(255,255,255,.16) !important;
+    border: 1.5px solid rgba(255,255,255,.3) !important;
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: background var(--t-fast) ease, border-color var(--t-fast) ease !important;
+}
+.topbar .btn:hover,
+.topbar button.btn:hover {
+    background: rgba(255,255,255,.26) !important;
+    border-color: rgba(255,255,255,.5) !important;
+    transform: none !important;
+    color: #fff !important;
+}
+
+.topo-acoes-cadastro #btnNovaTabela,
+.topbar .topo-acoes-cadastro #btnNovaTabela,
+.topbar .topo-acoes-cadastro button.btn-primario {
+    min-height: 44px !important;
+    padding: 0 18px !important;
+    border: 1px solid #1d5fd6 !important;
+    border-radius: 10px !important;
+    background: #2563eb !important;
+    color: #fff !important;
+    box-shadow: 0 10px 22px rgba(37,99,235,.18) !important;
+    opacity: 1 !important;
+}
+
+.topo-acoes-cadastro #btnNovaTabela:hover,
+.topbar .topo-acoes-cadastro #btnNovaTabela:hover,
+.topbar .topo-acoes-cadastro button.btn-primario:hover {
+    background: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+    color: #fff !important;
+}
+
+/* ─── CARDS DE RESUMO ───────────────────────────── */
+.resumo {
+    grid-template-columns: repeat(4, minmax(150px, 1fr)) !important;
+    margin-bottom: 4px !important;
+}
+.resumo > * {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    padding: 16px 18px !important;
+}
+.resumo > * i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--c-accent-mid);
+    color: var(--c-primary);
+    font-size: 17px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+}
+/* Os strong e span já vêm do design-base.css */
+
+/* ─── PAINEL ─────────────────────────────────────── */
+.painel {
+    padding: 20px 20px 0 !important;
+}
+.painel .tabela-wrap {
+    margin: 16px -20px 0 -20px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-top: 1.5px solid var(--c-border-2) !important;
+    box-shadow: none !important;
+}
+
+/* Label "Lista" acima do h2 no secao-titulo */
+.secao-titulo div span {
+    display: block;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--c-text-3) !important;
+    margin-bottom: 4px;
+}
+
+/* ─── FILTRO TIPO ────────────────────────────────── */
+.tp-filtro-tipo {
+    display: flex;
+    gap: 6px;
+    padding-bottom: 14px;
+    flex-wrap: wrap;
+}
+.tp-filtro-tipo .tab {
+    padding: 6px 16px;
+    border-radius: 99px;
+    border: 1.5px solid var(--c-border);
+    background: var(--c-surface);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-text-2);
+    cursor: pointer;
+    transition: all .15s;
+    line-height: 1;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+}
+.tp-filtro-tipo .tab.ativo {
+    background: var(--c-primary);
+    color: #fff;
+    border-color: var(--c-primary);
+}
+.tp-filtro-tipo .tab:hover:not(.ativo) {
+    background: var(--c-accent-light);
+    border-color: var(--c-accent);
+    color: var(--c-primary);
+}
+
+/* ─── TAGS TIPO E SITUAÇÃO ──────────────────────── */
+.tp-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    border: 1px solid transparent;
+}
+.tp-tag.tag-normal    { background: #e8f0fe; color: #1a56db; border-color: #b8d0f9; }
+.tp-tag.tag-cliente   { background: #e0f5ef; color: #0e7a59; border-color: #9fd9c6; }
+.tp-tag.tag-pagamento { background: #fef3e2; color: #b45309; border-color: #f5cc85; }
+
+.tp-situacao {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+.tp-situacao.ativa   { background: var(--c-success-bg); color: var(--c-success); border-color: var(--c-success-border); }
+.tp-situacao.inativa { background: #f3f4f6; color: #6b7280; border-color: #d1d5db; }
+
+/* ─── BOTÕES DE AÇÃO (ícone) ─────────────────────── */
+.acoes-celula {
+    white-space: nowrap;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.btn-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1.5px solid var(--c-border) !important;
+    background: var(--c-surface) !important;
+    color: var(--c-text-2) !important;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all .15s;
+    box-shadow: none !important;
+}
+.btn-icone:hover {
+    background: var(--c-accent-light) !important;
+    color: var(--c-primary) !important;
+    border-color: var(--c-accent) !important;
+    transform: translateY(-1px) !important;
+}
+.btn-icone.perigo:hover {
+    background: var(--c-danger-bg) !important;
+    color: var(--c-danger) !important;
+    border-color: var(--c-danger-border) !important;
+}
+
+.muted { color: var(--c-text-3); font-size: 13px; }
+
+/* ─── MODAL DE CONFIRMAÇÃO ───────────────────────── */
+.modal-confirmacao {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(10,20,40,.45);
+    align-items: center;
+    justify-content: center;
+}
+.modal-confirmacao.aberto { display: flex; }
+.modal-confirmacao-caixa {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 16px 48px rgba(10,24,50,.22);
+    padding: 28px 28px 22px;
+    width: min(380px, calc(100vw - 32px));
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: erp-in 180ms ease both;
+}
+.modal-confirmacao-caixa p {
+    font-size: 15px;
+    color: var(--c-text-1, var(--c-text));
+    line-height: 1.6;
+    margin: 0;
+}
+.modal-confirmacao-acoes {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.modal-confirmacao-acoes .btn {
+    padding: 10px 20px !important;
+    min-height: 40px !important;
+    font-size: 14px !important;
+}
+
+/* ─── MODAL PRINCIPAL ────────────────────────────── */
+.tp-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 399;
+    background: rgba(10,20,40,.42);
+}
+.tp-backdrop.aberto { display: block; }
+
+.modal-tp {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px;
+    overflow-y: auto;
+}
+.modal-tp.aberto { display: flex; }
+
+.modal-tp-caixa {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 20px 64px rgba(10,24,50,.26);
+    width: min(840px, calc(100vw - 32px));
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 64px);
+    overflow: hidden;
+    animation: erp-in 200ms ease both;
+}
+
+/* Cabeçalho do modal */
+.modal-tp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 28px 18px;
+    border-bottom: 1.5px solid var(--c-border-2);
+    flex-shrink: 0;
+}
+.modal-tp-header h2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--c-primary);
+    margin: 0;
+}
+.btn-fechar-modal {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid var(--c-border) !important;
+    background: var(--c-surface) !important;
+    font-size: 18px;
+    color: var(--c-text-2) !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: none !important;
+    transition: background .15s, border-color .15s !important;
+    padding: 0 !important;
+    flex-shrink: 0;
+}
+.btn-fechar-modal:hover {
+    background: var(--c-danger-bg) !important;
+    border-color: var(--c-danger-border) !important;
+    color: var(--c-danger) !important;
+}
+
+/* Abas do modal */
+.modal-tp-abas {
+    display: flex;
+    gap: 0;
+    border-bottom: 1.5px solid var(--c-border-2);
+    padding: 0 28px;
+    flex-shrink: 0;
+    background: var(--c-surface-2);
+}
+.aba-btn {
+    padding: 13px 20px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--c-text-2);
+    background: none !important;
+    border: none !important;
+    border-bottom: 2.5px solid transparent !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color .15s;
+    margin-bottom: -1.5px;
+    box-shadow: none !important;
+}
+.aba-btn.ativa { color: var(--c-primary); border-bottom-color: var(--c-accent) !important; }
+.aba-btn:hover:not(.ativa) { color: var(--c-text); background: rgba(0,0,0,.03) !important; }
+.aba-btn[style*="cursor: not-allowed"] { pointer-events: none; }
+
+/* Conteúdo das abas */
+.aba-tp-conteudo {
+    display: none;
+    padding: 24px 28px;
+    overflow-y: auto;
+    flex: 1;
+}
+.aba-tp-conteudo.ativa { display: block; }
+
+/* ─── FORM GRID NO MODAL ─────────────────────────── */
+.tp-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 20px;
+}
+.campo-tipo { display: none; }
+.campo-full { grid-column: 1 / -1; }
+.campo-dica {
+    font-size: 12px;
+    color: var(--c-text-3);
+    margin-top: 6px;
+    line-height: 1.55;
+    font-weight: 500;
+}
+
+/* ─── GRADE DE REGRAS POR FORMA DE PAGAMENTO ─────── */
+.tp-regras-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.tp-regras-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #3a4f66;
+}
+.tp-regras-dica {
+    font-size: 11.5px;
+    color: var(--c-text-3);
+    font-weight: 500;
+}
+
+.tp-regras-pagamento {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.tp-regra-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--c-surface-2);
+    border: 1.5px solid var(--c-border-2);
+    border-radius: var(--radius-md);
+    transition: border-color .15s, background .15s;
+}
+.tp-regra-item:has(.input-ajuste:focus) {
+    border-color: var(--c-accent);
+    background: #fff;
+}
+.tp-regra-nome {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--c-text);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.tp-regra-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: var(--c-accent-mid);
+    color: var(--c-primary);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.tp-regra-campo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.tp-regra-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    overflow: hidden;
+    transition: border-color .15s;
+}
+.tp-regra-input-wrap:focus-within {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 3px rgba(11,102,221,.1);
+}
+.input-ajuste {
+    width: 72px !important;
+    height: 34px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    text-align: right;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding: 0 6px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    min-width: 0;
+}
+.tp-regra-sufixo {
+    padding: 0 10px 0 2px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c-text-3);
+    line-height: 34px;
+}
+.tp-regra-desc {
+    min-width: 130px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--c-text-3);
+    text-align: right;
+}
+.tp-regra-desc.ajuste-desconto  { color: var(--c-success); }
+.tp-regra-desc.ajuste-acrescimo { color: var(--c-warn); }
+
+/* ─── ABA PRODUTOS ───────────────────────────────── */
+.tp-prod-barra {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+.tp-prod-barra input[type=search] { flex: 1; min-width: 200px; }
+.tp-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--c-text-2);
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+}
+.tp-toggle input[type=checkbox] {
+    width: 16px;
+    height: 16px;
+    min-width: 0;
+    cursor: pointer;
+}
+.input-preco-tabela {
+    width: 120px !important;
+    text-align: right;
+}
+
+/* ─── RODAPÉ DO MODAL ─────────────────────────────── */
+.modal-tp-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 16px 28px;
+    border-top: 1.5px solid var(--c-border-2);
+    background: var(--c-surface-2);
+    flex-shrink: 0;
+}
+.modal-tp-footer .btn,
+.modal-tp-footer button {
+    padding: 10px 22px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    min-height: 42px !important;
+    border-radius: var(--radius-md) !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Botão Cancelar dentro do modal */
+.modal-tp-footer .btn.claro,
+.modal-confirmacao-acoes .btn.claro {
+    background: var(--c-surface) !important;
+    color: var(--c-primary) !important;
+    border: 1.5px solid var(--c-border) !important;
+    box-shadow: none !important;
+}
+.modal-tp-footer .btn.claro:hover,
+.modal-confirmacao-acoes .btn.claro:hover {
+    background: var(--c-accent-light) !important;
+    border-color: #b3cfef !important;
+    transform: none !important;
+}
+
+/* Botão primário no modal (override do gradient para tamanho correto) */
+.modal-tp-footer .btn-primario,
+.modal-confirmacao-acoes .btn-primario {
+    padding: 10px 22px !important;
+    font-size: 14px !important;
+    min-height: 42px !important;
+}
+
+/* ─── RESPONSIVO ─────────────────────────────────── */
+@media (max-width: 640px) {
+    .tp-form-grid { grid-template-columns: 1fr; }
+    .resumo { grid-template-columns: repeat(2, 1fr) !important; }
+    .conteudo { padding: 14px; gap: 12px; }
+}

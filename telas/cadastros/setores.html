@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setores</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/cadastros/css/setores.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div class="topbar-info">
+            <a href="telas/cadastros/abacadastros.html" class="breadcrumb">
+                <i class="fa-solid fa-chevron-left"></i> Cadastros
+            </a>
+            <h1>Setores</h1>
+            <p>Grupos, marcas e níveis para organizar produtos e clientes.</p>
+        </div>
+        <a href="telas/cadastros/abacadastros.html" class="btn-voltar">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+        </a>
+    </header>
+
+    <nav class="abas" role="tablist">
+        <button class="aba ativo" data-aba="grupos" role="tab" aria-selected="true">
+            <i class="fa-solid fa-layer-group"></i> Grupos
+        </button>
+        <button class="aba" data-aba="marcas" role="tab" aria-selected="false">
+            <i class="fa-solid fa-tag"></i> Marcas
+        </button>
+        <button class="aba" data-aba="niveis" role="tab" aria-selected="false">
+            <i class="fa-solid fa-medal"></i> Níveis
+        </button>
+    </nav>
+
+    <main>
+
+        <!-- ═══ GRUPOS ═══ -->
+        <section class="aba-view" id="view-grupos" role="tabpanel">
+            <div class="barra-acao">
+                <div class="busca-wrap">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="search" id="buscaGrupos" placeholder="Buscar grupo...">
+                </div>
+                <button class="btn btn-primario" id="btnNovoGrupo">
+                    <i class="fa-solid fa-plus"></i> Novo Grupo
+                </button>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-cor"></th>
+                            <th>Nome</th>
+                            <th>Observação</th>
+                            <th>Situação</th>
+                            <th class="col-acoes">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaGrupos">
+                        <tr><td colspan="5" class="vazio">Nenhum grupo cadastrado.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ═══ MARCAS ═══ -->
+        <section class="aba-view oculto" id="view-marcas" role="tabpanel">
+            <div class="barra-acao">
+                <div class="busca-wrap">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="search" id="buscaMarcas" placeholder="Buscar marca...">
+                </div>
+                <button class="btn btn-primario" id="btnNovaMarca">
+                    <i class="fa-solid fa-plus"></i> Nova Marca
+                </button>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Observação</th>
+                            <th>Situação</th>
+                            <th class="col-acoes">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaMarcas">
+                        <tr><td colspan="4" class="vazio">Nenhuma marca cadastrada.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ═══ NÍVEIS ═══ -->
+        <section class="aba-view oculto" id="view-niveis" role="tabpanel">
+            <div class="barra-acao">
+                <div class="busca-wrap">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="search" id="buscaNiveis" placeholder="Buscar nível...">
+                </div>
+                <button class="btn btn-primario" id="btnNovoNivel">
+                    <i class="fa-solid fa-plus"></i> Novo Nível
+                </button>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-cor"></th>
+                            <th>Nome</th>
+                            <th>Ordem</th>
+                            <th>Observação</th>
+                            <th>Situação</th>
+                            <th class="col-acoes">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaNiveis">
+                        <tr><td colspan="6" class="vazio">Nenhum nível cadastrado.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<!-- ═══════════ MODAL GRUPO ═══════════ -->
+<div class="modal-fundo" id="modalGrupo">
+    <div class="modal">
+        <div class="modal-topo">
+            <div>
+                <h2 id="tituloModalGrupo">Novo Grupo</h2>
+                <p>Categorize seus produtos por grupo.</p>
+            </div>
+            <button class="btn-fechar" data-fechar="modalGrupo" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo">
+            <input type="hidden" id="grupoId">
+            <div class="form-grid">
+                <label class="campo-total">
+                    Nome do grupo <span class="obrigatorio">*</span>
+                    <input type="text" id="grupoNome" placeholder="Ex.: Eletrônicos, Vestuário..." maxlength="80">
+                </label>
+                <label>
+                    Cor de identificação
+                    <div class="campo-cor">
+                        <input type="color" id="grupoCor" value="#1A436B">
+                        <span id="grupoCortexto">#1A436B</span>
+                    </div>
+                </label>
+                <label>
+                    Situação
+                    <select id="grupoAtivo">
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+                </label>
+                <label class="campo-total">
+                    Observação
+                    <textarea id="grupoObs" rows="2" placeholder="Detalhes adicionais..." maxlength="200"></textarea>
+                </label>
+            </div>
+        </div>
+        <div class="modal-rodape">
+            <button class="btn btn-secundario" data-fechar="modalGrupo">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarGrupo">
+                <i class="fa-solid fa-check"></i> Salvar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ MODAL MARCA ═══════════ -->
+<div class="modal-fundo" id="modalMarca">
+    <div class="modal">
+        <div class="modal-topo">
+            <div>
+                <h2 id="tituloModalMarca">Nova Marca</h2>
+                <p>Registre as marcas dos produtos.</p>
+            </div>
+            <button class="btn-fechar" data-fechar="modalMarca" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo">
+            <input type="hidden" id="marcaId">
+            <div class="form-grid">
+                <label class="campo-total">
+                    Nome da marca <span class="obrigatorio">*</span>
+                    <input type="text" id="marcaNome" placeholder="Ex.: Samsung, Nike..." maxlength="80">
+                </label>
+                <label>
+                    Situação
+                    <select id="marcaAtivo">
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+                </label>
+                <label class="campo-total">
+                    Observação
+                    <textarea id="marcaObs" rows="2" placeholder="Detalhes adicionais..." maxlength="200"></textarea>
+                </label>
+            </div>
+        </div>
+        <div class="modal-rodape">
+            <button class="btn btn-secundario" data-fechar="modalMarca">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarMarca">
+                <i class="fa-solid fa-check"></i> Salvar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ MODAL NÍVEL ═══════════ -->
+<div class="modal-fundo" id="modalNivel">
+    <div class="modal">
+        <div class="modal-topo">
+            <div>
+                <h2 id="tituloModalNivel">Novo Nível</h2>
+                <p>Defina hierarquias de clientes ou produtos.</p>
+            </div>
+            <button class="btn-fechar" data-fechar="modalNivel" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo">
+            <input type="hidden" id="nivelId">
+            <div class="form-grid">
+                <label class="campo-total">
+                    Nome do nível <span class="obrigatorio">*</span>
+                    <input type="text" id="nivelNome" placeholder="Ex.: Bronze, Prata, Ouro..." maxlength="80">
+                </label>
+                <label>
+                    Cor de identificação
+                    <div class="campo-cor">
+                        <input type="color" id="nivelCor" value="#d97706">
+                        <span id="nivelCorTexto">#d97706</span>
+                    </div>
+                </label>
+                <label>
+                    Ordem (prioridade)
+                    <input type="number" id="nivelOrdem" min="1" max="999" placeholder="1">
+                </label>
+                <label>
+                    Situação
+                    <select id="nivelAtivo">
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+                </label>
+                <label class="campo-total">
+                    Observação
+                    <textarea id="nivelObs" rows="2" placeholder="Detalhes adicionais..." maxlength="200"></textarea>
+                </label>
+            </div>
+        </div>
+        <div class="modal-rodape">
+            <button class="btn btn-secundario" data-fechar="modalNivel">Cancelar</button>
+            <button class="btn btn-primario" id="btnSalvarNivel">
+                <i class="fa-solid fa-check"></i> Salvar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/setores.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

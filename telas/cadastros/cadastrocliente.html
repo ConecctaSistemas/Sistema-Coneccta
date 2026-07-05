@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastrar Cliente</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/cadastros/css/clientes.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastrocliente.css?v=20260617">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/cadastros/css/cadastros-padrao.css?v=20260702">
+</head>
+<body data-tela-cadastro-cliente="true">
+
+<div class="app cadastro-cliente-app">
+    <header class="cadastro-cliente-topo">
+        <div class="cadastro-cliente-titulo">
+            <i class="fa-regular fa-user"></i>
+            <h1>Cadastrar</h1>
+            <nav aria-label="Caminho">
+                <a href="telas/cadastros/abacadastros.html">Cadastros</a>
+                <span>Clientes</span>
+                <strong>Cadastrar</strong>
+            </nav>
+        </div>
+        <a href="telas/cadastros/clientes.html" class="btn-voltar-cliente"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </header>
+
+    <main class="cadastro-cliente-main">
+        <form id="formCliente" class="cadastro-cliente-form" novalidate>
+            <input type="hidden" id="clienteId">
+
+            <section class="cliente-status-grid">
+                <div class="cliente-card cliente-card-toggle">
+                    <span>Ativo</span>
+                    <label class="switch-cliente">
+                        <input type="checkbox" id="ativoSwitch" checked>
+                        <span></span>
+                    </label>
+                    <select id="ativo" hidden>
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                    </select>
+                </div>
+
+                <div class="cliente-card tipo-cadastro-card">
+                    <h2>Tipo de Cadastro</h2>
+                    <label class="switch-texto">
+                        <strong>Cliente</strong>
+                        <input type="checkbox" id="tipoCliente" checked>
+                        <span></span>
+                    </label>
+                    <label class="switch-texto">
+                        <strong>Fornecedor</strong>
+                        <input type="checkbox" id="tipoFornecedor">
+                        <span></span>
+                    </label>
+                    <label class="switch-texto">
+                        <strong>Transportadora</strong>
+                        <input type="checkbox" id="tipoTransportadora">
+                        <span></span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="cliente-card">
+                <h2>Dados Gerais</h2>
+                <p class="cliente-card-descricao">Informe identificação, contato e dados fiscais básicos do cliente.</p>
+                <div class="cliente-form-grid">
+                    <label>
+                        CPF/CNPJ
+                        <input type="text" id="cpf" placeholder="000.000.000-00">
+                    </label>
+                    <label class="campo-2">
+                        Nome
+                        <input type="text" id="nome" placeholder="Nome completo ou razão social" required>
+                    </label>
+                    <label>
+                        Nome Fantasia
+                        <input type="text" id="nomeFantasia" placeholder="Opcional">
+                    </label>
+                    <label>
+                        Consumidor Final
+                        <select id="consumidorFinal">
+                            <option value="nao">Não</option>
+                            <option value="sim">Sim</option>
+                        </select>
+                    </label>
+                    <label>
+                        Contribuinte ICMS
+                        <select id="contribuinteIcms">
+                            <option value="contribuinte">Contribuinte</option>
+                            <option value="isento">Isento</option>
+                            <option value="naoContribuinte">Não contribuinte</option>
+                        </select>
+                    </label>
+                    <label>
+                        Inscrição Estadual
+                        <input type="text" id="inscricaoEstadual">
+                    </label>
+                    <label>
+                        Inscrição Municipal
+                        <input type="text" id="inscricaoMunicipal">
+                    </label>
+                    <label>
+                        SUFRAMA
+                        <input type="text" id="suframa">
+                    </label>
+                    <label>
+                        Telefone
+                        <input type="text" id="telefone" placeholder="(00) 00000-0000">
+                    </label>
+                    <label>
+                        Data de nascimento
+                        <input type="date" id="dataNascimento">
+                    </label>
+                    <label class="campo-2">
+                        E-mail(s)
+                        <input type="email" id="email" placeholder="cliente@email.com">
+                    </label>
+                </div>
+            </section>
+
+            <section class="cliente-card">
+                <div class="abas-cadastro abas-cliente" role="tablist" aria-label="Abas de endereço">
+                    <button type="button" class="aba-cadastro ativa" data-aba="endereco">Endereço Principal</button>
+                    <button type="button" class="aba-cadastro" data-aba="entrega">Entrega/Retirada</button>
+                    <button type="button" class="aba-cadastro" data-aba="governo">Ente Governamental</button>
+                </div>
+
+                <div class="conteudo-aba ativa" id="aba-endereco">
+                    <div class="cliente-form-grid endereco-grid">
+                        <label>
+                            CEP
+                            <input type="text" id="cep" placeholder="00000-000">
+                        </label>
+                        <label class="campo-2">
+                            Endereço
+                            <input type="text" id="endereco" placeholder="Rua, avenida, logradouro">
+                        </label>
+                        <label>
+                            Número
+                            <input type="text" id="numero" placeholder="Nº">
+                        </label>
+                        <label>
+                            Complemento
+                            <input type="text" id="complemento">
+                        </label>
+                        <label>
+                            Bairro
+                            <input type="text" id="bairro">
+                        </label>
+                        <label>
+                            Estado
+                            <input type="text" id="estado" maxlength="2" placeholder="UF">
+                        </label>
+                        <label>
+                            Cidade
+                            <input type="text" id="cidade" placeholder="Cidade">
+                        </label>
+                        <label>
+                            País
+                            <select id="pais">
+                                <option value="BRASIL">BRASIL</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="conteudo-aba" id="aba-entrega">
+                    <div class="cliente-form-grid endereco-grid">
+                        <label>
+                            CEP entrega
+                            <input type="text" id="cepEntrega">
+                        </label>
+                        <label class="campo-2">
+                            Endereço entrega/retirada
+                            <input type="text" id="enderecoEntrega">
+                        </label>
+                        <label>
+                            Número
+                            <input type="text" id="numeroEntrega">
+                        </label>
+                        <label>
+                            Complemento
+                            <input type="text" id="complementoEntrega">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="conteudo-aba" id="aba-governo">
+                    <div class="cliente-form-grid">
+                        <label>
+                            Órgão público
+                            <select id="enteGovernamental">
+                                <option value="nao">Não</option>
+                                <option value="sim">Sim</option>
+                            </select>
+                        </label>
+                        <label>
+                            Código do Órgão
+                            <input type="text" id="codigoEnteGovernamental">
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cliente-card">
+                <h2>Crédito e observações</h2>
+                <p class="cliente-card-descricao">Defina o limite usado no crediário e registre observações comerciais.</p>
+                <div class="cliente-form-grid">
+                    <label>
+                        Limite de crédito
+                        <input type="text" id="limite" inputmode="decimal" value="0,00">
+                    </label>
+                    <label>
+                        Tabela de preços padrão
+                        <select id="tabelaPrecoPadraoId">
+                            <option value="">Nenhuma (preço normal)</option>
+                        </select>
+                    </label>
+                    <label class="campo-2">
+                        Observações
+                        <input type="text" id="observacoes" placeholder="Informações comerciais ou restrições">
+                    </label>
+                </div>
+            </section>
+
+            <div id="cartaoVirtual"></div>
+
+            <footer class="rodape-cliente">
+                <button type="button" class="btn limpar" id="btnLimparCliente">Limpar</button>
+                <button type="submit" class="btn salvar">Salvar</button>
+            </footer>
+        </form>
+    </main>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-cadastros-padrao"></script>
+<script src="telas/cadastros/js/clientes.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+
