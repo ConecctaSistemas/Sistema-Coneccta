@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notas Fiscais Emitidas</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-nfemitidas.css">
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-visualizador.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Notas Fiscais Emitidas</h1>
+                <p>NF-e e NFC-e emitidas no período, com busca por cliente ou número da nota.</p>
+            </div>
+            <a class="btn-voltar" href="telas/relatorios/relatorios.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel-filtros">
+        <form id="formRelatorioNfEmitidas">
+            <div class="grid-filtros">
+                <label>
+                    Tipo de nota
+                    <select id="tipoNfEmitidas" name="tipo">
+                        <option value="todos">NF-e e NFC-e</option>
+                        <option value="nfe">Somente NF-e</option>
+                        <option value="nfce">Somente NFC-e</option>
+                    </select>
+                </label>
+                <label>
+                    Período inicial
+                    <input type="date" id="dataInicioNfEmitidas" name="dataInicio">
+                </label>
+                <label>
+                    Período final
+                    <input type="date" id="dataFimNfEmitidas" name="dataFim">
+                </label>
+                <label>
+                    Cliente ou número da nota
+                    <input type="search" id="buscaNfEmitidas" name="busca" placeholder="Nome do cliente ou número...">
+                </label>
+            </div>
+
+            <div class="secao-tipos-info">
+                <h3>Informações incluídas</h3>
+                <div class="checks-tipos-info">
+                    <label class="check-tipo-info">
+                        <input type="checkbox" id="incluirCanceladasNfEmitidas" name="incluirCanceladas" checked>
+                        <span>Incluir notas canceladas</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-filtro">
+                <button type="submit" class="btn-gerar" id="btnGerarRelatorio">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    Gerar relatório
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/relatorio-visualizador.js"></script>
+<script src="telas/relatorios/js/relatorio-nfemitidas.js"></script>
+
+</body>
+</html>
+

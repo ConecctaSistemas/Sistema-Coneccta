@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Relatório de Comissão</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-comissao.css">
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-visualizador.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Comissão</h1>
+                <p>Comissão por vendedor no período, calculada sobre o valor vendido.</p>
+            </div>
+            <a class="btn-voltar" href="telas/relatorios/relatorios.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel-filtros">
+        <form id="formRelatorioComissao">
+            <div class="grid-filtros">
+                <label>
+                    Período inicial
+                    <input type="date" id="dataInicioComissao" name="dataInicio">
+                </label>
+                <label>
+                    Período final
+                    <input type="date" id="dataFimComissao" name="dataFim">
+                </label>
+            </div>
+
+            <div class="secao-tipos-info">
+                <h3>Informações incluídas</h3>
+                <div class="checks-tipos-info">
+                    <label class="check-tipo-info">
+                        <input type="checkbox" id="somenteComVendasComissao" name="somenteComVendas" checked>
+                        <span>Somente vendedores com vendas no período</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-filtro">
+                <button type="submit" class="btn-gerar" id="btnGerarRelatorio">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    Gerar relatório
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/relatorio-visualizador.js"></script>
+<script src="telas/relatorios/js/relatorio-comissao.js"></script>
+
+</body>
+</html>

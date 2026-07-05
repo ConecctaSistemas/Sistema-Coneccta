@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Central de Relatórios</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorios.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <h1>Central de Relatórios</h1>
+        <p>Selecione um relatório para configurar o período, escolher as informações desejadas e gerar o documento.</p>
+    </div>
+
+    <div class="grid" id="hubCards">
+
+        <a class="card" href="telas/relatorios/relatorio-vendas.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-cart-shopping"></i></span>
+            <h2>Vendas</h2>
+            <p>Vendas registradas no período, com itens e forma de pagamento.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-cancelamentos.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-rotate-left"></i></span>
+            <h2>Cancelamentos</h2>
+            <p>Vendas canceladas no período, com motivo do cancelamento.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-estoque.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-boxes-stacked"></i></span>
+            <h2>Estoque</h2>
+            <p>Situação atual do estoque, com destaque para itens no mínimo.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-financeiro.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-sack-dollar"></i></span>
+            <h2>Financeiro</h2>
+            <p>Contas a pagar, contas a receber e movimentações de caixa.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-clientes.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-users"></i></span>
+            <h2>Clientes</h2>
+            <p>Relação de clientes cadastrados, com dados de contato.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-produtosvendidos.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-ranking-star"></i></span>
+            <h2>Produtos mais vendidos</h2>
+            <p>Ranking de produtos por quantidade e valor vendido.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-nfemitidas.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-file-invoice"></i></span>
+            <h2>Notas Fiscais Emitidas</h2>
+            <p>NF-e e NFC-e emitidas, com busca por cliente ou número da nota.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-margemlucro.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-scale-balanced"></i></span>
+            <h2>Margem de Lucro</h2>
+            <p>Preço de custo, preço de venda e margem de lucro dos produtos.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-inventario.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-warehouse"></i></span>
+            <h2>Inventário</h2>
+            <p>Quantidade em estoque e valorização pelo custo e pelo preço de venda.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-curvaabc.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-chart-pie"></i></span>
+            <h2>Curva ABC</h2>
+            <p>Classificação dos produtos por importância no faturamento (A, B e C).</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-itensvendidos.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-list-check"></i></span>
+            <h2>Itens Vendidos</h2>
+            <p>Listagem detalhada de cada item vendido no período.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-comissao.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+            <h2>Comissão</h2>
+            <p>Comissão por vendedor no período, calculada sobre o valor vendido.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-nfentradas.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-file-import"></i></span>
+            <h2>NF de Entradas</h2>
+            <p>Notas fiscais de compra/entrada no período, com fornecedor e valor.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-aniversario.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-cake-candles"></i></span>
+            <h2>Aniversário de Clientes</h2>
+            <p>Clientes que fazem aniversário no mês selecionado.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-fichacadastral.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-id-card"></i></span>
+            <h2>Ficha Cadastral</h2>
+            <p>Dados completos de um cliente, com histórico de compras.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-boletos.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-barcode"></i></span>
+            <h2>Boletos Bancários</h2>
+            <p>Boletos emitidos no período, com vencimento, valor e status.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-validademercadorias.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-hourglass-half"></i></span>
+            <h2>Validade de Mercadorias</h2>
+            <p>Produtos vencidos ou próximos do vencimento.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-alteracoesprodutos.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-clock-rotate-left"></i></span>
+            <h2>Alterações de Produtos</h2>
+            <p>Histórico de criações e edições de produtos, com o usuário responsável.</p>
+        </a>
+
+        <a class="card" href="telas/relatorios/relatorio-movimentoestoque.html" data-permissao="relatorios">
+            <span class="card-icone"><i class="fa-solid fa-truck-ramp-box"></i></span>
+            <h2>Entrada e Saída de Produtos</h2>
+            <p>Movimentações de estoque no período: compras, vendas, ajustes e contagens.</p>
+        </a>
+
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+
+</body>
+</html>
+

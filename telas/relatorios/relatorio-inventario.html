@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Relatório de Inventário</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-inventario.css">
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-visualizador.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Inventário</h1>
+                <p>Quantidade em estoque e valorização dos produtos, pelo custo e pelo preço de venda.</p>
+            </div>
+            <a class="btn-voltar" href="telas/relatorios/relatorios.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel-filtros">
+        <form id="formRelatorioInventario">
+            <div class="grid-filtros">
+                <label>
+                    Categoria
+                    <input type="text" id="categoriaInventario" placeholder="Deixe em branco para todas">
+                </label>
+            </div>
+
+            <div class="secao-tipos-info">
+                <h3>Informações incluídas</h3>
+                <div class="checks-tipos-info">
+                    <label class="check-tipo-info">
+                        <input type="checkbox" id="somenteComEstoqueInventario" name="somenteComEstoque" checked>
+                        <span>Somente produtos com estoque maior que zero</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-filtro">
+                <button type="submit" class="btn-gerar" id="btnGerarRelatorio">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    Gerar relatório
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/relatorio-visualizador.js"></script>
+<script src="telas/relatorios/js/relatorio-inventario.js"></script>
+
+</body>
+</html>

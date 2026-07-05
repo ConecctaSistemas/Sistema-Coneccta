@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRE</title>
+<link rel="stylesheet" href="telas/relatorios/css/dashboard.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header class="topo-dre">
+        <div>
+            <h1>DRE</h1>
+            <p>Demonstração do Resultado com base nas movimentações registradas no sistema.</p>
+        </div>
+        <div class="periodo-dre">
+            <label>Período inicial<input type="date" id="dreDataInicial"></label>
+            <label>Período final<input type="date" id="dreDataFinal"></label>
+            <button type="button" id="btnAtualizarDre">Atualizar</button>
+        </div>
+    </header>
+
+    <section class="cards">
+        <article class="card">
+            <h3>Receita Bruta</h3>
+            <h2 id="dreReceitaBruta">R$ 0,00</h2>
+        </article>
+        <article class="card">
+            <h3>Deduções</h3>
+            <h2 id="dreDeducoes">R$ 0,00</h2>
+        </article>
+        <article class="card">
+            <h3>Lucro Bruto</h3>
+            <h2 id="dreLucroBruto">R$ 0,00</h2>
+        </article>
+        <article class="card resultado">
+            <h3>Resultado Líquido</h3>
+            <h2 id="dreResultadoLiquido">R$ 0,00</h2>
+        </article>
+    </section>
+
+    <section class="dre-layout">
+        <article class="painel dre-demonstrativo">
+            <div class="secao-titulo">
+                <h2>Demonstração do Resultado</h2>
+                <span id="drePeriodoTexto">Período atual</span>
+            </div>
+
+            <div class="linha-dre destaque">
+                <span>Receita operacional bruta</span>
+                <strong id="linhaReceitaBruta">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre negativa">
+                <span>(-) Descontos concedidos</span>
+                <strong id="linhaDescontos">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre negativa">
+                <span>(-) Vendas canceladas</span>
+                <strong id="linhaCancelamentos">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre subtotal">
+                <span>Receita líquida</span>
+                <strong id="linhaReceitaLiquida">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre negativa">
+                <span>(-) Custo das mercadorias vendidas</span>
+                <strong id="linhaCmv">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre subtotal">
+                <span>Lucro bruto</span>
+                <strong id="linhaLucroBruto">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre negativa">
+                <span>(-) Sangrias / despesas de caixa</span>
+                <strong id="linhaSangrias">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre positiva">
+                <span>(+) Suprimentos / entradas de caixa</span>
+                <strong id="linhaSuprimentos">R$ 0,00</strong>
+            </div>
+            <div class="linha-dre resultado-final">
+                <span>Resultado líquido estimado</span>
+                <strong id="linhaResultadoLiquido">R$ 0,00</strong>
+            </div>
+        </article>
+
+        <aside class="painel">
+            <div class="secao-titulo">
+                <h2>Indicadores</h2>
+                <span id="dreMargemLiquida">0,00%</span>
+            </div>
+            <div class="indicadores-dre">
+                <div>
+                    <small>Vendas registradas</small>
+                    <strong id="dreQuantidadeVendas">0</strong>
+                </div>
+                <div>
+                    <small>Ticket médio</small>
+                    <strong id="dreTicketMedio">R$ 0,00</strong>
+                </div>
+                <div>
+                    <small>Contas a receber</small>
+                    <strong id="dreContasReceber">R$ 0,00</strong>
+                </div>
+                <div>
+                    <small>Valor em estoque</small>
+                    <strong id="dreValorEstoque">R$ 0,00</strong>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="painel">
+        <div class="secao-titulo">
+            <h2>Movimentações consideradas</h2>
+            <span id="dreTotalMovimentos">0 movimento(s)</span>
+        </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Origem</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaMovimentosDre">
+                    <tr><td colspan="5" class="vazio">Nenhuma movimentação encontrada.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/dashboard.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

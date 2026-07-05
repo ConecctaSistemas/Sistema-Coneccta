@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ficha Cadastral do Cliente</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-fichacadastral.css">
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-visualizador.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Ficha Cadastral</h1>
+                <p>Dados completos de um cliente cadastrado, com histórico de compras.</p>
+            </div>
+            <a class="btn-voltar" href="telas/relatorios/relatorios.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel-filtros">
+        <form id="formRelatorioFichaCadastral">
+            <div class="grid-filtros">
+                <label>
+                    Nome ou CPF/CNPJ do cliente
+                    <input type="text" id="termoFichaCadastral" placeholder="Digite o nome ou o CPF/CNPJ" required>
+                </label>
+            </div>
+
+            <div class="acoes-filtro">
+                <button type="submit" class="btn-gerar" id="btnGerarRelatorio">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    Gerar ficha
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/relatorio-visualizador.js"></script>
+<script src="telas/relatorios/js/relatorio-fichacadastral.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Relatório de Curva ABC</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-curvaabc.css">
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-visualizador.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Curva ABC</h1>
+                <p>Classificação dos produtos por importância no faturamento do período (A, B e C).</p>
+            </div>
+            <a class="btn-voltar" href="telas/relatorios/relatorios.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel-filtros">
+        <form id="formRelatorioCurvaAbc">
+            <div class="grid-filtros">
+                <label>
+                    Período inicial
+                    <input type="date" id="dataInicioCurvaAbc" name="dataInicio">
+                </label>
+                <label>
+                    Período final
+                    <input type="date" id="dataFimCurvaAbc" name="dataFim">
+                </label>
+            </div>
+
+            <div class="secao-tipos-info">
+                <h3>Faixas de classificação</h3>
+                <div class="checks-tipos-info">
+                    <label class="check-tipo-info">
+                        <span>Classe A: até 80% do valor acumulado</span>
+                    </label>
+                    <label class="check-tipo-info">
+                        <span>Classe B: de 80% até 95% do valor acumulado</span>
+                    </label>
+                    <label class="check-tipo-info">
+                        <span>Classe C: acima de 95% do valor acumulado</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-filtro">
+                <button type="submit" class="btn-gerar" id="btnGerarRelatorio">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    Gerar relatório
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/relatorio-visualizador.js"></script>
+<script src="telas/relatorios/js/relatorio-curvaabc.js"></script>
+
+</body>
+</html>

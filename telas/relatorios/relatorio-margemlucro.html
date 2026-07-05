@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Relatório de Margem de Lucro</title>
+
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-margemlucro.css">
+<link rel="stylesheet" href="telas/relatorios/css/relatorio-visualizador.css">
+
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="topo">
+        <div class="topo-com-acoes">
+            <div>
+                <h1>Margem de Lucro</h1>
+                <p>Preço de custo, preço de venda e margem de lucro dos produtos cadastrados.</p>
+            </div>
+            <a class="btn-voltar" href="telas/relatorios/relatorios.html">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="painel-filtros">
+        <form id="formRelatorioMargemLucro">
+            <div class="grid-filtros">
+                <label>
+                    Categoria
+                    <input type="text" id="categoriaMargemLucro" placeholder="Deixe em branco para todas">
+                </label>
+                <label>
+                    Ordenar por
+                    <select id="ordenarMargemLucro">
+                        <option value="margemPercentual">Menor margem (%) primeiro</option>
+                        <option value="margemPercentualDesc">Maior margem (%) primeiro</option>
+                        <option value="nome">Nome do produto</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="secao-tipos-info">
+                <h3>Informações incluídas</h3>
+                <div class="checks-tipos-info">
+                    <label class="check-tipo-info">
+                        <input type="checkbox" id="somenteSemMargemLucro" name="somenteSemMargem">
+                        <span>Mostrar apenas produtos com margem zero ou negativa</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="acoes-filtro">
+                <button type="submit" class="btn-gerar" id="btnGerarRelatorio">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    Gerar relatório
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/relatorios/js/relatorio-visualizador.js"></script>
+<script src="telas/relatorios/js/relatorio-margemlucro.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,336 @@
+/* relatorio-visualizador.css */
+/* Estilo do componente compartilhado de visualizacao/impressao de relatorios. */
+
+.rv-overlay{
+position:fixed;
+inset:0;
+background:rgba(8,18,40,.6);
+display:flex;
+align-items:center;
+justify-content:center;
+padding:24px;
+animation:rv-fade-in .18s ease;
+}
+
+.rv-overlay.rv-minimizado{
+display:none;
+}
+
+@keyframes rv-fade-in{
+from{opacity:0}
+to{opacity:1}
+}
+
+.rv-janela{
+background:#fff;
+width:min(880px, 100%);
+max-height:92vh;
+border-radius:20px;
+box-shadow:0 24px 64px rgba(8,30,90,.28);
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+.rv-barra{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:14px 20px;
+background:linear-gradient(135deg,#183d63 0%,#1e5496 100%);
+color:#fff;
+flex-shrink:0;
+}
+
+.rv-barra-titulo{
+font-size:15px;
+font-weight:800;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.rv-barra-acoes{
+display:flex;
+align-items:center;
+gap:8px;
+flex-shrink:0;
+}
+
+.rv-btn-acao{
+display:inline-flex;
+align-items:center;
+gap:6px;
+height:34px;
+padding:0 12px;
+border-radius:8px;
+background:rgba(255,255,255,.14);
+color:#fff;
+border:1.5px solid rgba(255,255,255,.22);
+font-weight:700;
+font-size:13px;
+cursor:pointer;
+transition:background .15s ease;
+white-space:nowrap;
+}
+
+.rv-btn-acao:hover{
+background:rgba(255,255,255,.24);
+}
+
+.rv-btn-fechar{
+width:34px;
+padding:0;
+justify-content:center;
+background:rgba(255,255,255,.1);
+}
+
+.rv-btn-fechar:hover{
+background:#c93a31;
+border-color:#c93a31;
+}
+
+.rv-corpo{
+overflow-y:auto;
+background:#eef1f5;
+padding:24px;
+}
+
+.rv-doc{
+background:#fff;
+max-width:780px;
+margin:0 auto;
+padding:36px 40px;
+border-radius:6px;
+box-shadow:0 1px 4px rgba(17,45,78,.08);
+}
+
+.rv-doc-cabecalho{
+display:flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:16px;
+padding-bottom:16px;
+margin-bottom:20px;
+border-bottom:2px solid #0f172a;
+}
+
+.rv-doc-empresa strong{
+display:block;
+font-size:16px;
+color:#0f172a;
+}
+
+.rv-doc-empresa span{
+display:block;
+font-size:12px;
+color:#64748b;
+margin-top:2px;
+}
+
+.rv-doc-meta{
+font-size:12px;
+color:#64748b;
+text-align:right;
+white-space:nowrap;
+}
+
+.rv-doc-titulo{
+font-size:22px;
+color:#0f172a;
+margin:0 0 4px;
+}
+
+.rv-doc-periodo{
+font-size:13px;
+color:#64748b;
+margin:0 0 20px;
+}
+
+.rv-doc-resumo{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+gap:12px;
+margin-bottom:24px;
+}
+
+.rv-resumo-card{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:10px;
+padding:12px 14px;
+}
+
+.rv-resumo-card span{
+display:block;
+font-size:11.5px;
+font-weight:700;
+color:#64748b;
+text-transform:uppercase;
+letter-spacing:.3px;
+}
+
+.rv-resumo-card strong{
+display:block;
+font-size:19px;
+font-weight:800;
+color:#0f172a;
+margin-top:4px;
+}
+
+.rv-doc-secao{
+margin-bottom:24px;
+}
+
+.rv-doc-secao:last-child{
+margin-bottom:0;
+}
+
+.rv-doc-secao-titulo{
+font-size:15px;
+color:#0f172a;
+margin:0 0 10px;
+padding-bottom:6px;
+border-bottom:1.5px solid #e2e8f0;
+}
+
+.rv-tabela{
+width:100%;
+border-collapse:collapse;
+font-size:12.5px;
+}
+
+.rv-tabela thead th{
+text-align:left;
+background:#0f172a;
+color:#fff;
+padding:9px 10px;
+font-size:11px;
+font-weight:800;
+text-transform:uppercase;
+letter-spacing:.3px;
+}
+
+.rv-tabela tbody td{
+padding:9px 10px;
+border-bottom:1px solid #e2e8f0;
+color:#1e293b;
+}
+
+.rv-tabela tbody tr:last-child td{
+border-bottom:none;
+}
+
+.rv-vazio{
+text-align:center;
+color:#94a3b8;
+padding:30px !important;
+}
+
+/* ── Barra de tarefas com relatorios minimizados ── */
+.rv-taskbar{
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:9500;
+display:flex;
+flex-direction:column-reverse;
+gap:8px;
+align-items:flex-end;
+}
+
+.rv-chip{
+display:flex;
+align-items:center;
+gap:8px;
+background:#fff;
+border:1.5px solid #d9e4f0;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(17,45,78,.16);
+padding:10px 12px;
+font-size:13px;
+font-weight:700;
+color:#1a436b;
+cursor:pointer;
+max-width:240px;
+font-family:inherit;
+}
+
+.rv-chip:hover{
+border-color:#1A436B;
+}
+
+.rv-chip i.fa-file-lines{
+color:#0b66dd;
+}
+
+.rv-chip span:not(.rv-chip-fechar){
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
+
+.rv-chip-fechar{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+width:18px;
+height:18px;
+border-radius:50%;
+color:#94a3b8;
+flex-shrink:0;
+}
+
+.rv-chip-fechar:hover{
+background:#fee2e2;
+color:#dc2626;
+}
+
+/* ── Impressao: some com tudo, exceto o documento sendo impresso ── */
+@media print{
+body *{
+visibility:hidden;
+}
+.rv-overlay.rv-imprimindo,
+.rv-overlay.rv-imprimindo *{
+visibility:visible;
+}
+.rv-overlay.rv-imprimindo{
+position:absolute;
+inset:0;
+background:#fff;
+padding:0;
+display:block;
+}
+.rv-overlay.rv-imprimindo .rv-barra{
+display:none;
+}
+.rv-overlay.rv-imprimindo .rv-corpo{
+overflow:visible;
+padding:0;
+background:#fff;
+}
+.rv-overlay.rv-imprimindo .rv-janela{
+max-height:none;
+box-shadow:none;
+border-radius:0;
+width:100%;
+}
+.rv-overlay.rv-imprimindo .rv-doc{
+box-shadow:none;
+max-width:100%;
+padding:0;
+}
+.rv-taskbar{
+display:none !important;
+}
+}
+
+@media(max-width:700px){
+.rv-doc{padding:20px}
+.rv-corpo{padding:14px}
+.rv-doc-cabecalho{flex-direction:column}
+.rv-doc-meta{text-align:left}
+.rv-barra-acoes .rv-btn-acao span{display:none}
+}
