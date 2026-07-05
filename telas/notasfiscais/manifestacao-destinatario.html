@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifestação do Destinatário</title>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/manifestacao-destinatario.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais-padrao.css?v=20260702-padrao">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div class="topbar-info">
+            <a href="telas/notasfiscais/notasfiscais.html" class="breadcrumb">
+                <i class="fa-solid fa-chevron-left"></i> Notas Fiscais
+            </a>
+            <h1><i class="fa-solid fa-building-shield"></i> Manifestação do Destinatário</h1>
+            <p>Ciência, confirmação, desconhecimento e operação não realizada de NF-e.</p>
+        </div>
+        <div class="topbar-acoes">
+            <a href="telas/notasfiscais/notasfiscais.html" class="btn-voltar-notas"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <button class="btn btn-secundario" id="btnAtualizarLista" title="Atualizar lista local">
+                <i class="fa-solid fa-rotate"></i> Atualizar
+            </button>
+            <button class="btn btn-primario" id="btnConsultarSefaz">
+                <i class="fa-solid fa-satellite-dish"></i> Consultar SEFAZ
+            </button>
+        </div>
+    </header>
+
+    <!-- ═══ CARDS RESUMO ═══ -->
+    <div class="cards-resumo">
+        <div class="card-resumo">
+            <div class="card-resumo-icone" style="background:#eef5ff;color:#1A436B">
+                <i class="fa-solid fa-file-invoice"></i>
+            </div>
+            <div>
+                <strong id="crdTotal">0</strong>
+                <span>Total recebidas</span>
+            </div>
+        </div>
+        <div class="card-resumo card-resumo-alerta">
+            <div class="card-resumo-icone" style="background:#fff3e0;color:#985200">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+                <strong id="crdPendentes">0</strong>
+                <span>Pendentes</span>
+            </div>
+        </div>
+        <div class="card-resumo">
+            <div class="card-resumo-icone" style="background:#e6f4ee;color:#0e7a57">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <strong id="crdConfirmadas">0</strong>
+                <span>Confirmadas</span>
+            </div>
+        </div>
+        <div class="card-resumo">
+            <div class="card-resumo-icone" style="background:#eef5ff;color:#1A436B">
+                <i class="fa-solid fa-eye"></i>
+            </div>
+            <div>
+                <strong id="crdCiencia">0</strong>
+                <span>Ciência emitida</span>
+            </div>
+        </div>
+        <div class="card-resumo">
+            <div class="card-resumo-icone" style="background:#fff4f4;color:#b42318">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <div>
+                <strong id="crdDesconhecidas">0</strong>
+                <span>Desconhecidas / N. Realizadas</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ PAINEL PRINCIPAL ═══ -->
+    <section class="painel-principal">
+
+        <div class="painel-topo">
+            <div>
+                <h2>NF-e Recebidas</h2>
+                <p>Selecione uma ou mais notas para manifestar.</p>
+            </div>
+            <div class="filtros">
+                <div class="busca-wrap">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="search" id="buscaMd" placeholder="Emitente, CNPJ ou chave...">
+                </div>
+                <select id="filtroStatusMd">
+                    <option value="">Todos os status</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="ciencia">Ciência</option>
+                    <option value="confirmada">Confirmada</option>
+                    <option value="desconhecida">Desconhecida</option>
+                    <option value="nao_realizada">Não Realizada</option>
+                </select>
+                <input type="date" id="filtroDataIni" title="Data inicial">
+                <input type="date" id="filtroDataFim" title="Data final">
+            </div>
+        </div>
+
+        <!-- Barra de ação em lote -->
+        <div class="barra-lote" id="barraLote" hidden>
+            <span id="lblSelecionadas">0 notas selecionadas</span>
+            <div class="lote-acoes">
+                <button class="btn btn-lote btn-ciencia"      data-evento="ciencia">
+                    <i class="fa-solid fa-eye"></i> Ciência
+                </button>
+                <button class="btn btn-lote btn-confirmar"    data-evento="confirmada">
+                    <i class="fa-solid fa-circle-check"></i> Confirmar
+                </button>
+                <button class="btn btn-lote btn-desconhecer"  data-evento="desconhecida">
+                    <i class="fa-solid fa-circle-question"></i> Desconhecer
+                </button>
+                <button class="btn btn-lote btn-nao-realizada" data-evento="nao_realizada">
+                    <i class="fa-solid fa-ban"></i> Não Realizada
+                </button>
+                <button class="btn btn-lote btn-cancelar-lote" id="btnCancelarLote">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela -->
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-check">
+                            <input type="checkbox" id="selecionarTodosMd" title="Selecionar todos">
+                        </th>
+                        <th>Emitente</th>
+                        <th>NF-e / Série</th>
+                        <th class="col-valor">Valor Total</th>
+                        <th>Emissão</th>
+                        <th>Recebimento</th>
+                        <th>Status</th>
+                        <th class="col-acoes">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaMd">
+                    <tr><td colspan="8" class="vazio">Clique em <strong>Consultar SEFAZ</strong> para buscar novas NF-e.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="paginacao" id="paginacaoMd"></div>
+    </section>
+
+</div>
+
+<!-- ═══════════ MODAL MANIFESTAR ═══════════ -->
+<div class="modal-fundo" id="modalManifestar">
+    <div class="modal">
+        <div class="modal-topo">
+            <div>
+                <h2 id="tituloModalManifestar">Manifestar NF-e</h2>
+                <p id="subtituloModalManifestar">Registre seu posicionamento junto à SEFAZ.</p>
+            </div>
+            <button class="btn-fechar" data-fechar="modalManifestar" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo">
+            <input type="hidden" id="mdChavesAlvo">
+
+            <!-- Tipo de evento -->
+            <div class="tipo-evento-grid">
+                <label class="tipo-evento-opcao" data-tipo="ciencia">
+                    <input type="radio" name="tipoEvento" value="ciencia">
+                    <div class="tipo-evento-card">
+                        <i class="fa-solid fa-eye" style="color:#1A436B"></i>
+                        <strong>Ciência</strong>
+                        <small>Reconheço a existência da NF-e</small>
+                    </div>
+                </label>
+                <label class="tipo-evento-opcao" data-tipo="confirmada">
+                    <input type="radio" name="tipoEvento" value="confirmada">
+                    <div class="tipo-evento-card">
+                        <i class="fa-solid fa-circle-check" style="color:#0e7a57"></i>
+                        <strong>Confirmação</strong>
+                        <small>Confirmo a operação e o recebimento</small>
+                    </div>
+                </label>
+                <label class="tipo-evento-opcao" data-tipo="desconhecida">
+                    <input type="radio" name="tipoEvento" value="desconhecida">
+                    <div class="tipo-evento-card">
+                        <i class="fa-solid fa-circle-question" style="color:#985200"></i>
+                        <strong>Desconhecimento</strong>
+                        <small>Não reconheço esta operação</small>
+                    </div>
+                </label>
+                <label class="tipo-evento-opcao" data-tipo="nao_realizada">
+                    <input type="radio" name="tipoEvento" value="nao_realizada">
+                    <div class="tipo-evento-card">
+                        <i class="fa-solid fa-ban" style="color:#b42318"></i>
+                        <strong>Não Realizada</strong>
+                        <small>A operação não foi concluída</small>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Justificativa (obrigatória para desconhecimento / não realizada) -->
+            <div class="campo-justificativa" id="campoJustificativa" hidden>
+                <label for="mdJustificativa">
+                    Justificativa <span class="obrigatorio">*</span>
+                    <small>Mínimo 15 caracteres</small>
+                </label>
+                <textarea id="mdJustificativa" rows="3" maxlength="255"
+                    placeholder="Descreva o motivo do desconhecimento ou da não realização..."></textarea>
+                <small id="contadorJust">0 / 255</small>
+            </div>
+
+            <!-- Preview das notas que serão manifestadas -->
+            <div class="preview-notas" id="previewNotasMd"></div>
+        </div>
+        <div class="modal-rodape">
+            <button class="btn btn-secundario" data-fechar="modalManifestar">Cancelar</button>
+            <button class="btn btn-primario" id="btnConfirmarManifestar">
+                <i class="fa-solid fa-paper-plane"></i> Enviar Manifestação
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ MODAL CONSULTA SEFAZ ═══════════ -->
+<div class="modal-fundo" id="modalConsultarSefaz">
+    <div class="modal modal-sm">
+        <div class="modal-topo">
+            <div>
+                <h2>Consultar SEFAZ</h2>
+                <p>Busca NF-e destinadas ao seu CNPJ na SEFAZ.</p>
+            </div>
+            <button class="btn-fechar" data-fechar="modalConsultarSefaz" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo">
+            <div class="form-grid">
+                <label class="campo-total">
+                    Tipo de consulta
+                    <select id="mdTipoConsulta">
+                        <option value="nsu">Último NSU (busca incremental)</option>
+                        <option value="chave">Por chave de acesso</option>
+                        <option value="nsu_especifico">NSU específico</option>
+                    </select>
+                </label>
+                <div class="campo-total" id="campoChaveConsulta" hidden>
+                    <label for="mdChaveConsulta">
+                        Chave de acesso (44 dígitos)
+                        <input type="text" id="mdChaveConsulta" maxlength="44" placeholder="00000000000000000000000000000000000000000000">
+                    </label>
+                </div>
+                <div class="campo-total" id="campoNsuConsulta" hidden>
+                    <label for="mdNsuEspecifico">
+                        NSU
+                        <input type="number" id="mdNsuEspecifico" min="0" placeholder="000000000000000">
+                    </label>
+                </div>
+                <label class="campo-total">
+                    Ambiente
+                    <select id="mdAmbienteConsulta">
+                        <option value="1">Produção</option>
+                        <option value="2">Homologação</option>
+                    </select>
+                </label>
+            </div>
+            <div class="consulta-status" id="statusConsultaSefaz" hidden></div>
+        </div>
+        <div class="modal-rodape">
+            <button class="btn btn-secundario" data-fechar="modalConsultarSefaz">Cancelar</button>
+            <button class="btn btn-primario" id="btnExecutarConsulta">
+                <i class="fa-solid fa-satellite-dish"></i> Consultar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════ MODAL DETALHE NF-e ═══════════ -->
+<div class="modal-fundo" id="modalDetalheNfe">
+    <div class="modal modal-lg">
+        <div class="modal-topo">
+            <div>
+                <h2>Detalhe da NF-e</h2>
+                <p id="subtituloDetalheNfe"></p>
+            </div>
+            <button class="btn-fechar" data-fechar="modalDetalheNfe" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-corpo" id="conteudoDetalheNfe">
+        </div>
+        <div class="modal-rodape" id="rodapeDetalheNfe">
+            <button class="btn btn-secundario" id="btnBaixarXmlMd">
+                <i class="fa-solid fa-file-code"></i> Baixar XML
+            </button>
+            <button class="btn btn-secundario" data-fechar="modalDetalheNfe">Fechar</button>
+            <button class="btn btn-primario" id="btnManifestarDetalhe">
+                <i class="fa-solid fa-paper-plane"></i> Manifestar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/notasfiscais/js/manifestacao-destinatario.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

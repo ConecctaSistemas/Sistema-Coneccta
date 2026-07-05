@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NF-e / NFC-e Emitidas</title>
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais-padrao.css?v=20260702-padrao">
+</head>
+<body>
+
+<div class="container">
+    <div class="topo topo-com-acoes">
+        <div>
+            <h1>NF-e / NFC-e Emitidas</h1>
+            <p>Consulte documentos emitidos, cancelados e devolvidos.</p>
+        </div>
+        <a href="telas/notasfiscais/notasfiscais.html" class="btn-voltar-notas"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+    </div>
+
+    <section class="documentos-fiscais" id="documentosFiscais">
+        <div class="painel-topo">
+            <div>
+                <h2>Documentos fiscais</h2>
+                <p>Use as opções da nota para cancelar, devolver, duplicar, corrigir ou baixar XML.</p>
+            </div>
+            <div class="filtros-doc">
+                <input type="date" id="filtroDataIniDoc" title="Data inicial">
+                <input type="date" id="filtroDataFimDoc" title="Data final">
+                <select id="filtroStatusDocumento">
+                    <option value="todos">Todos os status</option>
+                    <option value="emitida">Emitidas</option>
+                    <option value="cancelada">Canceladas</option>
+                    <option value="devolvida">Devolvidas</option>
+                </select>
+                <input type="search" id="buscaDocumentoFiscal" placeholder="Buscar número, série, cliente...">
+            </div>
+        </div>
+
+        <div class="abas-doc" role="tablist">
+            <button type="button" class="aba-doc ativa" data-doc-tab="nfe">NF-e</button>
+            <button type="button" class="aba-doc" data-doc-tab="nfce">NFC-e</button>
+        </div>
+
+        <div class="tabela-doc-wrap">
+            <table>
+                <thead id="cabecalhoDocumentosFiscais"></thead>
+                <tbody id="listaDocumentosFiscais">
+                    <tr><td class="vazio">Nenhum documento encontrado.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="telas/notasfiscais/js/notasfiscais.js?v=20260701-boleto-nfe"></script>
+</body>
+</html>
+

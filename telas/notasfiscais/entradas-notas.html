@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrada de Notas Fiscais</title>
+<link rel="stylesheet" href="telas/notasfiscais/css/entradas-notas.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais-padrao.css?v=20260702-padrao">
+</head>
+<body>
+
+<div class="app">
+    <main class="conteudo">
+        <header class="topbar">
+            <div>
+                <a href="telas/notasfiscais/notasfiscais.html" class="voltar"><i class="fa-solid fa-arrow-left"></i> Notas fiscais</a>
+                <h1>Entrada de Notas Fiscais</h1>
+                <p>Importe XML, confira produtos, atualize estoque e gere financeiro automaticamente.</p>
+            </div>
+            <div class="acoes-topo">
+                <a href="telas/notasfiscais/notasfiscais.html" class="btn-voltar-notas"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+                <input type="file" id="arquivoXmlEntrada" accept=".xml,text/xml,application/xml" hidden>
+                <button type="button" class="btn primario" id="btnImportarXml"><i class="fa-solid fa-file-import"></i> Importar XML</button>
+                <button type="button" class="btn secundario" id="btnBuscarNfe"><i class="fa-solid fa-magnifying-glass"></i> Buscar NF-e</button>
+                <button type="button" class="btn claro" id="btnNovaEntrada"><i class="fa-solid fa-plus"></i> Nova Entrada</button>
+            </div>
+        </header>
+
+        <section class="resumo">
+            <article>
+                <i class="fa-solid fa-file-circle-check"></i>
+                <strong id="cardNotasImportadas">0</strong>
+                <span>Notas importadas</span>
+            </article>
+            <article>
+                <i class="fa-solid fa-list-check"></i>
+                <strong id="cardProdutosConferidos">0</strong>
+                <span>Produtos conferidos</span>
+            </article>
+            <article>
+                <i class="fa-solid fa-box-open"></i>
+                <strong id="cardProdutosNovos">0</strong>
+                <span>Produtos novos</span>
+            </article>
+            <article>
+                <i class="fa-solid fa-coins"></i>
+                <strong id="cardValorNota">R$ 0,00</strong>
+                <span>Valor total da nota</span>
+            </article>
+            <article>
+                <i class="fa-solid fa-receipt"></i>
+                <strong id="cardImpostos">R$ 0,00</strong>
+                <span>Total de impostos</span>
+            </article>
+            <article>
+                <i class="fa-solid fa-calendar-check"></i>
+                <strong id="cardContasPagar">0</strong>
+                <span>Contas a pagar</span>
+            </article>
+        </section>
+
+        <section class="grid-duplo">
+            <article class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <span>Dados da nota</span>
+                        <h2>Notas fiscais / entradas manuais</h2>
+                    </div>
+                    <div class="acoes-inline">
+                        <details class="seletor-colunas">
+                            <summary><i class="fa-solid fa-table-columns"></i> Campos</summary>
+                            <div class="opcoes-colunas" data-secao-colunas="dadosNota"></div>
+                        </details>
+                        <strong id="statusEntrada" class="selo pendente">Aguardando XML</strong>
+                    </div>
+                </div>
+                <div class="form-grid" data-secao="dadosNota">
+                    <label data-campo="chave">Chave de acesso NF-e<input type="text" id="notaChave" readonly></label>
+                    <label data-campo="numero">Número da nota<input type="text" id="notaNumero" readonly></label>
+                    <label data-campo="serie">Série<input type="text" id="notaSerie" readonly></label>
+                    <label data-campo="emissao">Data de emissão<input type="date" id="notaEmissao" readonly></label>
+                    <label data-campo="entrada">Data de entrada<input type="date" id="notaEntrada"></label>
+                    <label data-campo="fornecedor">Fornecedor<input type="text" id="notaFornecedor" readonly></label>
+                    <label data-campo="cnpj">CNPJ fornecedor<input type="text" id="notaCnpj" readonly></label>
+                    <label data-campo="produtos">Valor dos produtos<input type="text" id="notaValorProdutos" readonly></label>
+                    <label data-campo="total">Valor total da nota<input type="text" id="notaValorTotal" readonly></label>
+                    <label data-campo="frete">Frete<input type="text" id="notaFrete" readonly></label>
+                    <label data-campo="desconto">Desconto<input type="text" id="notaDesconto" readonly></label>
+                    <label data-campo="outras">Outras despesas<input type="text" id="notaOutras" readonly></label>
+                </div>
+            </article>
+
+            <article class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <span>Fornecedor</span>
+                        <h2>Identificação do emitente</h2>
+                    </div>
+                    <details class="seletor-colunas">
+                        <summary><i class="fa-solid fa-table-columns"></i> Campos</summary>
+                        <div class="opcoes-colunas" data-secao-colunas="fornecedor"></div>
+                    </details>
+                </div>
+                <div class="fornecedor-box" data-secao="fornecedor">
+                    <div data-campo="razao"><small>Razão social</small><strong id="forRazao">-</strong></div>
+                    <div data-campo="fantasia"><small>Nome fantasia</small><strong id="forFantasia">-</strong></div>
+                    <div data-campo="cnpj"><small>CNPJ</small><strong id="forCnpj">-</strong></div>
+                    <div data-campo="ie"><small>Inscrição estadual</small><strong id="forIe">-</strong></div>
+                    <div data-campo="cidade"><small>Cidade/UF</small><strong id="forCidade">-</strong></div>
+                </div>
+                <div class="acoes-inline">
+                    <button type="button" class="btn claro" id="btnVerFornecedor">Ver cadastro</button>
+                    <button type="button" class="btn secundario" id="btnCadastrarFornecedor">Cadastrar fornecedor</button>
+                    <button type="button" class="btn primario" id="btnAtualizarFornecedor">Atualizar cadastro</button>
+                </div>
+            </article>
+        </section>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <div>
+                    <span>Conferência de itens</span>
+                    <h2>Produtos da nota</h2>
+                </div>
+                <div class="acoes-inline">
+                    <button type="button" class="btn claro" id="btnRecalcularPrecos"><i class="fa-solid fa-calculator"></i> Recalcular preços</button>
+                </div>
+            </div>
+            <div class="filtros-produtos filtros-produtos-simples">
+                <label>Filtro
+                    <input type="search" id="filtroProdutoNota" placeholder="Produto, código, EAN, NCM ou vínculo">
+                </label>
+                <details class="seletor-colunas">
+                    <summary><i class="fa-solid fa-table-columns"></i> Colunas</summary>
+                    <div id="opcoesColunasProdutos" class="opcoes-colunas"></div>
+                </details>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead id="cabecalhoProdutosNota"></thead>
+                    <tbody id="tabelaProdutosNota">
+                        <tr><td colspan="7" class="vazio">Nenhuma nota importada.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="grid-duplo">
+            <article class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <span>Formação de preço</span>
+                        <h2>Preço sugerido</h2>
+                    </div>
+                    <details class="seletor-colunas">
+                        <summary><i class="fa-solid fa-table-columns"></i> Campos</summary>
+                        <div class="opcoes-colunas" data-secao-colunas="precos"></div>
+                    </details>
+                </div>
+                <div class="conf-hint" id="confHintPrecos">
+                    <i class="fa-solid fa-computer-mouse"></i> Clique para selecionar - <strong>Duplo clique</strong> para abrir detalhes e editar
+                </div>
+                <div class="form-grid precos-grid" data-secao="precos">
+                    <label data-campo="custoNota">Custo da nota<input type="text" id="precoCustoNota" readonly></label>
+                    <label data-campo="frete">Frete rateado<input type="text" id="precoFreteRateado" readonly></label>
+                    <label data-campo="despesas">Despesas rateadas<input type="text" id="precoDespesasRateadas" readonly></label>
+                    <label data-campo="custoFinal">Custo final<input type="text" id="precoCustoFinal" readonly></label>
+                    <label data-campo="margem">Margem desejada (%) <input type="number" id="precoMargem" value="45" min="-100" step="0.01"></label>
+                    <label data-campo="sugerido">Preço sugerido<input type="text" id="precoSugerido" readonly></label>
+                </div>
+            </article>
+
+            <article class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <span>Tributos</span>
+                        <h2>Dados fiscais do item</h2>
+                    </div>
+                    <details class="seletor-colunas">
+                        <summary><i class="fa-solid fa-table-columns"></i> Campos</summary>
+                        <div class="opcoes-colunas" data-secao-colunas="tributos"></div>
+                    </details>
+                </div>
+                <div class="conf-hint" id="confHintTributos">
+                    <i class="fa-solid fa-computer-mouse"></i> Clique em um produto para ver os tributos da NF
+                </div>
+                <div class="form-grid conf-grid-2" data-secao="tributos">
+                    <label data-campo="cfop">CFOP<input type="text" id="tribCfop" readonly></label>
+                    <label data-campo="ncm">NCM<input type="text" id="tribNcm" readonly></label>
+                    <label data-campo="cest">CEST<input type="text" id="tribCest" readonly></label>
+                    <label data-campo="aliquota">Alíq. ICMS<input type="text" id="tribAliquota" readonly></label>
+                    <label data-campo="base">Base cálculo<input type="text" id="tribBase" readonly></label>
+                    <label data-campo="icms">Valor ICMS<input type="text" id="tribIcms" readonly></label>
+                    <label data-campo="ipi">Valor IPI<input type="text" id="tribIpi" readonly></label>
+                    <label data-campo="pis">Valor PIS<input type="text" id="tribPis" readonly></label>
+                    <label data-campo="cofins">Valor COFINS<input type="text" id="tribCofins" readonly></label>
+                    <label data-campo="cstIcms">CST/CSOSN ICMS<input type="text" id="tribCstIcms" readonly></label>
+                    <label data-campo="cstPis">CST PIS<input type="text" id="tribCstPis" readonly></label>
+                    <label data-campo="cstCofins">CST COFINS<input type="text" id="tribCstCofins" readonly></label>
+                    <label data-campo="cstIpi">CST IPI<input type="text" id="tribCstIpi" readonly></label>
+                    <label data-campo="origem">Origem<input type="text" id="tribOrigem" readonly></label>
+                </div>
+            </article>
+        </section>
+
+        <section class="grid-duplo">
+            <article class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <span>Financeiro</span>
+                        <h2>Contas a pagar</h2>
+                    </div>
+                    <div class="acoes-inline">
+                        <details class="seletor-colunas">
+                            <summary><i class="fa-solid fa-table-columns"></i> Campos</summary>
+                            <div class="opcoes-colunas" data-secao-colunas="financeiro"></div>
+                        </details>
+                        <strong id="finOrigemParcelas" class="selo pendente">Aguardando XML</strong>
+                    </div>
+                </div>
+                <div class="form-grid" data-secao="financeiro">
+                    <label data-campo="gerar">Gerar contas a pagar
+                        <select id="finGerar">
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+                    </label>
+                    <label data-campo="forma">Forma de pagamento
+                        <select id="finForma">
+                            <option>Não identificado</option>
+                            <option>Boleto</option>
+                            <option>PIX</option>
+                            <option>Transferência</option>
+                            <option>Cartão</option>
+                            <option>Depósito</option>
+                            <option>Carteira</option>
+                            <option>Sem pagamento</option>
+                            <option>Outro</option>
+                        </select>
+                    </label>
+                    <label data-campo="parcelas">Quantidade de parcelas<input type="number" id="finParcelas" value="3" min="1" max="24"></label>
+                    <label data-campo="vencimento">Primeira data de vencimento<input type="date" id="finPrimeiroVencimento"></label>
+                    <label data-campo="valor">Valor total<input type="text" id="finValorTotal" data-moeda></label>
+                </div>
+                <div class="acoes-inline">
+                    <button type="button" class="btn secundario" id="btnGerarParcelas">Gerar parcelas</button>
+                    <button type="button" class="btn primario" id="btnConfirmarContas">Confirmar contas a pagar</button>
+                </div>
+                <div class="tabela-wrap tabela-financeiro">
+                    <table>
+                        <thead>
+                            <tr><th>Parcela</th><th>Vencimento</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody id="tabelaParcelas">
+                            <tr><td colspan="5" class="vazio">Nenhuma parcela gerada.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="painel">
+                <div class="secao-titulo">
+                    <div>
+                        <span>Conferência final</span>
+                        <h2>Checklist da entrada</h2>
+                    </div>
+                    <details class="seletor-colunas">
+                        <summary><i class="fa-solid fa-table-columns"></i> Campos</summary>
+                        <div class="opcoes-colunas" data-secao-colunas="checklist"></div>
+                    </details>
+                </div>
+                <div class="checklist" data-secao="checklist">
+                    <label data-campo="xml"><input type="checkbox" id="checkXml" disabled> XML importado</label>
+                    <label data-campo="fornecedor"><input type="checkbox" id="checkFornecedor" disabled> Fornecedor identificado</label>
+                    <label data-campo="vinculados"><input type="checkbox" id="checkVinculados" disabled> Produtos vinculados</label>
+                    <label data-campo="novos"><input type="checkbox" id="checkNovos" disabled> Produtos novos cadastrados</label>
+                    <label data-campo="custos"><input type="checkbox" id="checkCustos" disabled> Custos conferidos</label>
+                    <label data-campo="estoque"><input type="checkbox" id="checkEstoque" disabled> Estoque pronto para atualizar</label>
+                    <label data-campo="financeiro"><input type="checkbox" id="checkFinanceiro" disabled> Financeiro pronto para gerar</label>
+                </div>
+                <details class="aba-pendencias" id="abaPendenciasEntrada">
+                    <summary>
+                        <span>Pendências</span>
+                        <strong id="contadorPendenciasEntrada">0</strong>
+                    </summary>
+                    <div id="alertasEntrada" class="alertas pendencias-lista"></div>
+                </details>
+            </article>
+        </section>
+    </main>
+</div>
+
+<div class="modal-confirmacao" id="modalConfirmacao" aria-hidden="true">
+    <div class="modal-confirmacao-caixa">
+        <p id="modalConfirmacaoMensagem"></p>
+        <div class="modal-confirmacao-acoes">
+            <button type="button" class="btn claro" id="btnConfirmacaoCancelar">Cancelar</button>
+            <button type="button" class="btn primario" id="btnConfirmacaoOk">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<footer class="rodape-acoes">
+    <button type="button" class="btn claro" id="btnSalvarRascunho">Salvar nota</button>
+    <button type="button" class="btn perigo" id="btnCancelarEntrada">Cancelar entrada</button>
+    <button type="button" class="btn primario" id="btnFinalizarEntrada" disabled>Importar nota</button>
+</footer>
+
+<section class="modal modal-produto-detalhe" id="modalDetalheProduto" aria-hidden="true">
+    <header>
+        <div class="md-header-info">
+            <h2 id="mdProdutoTitulo">Produto</h2>
+            <div class="md-header-badges">
+                <span id="mdProdutoNcm" class="md-badge">NCM -</span>
+                <span id="mdProdutoStatus" class="md-badge"></span>
+            </div>
+        </div>
+        <button type="button" data-fechar-modal>&times;</button>
+    </header>
+    <div class="modal-corpo md-corpo">
+        <div class="md-grid">
+            <div class="md-coluna">
+                <h3 class="md-secao-titulo"><i class="fa-solid fa-receipt"></i> Tributos da nota fiscal</h3>
+                <div class="md-campos-grid">
+                    <label>CFOP<input type="text" id="mdTribCfop" readonly></label>
+                    <label>NCM<input type="text" id="mdTribNcm" readonly></label>
+                    <label>CEST<input type="text" id="mdTribCest" readonly></label>
+                    <label>Alíq. ICMS<input type="text" id="mdTribAliquota" readonly></label>
+                    <label>Base de cálculo<input type="text" id="mdTribBase" readonly></label>
+                    <label>Valor ICMS<input type="text" id="mdTribIcms" readonly></label>
+                    <label>Valor IPI<input type="text" id="mdTribIpi" readonly></label>
+                    <label>Valor PIS<input type="text" id="mdTribPis" readonly></label>
+                    <label>Valor COFINS<input type="text" id="mdTribCofins" readonly></label>
+                    <label>CST/CSOSN<input type="text" id="mdTribCstIcms" readonly></label>
+                    <label>CST PIS<input type="text" id="mdTribCstPis" readonly></label>
+                    <label>CST COFINS<input type="text" id="mdTribCstCofins" readonly></label>
+                    <label>CST IPI<input type="text" id="mdTribCstIpi" readonly></label>
+                    <label>Origem<input type="text" id="mdTribOrigem" readonly></label>
+                </div>
+            </div>
+            <div class="md-coluna">
+                <h3 class="md-secao-titulo"><i class="fa-solid fa-tag"></i> Formação de preço</h3>
+                <div class="md-campos-grid">
+                    <label>Custo da nota<input type="text" id="mdPrecoCusto" readonly></label>
+                    <label>Frete rateado<input type="text" id="mdPrecoFrete" readonly></label>
+                    <label>Despesas rateadas<input type="text" id="mdPrecoDespesas" readonly></label>
+                    <label>Custo final<input type="text" id="mdPrecoCustoFinal" readonly></label>
+                    <label>Margem (%) <small class="label-opcional">Opcional</small><input type="number" id="mdPrecoMargem" min="-100" step="0.01" placeholder="ex: 45"></label>
+                    <label>Preço sugerido<input type="text" id="mdPrecoSugerido" readonly></label>
+                    <label class="md-label-venda" style="grid-column:1/-1">Preço de venda<input type="text" id="mdPrecoVenda" data-moeda placeholder="0,00"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <button type="button" class="btn claro" data-fechar-modal>Fechar</button>
+        <button type="button" class="btn primario" id="btnSalvarDetalheProduto"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+    </footer>
+</section>
+
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
+
+<section class="modal" id="modalVincular" aria-hidden="true">
+    <header>
+        <h2>Vincular produto existente</h2>
+        <button type="button" data-fechar-modal>&times;</button>
+    </header>
+    <div class="modal-corpo">
+        <input type="search" id="buscaProdutoSistema" class="campo-busca" placeholder="Buscar produto cadastrado">
+        <div id="listaProdutosSistema" class="lista-produtos"></div>
+    </div>
+    <footer>
+        <button type="button" class="btn claro" data-fechar-modal>Cancelar</button>
+        <button type="button" class="btn primario" id="btnConfirmarVinculo">Confirmar vínculo</button>
+    </footer>
+</section>
+
+<section class="modal modal-amplo" id="modalCadastrarProduto" aria-hidden="true">
+    <header>
+        <h2>Cadastrar novo produto</h2>
+        <button type="button" data-fechar-modal>&times;</button>
+    </header>
+    <div class="modal-corpo form-grid">
+        <label>Descrição<input type="text" id="novoDescricao"></label>
+        <label>Código de barras<input type="text" id="novoEan"></label>
+        <label>NCM
+            <span class="campo-com-botao">
+                <input type="text" id="novoNcm">
+                <button type="button" id="btnPesquisarNcmEntrada" aria-label="Pesquisar NCM" title="Pesquisar NCM"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </span>
+        </label>
+        <label>CEST<input type="text" id="novoCest"></label>
+        <label>Unidade<input type="text" id="novoUnidade"></label>
+        <label>Grupo<input type="text" id="novoGrupo"></label>
+        <label>Subgrupo<input type="text" id="novoSubgrupo"></label>
+        <label>Preço de custo<input type="text" id="novoCusto" data-moeda></label>
+        <label>Preço de venda<input type="text" id="novoVenda" data-moeda></label>
+        <label>Margem de lucro<input type="text" id="novoMargem"></label>
+        <label>Tributação padrão
+            <select id="novoTributacao">
+                <option>Simples Nacional - Revenda</option>
+                <option>Regime Normal - Revenda</option>
+                <option>Produto substituição tributária</option>
+            </select>
+        </label>
+    </div>
+    <footer>
+        <button type="button" class="btn claro" data-fechar-modal>Cancelar</button>
+        <button type="button" class="btn primario" id="btnSalvarNovoProduto">Cadastrar produto</button>
+    </footer>
+</section>
+
+<section class="modal modal-amplo" id="modalCorrigirPendencia" aria-hidden="true">
+    <header>
+        <h2>Corrigir pendência</h2>
+        <button type="button" data-fechar-modal>&times;</button>
+    </header>
+    <div class="modal-corpo">
+        <div class="pendencia-contexto">
+            <strong id="pendenciaProdutoTitulo">Produto</strong>
+            <span id="pendenciaDescricaoTexto">Pendência</span>
+        </div>
+        <div id="pendenciaAcaoConteudo" class="form-grid"></div>
+    </div>
+    <footer>
+        <button type="button" class="btn claro" data-fechar-modal>Cancelar</button>
+        <button type="button" class="btn primario" id="btnSalvarCorrecaoPendencia">Salvar correção</button>
+    </footer>
+</section>
+
+<div class="toast" id="toastEntrada"></div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/notasfiscais/js/entradas-notas.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,579 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emissão de NF-e</title>
+<link rel="stylesheet" href="telas/notasfiscais/css/emitirnfe.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais-padrao.css?v=20260702-nfe-popup">
+</head>
+<body>
+
+<div class="container">
+<section class="emissao-nfe" id="emissaoNfe" aria-hidden="false">
+        <header class="painel-cabecalho">
+            <div>
+                <div class="nfe-titulo-linha">
+                    <h1>Emitir NFe</h1>
+                    <nav>Notas &gt; Eletronica &gt; Emitir</nav>
+                </div>
+            </div>
+            <div class="cabecalho-acoes">
+                <a href="telas/notasfiscais/notasfiscais.html" class="btn-voltar-notas"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            </div>
+        </header>
+
+        <div class="nfe-grid">
+            <section class="painel bloco-emitente">
+                <div class="secao-titulo">
+                    <h3>Emitente</h3>
+                    <a href="telas/configuracoes/empresa.html">Configurar</a>
+                </div>
+                <div class="resumo-emitente" id="resumoEmitente"></div>
+            </section>
+
+            <section class="painel">
+                <div class="secao-titulo">
+                    <h3>Operação</h3>
+                </div>
+                <div class="form-grid grid-operacao">
+                    <label>Natureza da operação
+                        <select id="nfeNaturezaOperacao">
+                            <option value="Compra">Compra</option>
+                            <option value="Compra para uso e consumo">Compra para uso e consumo</option>
+                            <option value="Devolução de Compra">Devolução de Compra</option>
+                            <option value="Devolução de Venda">Devolução de Venda</option>
+                            <option value="Entrada de reclassificação">Entrada de reclassificação</option>
+                            <option value="Recebimento de crédito loja">Recebimento de crédito loja</option>
+                            <option value="Saída para reclassificação">Saída para reclassificação</option>
+                            <option value="Venda" selected>Venda</option>
+                            <option value="Venda bonificada">Venda bonificada</option>
+                            <option value="Venda referenciada de NFC-e">Venda referenciada de NFC-e</option>
+                        </select>
+                    </label>
+                    <label>Finalidade
+                        <select id="nfeFinalidade">
+                            <option value="1">NF-e normal</option>
+                            <option value="2">Complementar</option>
+                            <option value="3">Ajuste</option>
+                            <option value="4">Devolução</option>
+                        </select>
+                    </label>
+                    <label>Tipo
+                        <select id="nfeTipoOperacao">
+                            <option value="1">Saída</option>
+                            <option value="0">Entrada</option>
+                        </select>
+                    </label>
+                    <label>Data e hora de emissão
+                        <input type="datetime-local" id="nfeDataEmissao" readonly title="Atualizado automaticamente - SEFAZ exige hora atual">
+                    </label>
+                    <label>Série
+                        <input type="number" id="nfeSerie" min="1">
+                    </label>
+                    <label>Número
+                        <input type="number" id="nfeNumero" min="1">
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3><i class="fa-regular fa-user"></i> Destinatário / Cliente</h3>
+                <button type="button" class="btn secundario" data-toggle-cadastro-cliente>Novo cliente</button>
+            </div>
+            <div class="form-grid">
+                <label class="campo-largo cliente-busca">Pesquisar cliente
+                    <span class="cliente-busca-linha">
+                        <input type="search" id="nfeClienteBusca" autocomplete="off" placeholder="Digite nome, CPF, CNPJ, telefone ou cidade">
+                        <button type="button" class="btn-remover-cliente-nfe" id="btnRemoverClienteNfe" hidden>Remover</button>
+                    </span>
+                    <select id="nfeCliente" hidden></select>
+                    <div class="cliente-sugestoes recolhido" id="listaClientesNfe"></div>
+                </label>
+                <label>Tipo de pessoa
+                    <select id="nfeClienteTipo" onchange="alternarTipoDestinatario()">
+                        <option value="pj">Pessoa Jurídica</option>
+                        <option value="pf">Pessoa Física</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-grid" id="camposDestinatarioPJ">
+                <label>CNPJ *
+                    <input type="text" id="nfeClienteCnpj" placeholder="00.000.000/0000-00" maxlength="18">
+                </label>
+                <label class="campo-largo">Razão Social *
+                    <input type="text" id="nfeClienteRazaoSocial" placeholder="Razão social da empresa">
+                </label>
+                <label class="campo-largo">Nome Fantasia
+                    <input type="text" id="nfeClienteNomeFantasia" placeholder="Nome fantasia">
+                </label>
+                <label>Inscrição Estadual
+                    <input type="text" id="nfeClienteIe" placeholder="Isento ou nº da IE">
+                </label>
+                <label class="campo-largo">Indicador IE *
+                    <select id="nfeClienteIndIe">
+                        <option value="1">1 - Contribuinte ICMS (obrigado à IE)</option>
+                        <option value="2">2 - Contribuinte Isento de IE</option>
+                        <option value="9" selected>9 - Não Contribuinte</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="form-grid recolhido" id="camposDestinatarioPF">
+                <label>CPF *
+                    <input type="text" id="nfeClienteCpf" placeholder="000.000.000-00" maxlength="14">
+                </label>
+                <label class="campo-largo">Nome *
+                    <input type="text" id="nfeClienteNome" placeholder="Nome completo">
+                </label>
+            </div>
+
+            <div class="form-grid">
+                <label>CEP *
+                    <input type="text" id="nfeClienteCep" placeholder="00000-000" maxlength="9">
+                </label>
+                <label class="campo-largo">Logradouro *
+                    <input type="text" id="nfeClienteEndereco" placeholder="Rua, Avenida, etc.">
+                </label>
+                <label>Número *
+                    <input type="text" id="nfeClienteNumero" placeholder="Nº">
+                </label>
+                <label>Bairro *
+                    <input type="text" id="nfeClienteBairro" placeholder="Bairro">
+                </label>
+                <label>Cidade *
+                    <input type="text" id="nfeClienteCidade">
+                </label>
+                <label>Complemento
+                    <input type="text" id="nfeClienteComplemento" placeholder="Sala, loja, apto...">
+                </label>
+                <label>UF *
+                    <input type="text" id="nfeClienteUf" maxlength="2">
+                </label>
+                <label>Código IBGE *
+                    <input type="text" id="nfeClienteCodigoIbge" placeholder="0000000" maxlength="7">
+                </label>
+                <label>País *
+                    <input type="text" id="nfeClientePais" value="Brasil" placeholder="Brasil">
+                </label>
+                <label>Telefone
+                    <input type="text" id="nfeClienteTelefone" placeholder="(00) 00000-0000">
+                </label>
+                <label class="campo-largo">E-mail
+                    <input type="email" id="nfeClienteEmail" placeholder="email@cliente.com">
+                </label>
+            </div>
+
+            <div class="cadastro-rapido nfe-modal-cadastro recolhido" id="cadastroRapidoCliente" aria-hidden="true">
+                <div class="nfe-modal-caixa">
+                    <div class="nfe-modal-topo">
+                        <div>
+                            <h3>Novo cliente</h3>
+                            <p>Cadastre o destinatario para preencher a NF-e.</p>
+                        </div>
+                        <button type="button" class="nfe-modal-fechar" data-fechar-cadastro-rapido="cadastroRapidoCliente" aria-label="Fechar">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                <div class="form-grid">
+                    <label class="campo-largo">Nome / Razão social<input type="text" id="novoClienteNome"></label>
+                    <label>CPF/CNPJ<input type="text" id="novoClienteCpf"></label>
+                    <label>Telefone<input type="text" id="novoClienteTelefone"></label>
+                    <label>Email<input type="email" id="novoClienteEmail"></label>
+                    <label>CEP<input type="text" id="novoClienteCep" maxlength="9"></label>
+                    <label class="campo-largo">Logradouro<input type="text" id="novoClienteEndereco"></label>
+                    <label>Número<input type="text" id="novoClienteNumero"></label>
+                    <label>Complemento<input type="text" id="novoClienteComplemento"></label>
+                    <label>Bairro<input type="text" id="novoClienteBairro"></label>
+                    <label>Cidade<input type="text" id="novoClienteCidade"></label>
+                    <label>UF<input type="text" id="novoClienteUf" maxlength="2"></label>
+                    <label>Código IBGE<input type="text" id="novoClienteCodigoIbge" maxlength="7"></label>
+                    <label>País<input type="text" id="novoClientePais" value="Brasil"></label>
+                </div>
+                    <div class="nfe-modal-acoes">
+                        <button type="button" class="btn secundario" data-fechar-cadastro-rapido="cadastroRapidoCliente">Cancelar</button>
+                        <button type="button" class="btn primario" id="btnSalvarClienteRapido">Salvar cliente</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3><i class="fa-solid fa-cube"></i> Produtos</h3>
+                <button type="button" class="btn secundario" data-toggle-cadastro-produto>Novo produto</button>
+            </div>
+            <div class="form-grid itens-form">
+                <label class="campo-largo produto-busca">Buscar por código ou descrição
+                    <input type="search" id="nfeProdutoBusca" autocomplete="off" placeholder="Digite o código ou a descrição do item">
+                    <div class="produto-sugestoes recolhido" id="listaProdutosNfe"></div>
+                </label>
+                <label>Qtde
+                    <input type="number" id="nfeProdutoQtde" min="0.01" step="0.01" value="1">
+                </label>
+                <label>Preço de venda
+                    <input type="number" id="nfeProdutoValor" min="0" step="0.01" value="0">
+                </label>
+                <label>CFOP
+                    <input type="text" id="nfeProdutoCfop" placeholder="5102">
+                </label>
+                <button type="button" class="btn primario" id="btnAdicionarItemNfe">Adicionar item</button>
+            </div>
+
+            <div class="cadastro-rapido nfe-modal-cadastro recolhido" id="cadastroRapidoProduto" aria-hidden="true">
+                <div class="nfe-modal-caixa">
+                    <div class="nfe-modal-topo">
+                        <div>
+                            <h3>Novo produto</h3>
+                            <p>Cadastre o item para adicionar na NF-e.</p>
+                        </div>
+                        <button type="button" class="nfe-modal-fechar" data-fechar-cadastro-rapido="cadastroRapidoProduto" aria-label="Fechar">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                <div class="form-grid">
+                    <label>Código<input type="text" id="novoProdutoCodigo"></label>
+                    <label class="campo-largo">Descrição<input type="text" id="novoProdutoDescricao"></label>
+                    <label>Preço venda<input type="number" id="novoProdutoPreco" min="0" step="0.01"></label>
+                    <label>NCM<input type="text" id="novoProdutoNcm"></label>
+                    <label>CFOP<input type="text" id="novoProdutoCfop"></label>
+                    <label>CST/CSOSN<input type="text" id="novoProdutoCst"></label>
+                    <label>CST PIS<input type="text" id="novoProdutoCstPis"></label>
+                    <label>CST COFINS<input type="text" id="novoProdutoCstCofins"></label>
+                    <label>CST IPI<input type="text" id="novoProdutoCstIpi"></label>
+                    <label>Origem da mercadoria<input type="text" id="novoProdutoOrigem"></label>
+                </div>
+                    <div class="nfe-modal-acoes">
+                        <button type="button" class="btn secundario" data-fechar-cadastro-rapido="cadastroRapidoProduto">Cancelar</button>
+                        <button type="button" class="btn primario" id="btnSalvarProdutoRapido">Salvar produto</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qtde</th>
+                            <th>Preço venda</th>
+                            <th>CFOP</th>
+                            <th>NCM</th>
+                            <th>CST/CSOSN</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="itensNfe">
+                        <tr><td colspan="8" class="vazio">Nenhum item adicionado.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="painel painel-impostos">
+            <div class="secao-titulo">
+                <h3><i class="fa-solid fa-scale-balanced"></i> Impostos</h3>
+                <span class="badge-regime" id="badgeRegime"></span>
+            </div>
+
+            <div class="abas-impostos">
+                <button type="button" class="aba-imposto ativa" data-aba-imposto="basica">Tributação Básica</button>
+                <button type="button" class="aba-imposto" data-aba-imposto="avancada">Avançada</button>
+                <button type="button" class="aba-imposto" data-aba-imposto="reforma">Reforma Tributária</button>
+            </div>
+
+            <!-- ABA BÁSICA -->
+            <div class="conteudo-aba-imposto" id="abaImpostoBasica">
+                <div class="form-grid">
+                    <label id="grupoImpCsosn">CSOSN
+                        <input type="text" id="impCsosn" placeholder="102">
+                    </label>
+                    <label id="grupoImpCstIcms">CST ICMS
+                        <input type="text" id="impCstIcms" placeholder="00">
+                    </label>
+                    <label>ICMS %
+                        <input type="number" id="impAliquotaIcms" min="0" step="0.01" value="0">
+                    </label>
+                    <label>PIS %
+                        <input type="number" id="impAliquotaPis" min="0" step="0.01" value="0">
+                    </label>
+                    <label>COFINS %
+                        <input type="number" id="impAliquotaCofins" min="0" step="0.01" value="0">
+                    </label>
+                    <label>IPI %
+                        <input type="number" id="impAliquotaIpi" min="0" step="0.01" value="0">
+                    </label>
+                </div>
+                <div class="impostos-totais-basica">
+                    <span>ICMS <strong id="impTotalIcms">R$ 0,00</strong></span>
+                    <span>PIS <strong id="impTotalPis">R$ 0,00</strong></span>
+                    <span>COFINS <strong id="impTotalCofins">R$ 0,00</strong></span>
+                    <span>IPI <strong id="impTotalIpi">R$ 0,00</strong></span>
+                </div>
+            </div>
+
+            <!-- ABA AVANÇADA -->
+            <div class="conteudo-aba-imposto recolhido" id="abaImpostoAvancada">
+
+                <div class="subsecao-imposto">
+                    <h4>ICMS</h4>
+                    <div class="form-grid">
+                        <label>Base ICMS<input type="text" id="impBcIcms" readonly value="R$ 0,00"></label>
+                        <label>Alíquota ICMS %<input type="number" id="impAlqIcmsAdv" min="0" step="0.01" value="0"></label>
+                        <label>Valor ICMS<input type="text" id="impValorIcms" readonly value="R$ 0,00"></label>
+                        <label>Redução BC %<input type="number" id="impReducaoBc" min="0" step="0.01" value="0"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>ICMS-ST - Substituição Tributária</h4>
+                    <div class="form-grid">
+                        <label>Possui ST?
+                            <select id="impPossuiSt">
+                                <option value="0">Não</option>
+                                <option value="1">Sim</option>
+                            </select>
+                        </label>
+                        <label>MVA %<input type="number" id="impMva" min="0" step="0.01" value="0"></label>
+                        <label>Base ICMS ST<input type="text" id="impBcIcmsSt" readonly value="R$ 0,00"></label>
+                        <label>Alíquota ST %<input type="number" id="impAlqIcmsSt" min="0" step="0.01" value="0"></label>
+                        <label>Valor ICMS ST<input type="text" id="impValorIcmsSt" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>FCP - Fundo de Combate à Pobreza</h4>
+                    <div class="form-grid">
+                        <label>Alíquota FCP %<input type="number" id="impAlqFcp" min="0" step="0.01" value="0"></label>
+                        <label>Valor FCP<input type="text" id="impValorFcp" readonly value="R$ 0,00"></label>
+                        <label>Alíquota FCP ST %<input type="number" id="impAlqFcpSt" min="0" step="0.01" value="0"></label>
+                        <label>Valor FCP ST<input type="text" id="impValorFcpSt" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>DIFAL - Diferencial de Alíquota</h4>
+                    <div class="form-grid">
+                        <label>Base DIFAL<input type="text" id="impBcDifal" readonly value="R$ 0,00"></label>
+                        <label>Alíq. Interestadual %<input type="number" id="impAlqInterestadual" min="0" step="0.01" value="0"></label>
+                        <label>Alíq. Interna %<input type="number" id="impAlqInterna" min="0" step="0.01" value="0"></label>
+                        <label>Valor DIFAL UF Destino<input type="text" id="impValorDifalDestino" readonly value="R$ 0,00"></label>
+                        <label>Valor DIFAL UF Origem<input type="text" id="impValorDifalOrigem" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>PIS</h4>
+                    <div class="form-grid">
+                        <label>CST PIS<input type="text" id="impCstPis" placeholder="49"></label>
+                        <label>Base PIS<input type="text" id="impBcPis" readonly value="R$ 0,00"></label>
+                        <label>Alíquota PIS %<input type="number" id="impAlqPis" min="0" step="0.01" value="0"></label>
+                        <label>Valor PIS<input type="text" id="impValorPis" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>COFINS</h4>
+                    <div class="form-grid">
+                        <label>CST COFINS<input type="text" id="impCstCofins" placeholder="49"></label>
+                        <label>Base COFINS<input type="text" id="impBcCofins" readonly value="R$ 0,00"></label>
+                        <label>Alíquota COFINS %<input type="number" id="impAlqCofins" min="0" step="0.01" value="0"></label>
+                        <label>Valor COFINS<input type="text" id="impValorCofins" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>IPI</h4>
+                    <div class="form-grid">
+                        <label>CST IPI<input type="text" id="impCstIpi" placeholder="99"></label>
+                        <label>cEnq IPI<input type="text" id="impCEnqIpi" placeholder="999"></label>
+                        <label>Base IPI<input type="text" id="impBcIpi" readonly value="R$ 0,00"></label>
+                        <label>Alíquota IPI %<input type="number" id="impAlqIpi" min="0" step="0.01" value="0"></label>
+                        <label>Valor IPI<input type="text" id="impValorIpi" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>ISSQN - Serviços</h4>
+                    <div class="form-grid">
+                        <label>Código Serviço<input type="text" id="impCodServico"></label>
+                        <label>Base ISS<input type="text" id="impBcIss" readonly value="R$ 0,00"></label>
+                        <label>Alíquota ISS %<input type="number" id="impAlqIss" min="0" step="0.01" value="0"></label>
+                        <label>Valor ISS<input type="text" id="impValorIss" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>II - Imposto de Importação</h4>
+                    <div class="form-grid">
+                        <label>Base II<input type="text" id="impBcIi" readonly value="R$ 0,00"></label>
+                        <label>Valor II<input type="number" id="impValorIi" min="0" step="0.01" value="0"></label>
+                        <label>Despesas Aduaneiras<input type="number" id="impDespesasAduaneiras" min="0" step="0.01" value="0"></label>
+                        <label>IOF<input type="number" id="impIof" min="0" step="0.01" value="0"></label>
+                    </div>
+                </div>
+
+                <div class="subsecao-imposto">
+                    <h4>Benefício Fiscal</h4>
+                    <div class="form-grid">
+                        <label>cBenef<input type="text" id="impCbenef" placeholder="Código do benefício"></label>
+                        <label class="campo-largo">Motivo<input type="text" id="impMotivoBenef"></label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ABA REFORMA TRIBUTÁRIA -->
+            <div class="conteudo-aba-imposto recolhido" id="abaImpostoReforma">
+                <div class="subsecao-imposto">
+                    <h4>IBS / CBS - Reforma Tributária</h4>
+                    <div class="form-grid">
+                        <label>CST IBS<input type="text" id="impCstIbs" placeholder="00"></label>
+                        <label>CST CBS<input type="text" id="impCstCbs" placeholder="00"></label>
+                        <label>Base IBS<input type="text" id="impBcIbs" readonly value="R$ 0,00"></label>
+                        <label>Base CBS<input type="text" id="impBcCbs" readonly value="R$ 0,00"></label>
+                        <label>Alíquota IBS %<input type="number" id="impAlqIbs" min="0" step="0.01" value="0"></label>
+                        <label>Alíquota CBS %<input type="number" id="impAlqCbs" min="0" step="0.01" value="0"></label>
+                        <label>Valor IBS<input type="text" id="impValorIbs" readonly value="R$ 0,00"></label>
+                        <label>Valor CBS<input type="text" id="impValorCbs" readonly value="R$ 0,00"></label>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3><i class="fa-regular fa-circle-dot"></i> Totais</h3>
+            </div>
+            <div class="form-grid">
+                <label>Frete
+                    <input type="number" id="nfeFrete" min="0" step="0.01" value="0">
+                </label>
+                <label>Seguro
+                    <input type="number" id="nfeSeguro" min="0" step="0.01" value="0">
+                </label>
+                <label>Desconto
+                    <input type="number" id="nfeDesconto" min="0" step="0.01" value="0">
+                </label>
+                <label>Outras despesas
+                    <input type="number" id="nfeOutrasDespesas" min="0" step="0.01" value="0">
+                </label>
+            </div>
+            <div class="totais-nfe">
+                <span>Qtd. itens <strong id="nfeTotalQtd">0</strong></span>
+                <span>Produtos <strong id="nfeTotalProdutos">R$ 0,00</strong></span>
+                <span>Impostos (informativo) <strong id="nfeTotalImpostos">R$ 0,00</strong></span>
+                <span>NF-e <strong id="nfeTotalNota">R$ 0,00</strong></span>
+            </div>
+        </section>
+
+        <section class="painel" id="transporteNfe">
+            <div class="secao-titulo">
+                <h3><i class="fa-solid fa-truck"></i> Transporte</h3>
+            </div>
+            <div class="form-grid">
+                <label>Modalidade do frete
+                    <select id="nfeModalidadeFrete">
+                        <option value="9">Sem frete</option>
+                        <option value="0">Por conta do emitente</option>
+                        <option value="1">Por conta do destinatário</option>
+                        <option value="2">Por conta de terceiros</option>
+                    </select>
+                </label>
+                <label class="campo-largo">Transportadora
+                    <input type="text" id="nfeTransportadora" placeholder="Nome da transportadora">
+                </label>
+                <label>Placa
+                    <input type="text" id="nfePlaca">
+                </label>
+                <label>UF
+                    <input type="text" id="nfeTransporteUf" maxlength="2">
+                </label>
+                <label>Volume
+                    <input type="number" id="nfeVolume" min="0" step="1" value="0">
+                </label>
+                <label>Peso bruto
+                    <input type="number" id="nfePesoBruto" min="0" step="0.001" value="0">
+                </label>
+                <label>Peso líquido
+                    <input type="number" id="nfePesoLiquido" min="0" step="0.001" value="0">
+                </label>
+            </div>
+        </section>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3><i class="fa-solid fa-coins"></i> Pagamentos</h3>
+            </div>
+            <div class="form-grid">
+                <label>Pagamento
+                    <select id="nfePagamento">
+                        <option value="01">Dinheiro</option>
+                        <option value="03">Cartão de crédito</option>
+                        <option value="04">Cartão de débito</option>
+                        <option value="17">PIX</option>
+                        <option value="15">Boleto</option>
+                        <option value="90">Sem pagamento</option>
+                    </select>
+                </label>
+                <label>Valor pago
+                    <input type="number" id="nfeValorPago" min="0" step="0.01" value="0">
+                </label>
+                <label>Troco
+                    <input type="number" id="nfeTroco" min="0" step="0.01" value="0" readonly>
+                </label>
+                <label class="campo-boleto-nfe">Primeiro vencimento
+                    <input type="date" id="nfeBoletoVencimento">
+                </label>
+                <label class="campo-boleto-nfe">Parcelas
+                    <input type="number" id="nfeBoletoParcelas" min="1" max="24" value="1">
+                </label>
+                <label class="campo-boleto-nfe">Dia vencimento
+                    <input type="number" id="nfeBoletoDiaVencimento" min="1" max="31" value="10">
+                </label>
+            </div>
+        </section>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3>Informações adicionais</h3>
+            </div>
+            <div class="form-grid">
+                <label class="campo-total">Observações fiscais
+                    <textarea id="nfeObservacoesFiscais" rows="3"></textarea>
+                </label>
+                <label class="campo-total">Informações complementares
+                    <textarea id="nfeInformacoesComplementares" rows="3"></textarea>
+                </label>
+            </div>
+            <div class="acoes-nfe">
+                <button type="button" class="btn primario" id="btnSalvarNfe">Salvar Nota</button>
+                <button type="button" class="btn primario" id="btnTransmitirNfe">Emitir NFE</button>
+                <button type="button" class="btn secundario" id="btnPreviewDanfe">Pré-visualizar</button>
+            </div>
+        </section>
+    </section>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/empresa.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/formaspagamento.js"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="telas/notasfiscais/js/notasfiscais.js?v=20260702-nfe-popup"></script>
+</body>
+</html>
+

@@ -1,0 +1,1566 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<base href="../../">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDV - Coneccta</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231A436B'/><path d='M4 7h3.5l1 3.5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/><path d='M8.5 10.5l2 8h11l2-8z' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='12' cy='23' r='1.8' fill='white'/><circle cx='21' cy='23' r='1.8' fill='white'/></svg>">
+    <script>
+    (function(){
+        try{
+            if(sessionStorage.getItem("transicaoLoginSistema")){
+                document.documentElement.classList.add("transicao-login-pendente");
+            }
+        }catch(erro){}
+    })();
+    </script>
+    <style>
+    html.transicao-login-pendente::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:2147483647;
+    background:#eef3f8;
+    }
+    </style>
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="telas/pdv/css/pdvstyle.css?v=20260702-mobile-overlap-fix">
+
+</head>
+<body class="pdv-page">
+<script>
+(function(){
+    try{
+        var proporcao = localStorage.getItem("proporcaoTelaPdv");
+        if(!["auto", "compacta", "confortavel", "ampla"].includes(proporcao)){
+            proporcao = "auto";
+        }
+        document.body.dataset.proporcaoTelaPdv = proporcao;
+    }catch(erro){
+        document.body.dataset.proporcaoTelaPdv = "auto";
+    }
+})();
+</script>
+<div id="avisoSistemaPdv" class="aviso-sistema-pdv" aria-hidden="true">
+    <div class="aviso-sistema-faixa" role="alert">
+        <strong>Aviso do sistema</strong>
+        <span id="avisoSistemaTexto"></span>
+        <button type="button" id="btnFecharAvisoSistema" aria-label="Fechar aviso">×</button>
+    </div>
+</div>
+<div id="overlayAjustes" class="fundo-ajustes"></div>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-logo">
+                <div class="logo-pdv-topo" aria-label="Logo PDV" role="img">
+                    <span class="logo-pdv-risco logo-pdv-risco-1"></span>
+                    <span class="logo-pdv-risco logo-pdv-risco-2"></span>
+                    <span class="logo-pdv-risco logo-pdv-risco-3"></span>
+                    <span class="logo-pdv-carrinho"></span>
+                    <span class="logo-pdv-roda logo-pdv-roda-1"></span>
+                    <span class="logo-pdv-roda logo-pdv-roda-2"></span>
+                </div>
+                <h1><span>PDV</span><span>CONECCTA</span></h1>
+            </div>
+
+            <div class="header-title">
+
+           <div class="marquee">
+
+        <span id="mensagensPdvMarquee">
+            Seja Bem-Vindo(a)!
+        </span>
+
+         </div>
+
+               </div>
+
+            <div class="header-user">
+                <div class="user-info-pdv">
+                    <span id="usuarioLogadoPdv">Usuário: Supervisor</span>
+                    <span id="vendedorLogadoPdv">Vendedor: Supervisor</span>
+                </div>
+                <button type="button" id="btnAjustes" class="btn-ajustes" aria-label="Abrir ajustes do caixa">
+                    <span>⚙️ Ajustes</span>
+                </button>
+                <button type="button" id="btnSairCaixa" class="btn-sair-caixa" aria-label="Sair do caixa">
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!------------------------------------------- MAIN CONTAINER -->
+    <div class="container">
+
+        <!---------------------------------------- LEFT PANEL -->
+        <main class="left-panel">
+
+            <!---------------------------- SEARCH BOX -->
+            <div class="search-box" style="position:relative;">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="search"
+                 id="pesquisaProduto"
+                  placeholder="Pesquise por código, EAN, descrição ou referência"
+                  autocomplete="off"
+                  enterkeyhint="done">
+                <div id="listaProdutosPDV" class="sugestoes-produtos-pdv" role="listbox" aria-label="Sugestões de produto" aria-hidden="true"></div>
+                <button type="button" id="btnScannerCodigoBarrasPdv" class="btn-scanner-codigo-pdv" aria-label="Ler codigo de barras pela camera">
+                    <i class="fa-solid fa-barcode"></i>
+                </button>
+            </div>
+
+            <!----------------------- METRICS -->
+            <div class="metrics">
+                <div class="metric-card">
+                    <label>Quantidade</label>
+                    <input type="text" class="metric-value" id="quantidadeItens" value="1,000" inputmode="decimal" readonly>
+                </div>
+                <div class="metric-card">
+                    <label>Preço Unitário</label>
+                    <input type="text" class="metric-value" id="valorUnitario" value="1,00" inputmode="decimal" readonly>
+                </div>
+            </div>
+              
+            <!-------------------------- PRIMARY BUTTONS -->
+
+       <div class="button-group">
+
+    <button type="button" class="btn btn-primary" data-comando-caixa="cliente">
+        Cliente (F2)
+    </button>
+
+    <button type="button" class="btn btn-outline" data-comando-caixa="cancelar">
+        Cancelar (F6)
+    </button>
+
+    <button type="button" class="btn btn-primary" data-comando-caixa="pesquisar">
+        Pesquisar Produtos (F12)
+    </button>
+
+</div>
+
+<div class="secondary-buttons">
+
+    <button type="button" class="btn btn-secondary" data-comando-caixa="guardar">
+        Guardar (F4)
+    </button>
+
+    <button type="button" class="btn btn-secondary" data-comando-caixa="orcamento" id="btnOrcamentoPdv" style="display:none">
+        Orçamento
+    </button>
+
+    <button type="button" class="btn btn-secondary" data-comando-caixa="importarPedido">
+        Importar Pedido (F9)
+    </button>
+
+    <button type="button" class="btn btn-secondary" data-comando-caixa="recebimento">
+        Recebimento (F7)
+    </button>
+
+    <button type="button" class="btn btn-secondary" data-comando-caixa="opcoes">
+        Opções (F1)
+    </button>
+
+</div>
+
+        </main>
+
+        
+
+       <!-- RIGHT PANEL -->
+<aside class="right-panel">
+
+    <!-- FILTROS -->
+    <div class="filtros-pdv">
+
+        <div class="select-group" id="grupoVendedorPdv">
+            <label>Vendedor</label>
+            <select id="vendedorPdv">
+                <option value="">Sem vendedor</option>
+            </select>
+        </div>
+
+    </div>
+
+
+    <!-- CARRINHO -->
+    <table class="cart-table">
+
+        
+ <thead>
+<tr>
+    <th></th>
+    <th>Código</th>
+    <th>Produto</th>
+    <th>Qtd.</th>
+    <th>Unitário</th>
+    <th>Promoção</th>
+    <th>Total</th>
+</tr>
+</thead>
+
+   <tbody id="carrinho">
+
+    <tr class="empty-row" id="linhaLogo">
+        <td colspan="7">
+
+            <div class="empty-state">
+
+                <img
+                    src="shared/img/logo.png"
+                    id="logoCarrinho"
+                    class="logo-carrinho"
+                    alt="Coneccta">
+
+            </div>
+
+        </td>
+    </tr>
+
+</tbody>
+
+    </table>
+
+    <!-- RESUMO -->
+    <div class="cart-summary">
+
+        <span id="produtosResumo">
+            Produtos: 0
+        </span>
+
+        <span id="itensResumo">
+            Total de itens: 0
+        </span>
+
+        <span id="canceladosResumo">
+            Itens cancelados: 0
+        </span>
+
+        <span id="descontoResumo">
+            Desconto: R$0,00
+        </span>
+
+    </div>
+
+    <!-- TOTAL -->
+    <div class="total-pdv">
+
+        <button type="button" class="btn-finalizar" data-comando-caixa="finalizar">
+            Finalizar (F10)
+        </button>
+
+        <div class="valor-total">
+            R$ 0,00
+        </div>
+
+    </div>
+
+</aside>
+
+</div>
+<div id="overlayEditorLancamentoMobile" class="editor-lancamento-mobile-overlay" aria-hidden="true"></div>
+<section id="editorLancamentoMobile" class="editor-lancamento-mobile" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="editor-lancamento-mobile-topo">
+        <div>
+            <span id="editorLancamentoMobileEtapa">Quantidade</span>
+            <strong id="editorLancamentoMobileProduto">Produto</strong>
+        </div>
+        <button type="button" id="btnFecharEditorLancamentoMobile" aria-label="Fechar">×</button>
+    </div>
+    <label class="editor-lancamento-mobile-campo">
+        <span id="editorLancamentoMobileLabel">Quantidade</span>
+        <input type="text" id="editorLancamentoMobileValor" inputmode="decimal" autocomplete="off">
+    </label>
+    <div class="editor-lancamento-mobile-acoes">
+        <button type="button" id="btnCancelarEditorLancamentoMobile">Cancelar</button>
+        <button type="button" id="btnInserirEditorLancamentoMobile">Inserir</button>
+    </div>
+</section>
+<div id="overlayScannerCodigoPdv" class="scanner-codigo-overlay" aria-hidden="true"></div>
+<section id="scannerCodigoPdv" class="scanner-codigo-pdv" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="scanner-codigo-topo">
+        <div>
+            <span>Caixa PDV</span>
+            <strong>Ler codigo de barras</strong>
+        </div>
+        <button type="button" id="btnFecharScannerCodigoPdv" aria-label="Fechar">×</button>
+    </div>
+    <div class="scanner-codigo-video">
+        <video id="videoScannerCodigoPdv" playsinline muted></video>
+        <span class="scanner-codigo-mira"></span>
+    </div>
+    <p id="statusScannerCodigoPdv">Aponte a camera para o codigo de barras do produto.</p>
+</section>
+<!-- Modal de Abertura de Caixa (obrigatório — sem fechar) -->
+<div id="overlayAberturaCaixa" class="overlay-abertura-caixa"></div>
+<section id="modalAberturaCaixa" class="modal-abertura-caixa" aria-modal="true" role="dialog">
+    <div class="abertura-caixa-header">
+        <div class="abertura-caixa-logo">
+            <svg width="36" height="36" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="18" cy="14" r="4" fill="#fff" opacity=".8"/>
+                <circle cx="30" cy="20" r="4" fill="#fff" opacity=".8"/>
+                <circle cx="24" cy="31" r="4" fill="#fff" opacity=".8"/>
+            </svg>
+        </div>
+        <div>
+            <span class="abertura-eyebrow">Caixa PDV</span>
+            <h2 id="aberturaCaixaTitulo">Abertura de Caixa</h2>
+        </div>
+    </div>
+    <div class="abertura-caixa-body">
+        <div id="aberturaSessaoAnterior" class="abertura-alerta-anterior" style="display:none">
+            <strong>Sessão anterior não foi fechada!</strong>
+            <p id="aberturaSessaoAnteriorTexto"></p>
+        </div>
+        <div class="abertura-campo">
+            <label for="valorAberturaCode">Troco inicial (opcional)</label>
+            <div class="abertura-valor-wrap">
+                <span>R$</span>
+                <input type="text" id="valorAberturaCode" inputmode="decimal" placeholder="0,00" autocomplete="off">
+            </div>
+            <small>Informe o valor em dinheiro disponível no caixa para troco.</small>
+        </div>
+        <div id="aberturaOperadorInfo" class="abertura-operador-info"></div>
+    </div>
+    <button type="button" class="btn-confirmar-venda abertura-btn-confirmar" id="btnConfirmarAberturaCaixa" onclick="confirmarAberturaCaixa()">
+        Abrir Caixa
+    </button>
+</section>
+
+<!-- botão "Opções F1" (funcionalidades do caixa) -->
+<div id="overlayOpcoesPdv" class="fundo-ajustes" onclick="fecharPainelOpcoesPdv()"></div>
+<div id="painelOpcoesPdv" class="painel-ajustes painel-opcoes-pdv">
+    <div class="painel-header">
+        <div>
+            <span class="painel-eyebrow">Caixa</span>
+            <h2>Opções</h2>
+        </div>
+        <button type="button" onclick="fecharPainelOpcoesPdv()" aria-label="Fechar">×</button>
+    </div>
+    <div class="painel-conteudo">
+        <div class="info-sessao-pdv" id="infoSessaoPainelOpcoes"></div>
+        <div class="opcoes-caixa-grid opcoes-grid-lista">
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="importar-guardada">
+                <strong>Importar venda</strong>
+                <span>Retoma venda guardada.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="recebimentos">
+                <strong>Recebimentos</strong>
+                <span>Baixas de crédito loja.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="menu">
+                <strong>Menu de vendas</strong>
+                <span>Vendas, cancelamentos e movimentos de caixa.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="fechamento">
+                <strong>Fechamento do Caixa</strong>
+                <span>Conferência e encerramento do turno.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" id="btnImportarOrcamentoPdv" data-opcao-pdv="importar-orcamento">
+                <strong>Importar Orçamento</strong>
+                <span>Carrega itens de um orçamento para a venda.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="devolucao">
+                <strong>Devolução / Cancelamento</strong>
+                <span>Localiza venda para cancelar.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="reimprimir-ultima">
+                <strong>Reimprimir última</strong>
+                <span>Imprime novamente o último cupom.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="abrir-gaveta">
+                <strong>Abrir gaveta</strong>
+                <span>Registra abertura manual.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" data-opcao-pdv="entregas">
+                <strong>Entregas</strong>
+                <span>Controle de entregas.</span>
+            </button>
+            <button type="button" class="opcao-caixa-card" onclick="fecharPainelOpcoesPdv(); abrirModulo('reimpressao')">
+                <strong>Reimpressão NFC-e</strong>
+                <span>Reimprime por chave ou número.</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="overlayModalPdv" class="fundo-modal-pdv"></div>
+<!---botão "Ctrl" Buscar preço---------------------------->
+<section id="modalBuscarPrecoPdv" class="modal-pdv modal-buscar-preco" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Consulta rapida</span>
+            <h2>Buscar preco</h2>
+        </div>
+        <button type="button" class="modal-fechar" id="btnFecharBuscarPrecoPdv" aria-label="Fechar busca de preco">×</button>
+    </div>
+    <div class="modal-body">
+        <label class="buscar-preco-campo">
+            Codigo ou descricao
+            <input type="text" id="buscaPrecoProdutoPdv" class="modal-search" placeholder="Digite codigo, barras ou descricao" autocomplete="off">
+        </label>
+        <div class="buscar-preco-resumo" id="resumoBuscaPrecoPdv">
+            <span>Nenhum produto selecionado.</span>
+        </div>
+        <label class="buscar-preco-campo">
+            Quantidade
+            <input type="text" id="quantidadeBuscaPrecoPdv" inputmode="decimal" value="1,000" autocomplete="off">
+        </label>
+    </div>
+    <div class="buscar-preco-acoes">
+        <button type="button" class="btn-menu-acao" id="btnFecharBuscaPrecoPdv">Fechar (ESC)</button>
+        <button type="button" class="btn-confirmar-venda" id="btnInserirBuscaPrecoPdv">Inserir (Enter)</button>
+    </div>
+</section>
+
+<section id="modalVendedorPdv" class="modal-pdv modal-vendedor-pdv" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Vendedor</span>
+            <h2>Selecionar vendedor</h2>
+        </div>
+    </div>
+    <div class="modal-body">
+        <p class="modal-vendedor-desc">Escolha o vendedor responsável por esta venda.</p>
+        <div class="modal-vendedor-lista" id="listaVendedoresModal"></div>
+    </div>
+</section>
+
+<section id="modalImportarPedidoPdv" class="modal-pdv modal-importar-pedido-pdv" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Pedidos de Venda F9</span>
+            <h2>Importar pedido</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal aria-label="Fechar">×</button>
+    </div>
+    <div class="modal-body">
+        <input type="search" id="buscaImportarPedidoPdv" class="modal-search" placeholder="Número, cliente, CPF, telefone ou código do pedido (aceita leitor de código de barras)" autocomplete="off">
+        <div class="lista-clientes-pdv lista-pedidos-importar-pdv" id="listaImportarPedidoPdv"></div>
+    </div>
+</section>
+
+<section id="modalClientesPdv" class="modal-pdv modal-clientes-venda-pdv" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Cliente F2</span>
+            <h2>Vincular cliente à venda</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+        <div class="clientes-venda-layout">
+            <aside class="clientes-venda-lista">
+                <div class="clientes-venda-topo">
+                    <div>
+                        <strong>Clientes cadastrados</strong>
+                        <span id="contadorClientesVendaPdv">0 clientes</span>
+                    </div>
+                    <button type="button" class="btn-menu-acao btn-cliente-venda" id="btnNovoClienteVendaPdv">+ Cliente</button>
+                </div>
+                <input type="search" id="buscaClientePdv" class="modal-search" placeholder="Buscar cliente por nome, CPF/CNPJ, telefone ou cartão">
+                <div id="listaClientesPdv" class="lista-clientes-pdv"></div>
+            </aside>
+            <section class="clientes-venda-acoes">
+                <div class="cliente-venda-selecionado">
+                    <span>Cliente da venda</span>
+                    <strong id="clienteVendaPdvNome">Consumidor</strong>
+                    <small id="clienteVendaPdvCpf">CPF/CNPJ não informado</small>
+                </div>
+                <form class="cpf-nota-venda">
+                    <label>
+                        CPF na nota
+                        <input type="text" id="cpfNotaVendaPdv" placeholder="Informe CPF/CNPJ sem cadastrar">
+                    </label>
+                    <button type="button" class="btn-confirmar-venda" id="btnAplicarCpfNotaVenda">Usar CPF na venda</button>
+                </form>
+                <form class="cadastro-cliente-venda oculto" id="formClienteVendaPdv">
+                    <div class="cadastro-cliente-grid">
+                        <label class="campo-2">
+                            Nome/Razão social
+                            <input type="text" id="clienteVendaNome" placeholder="Nome completo ou razão social">
+                        </label>
+                        <label>
+                            CPF/CNPJ na nota
+                            <input type="text" id="clienteVendaCpf" placeholder="CPF ou CNPJ">
+                        </label>
+                        <label>
+                            Nome fantasia
+                            <input type="text" id="clienteVendaNomeFantasia" placeholder="Opcional">
+                        </label>
+                        <label>
+                            Telefone
+                            <input type="text" id="clienteVendaTelefone" placeholder="Telefone">
+                        </label>
+                        <label>
+                            E-mail
+                            <input type="email" id="clienteVendaEmail" placeholder="cliente@email.com">
+                        </label>
+                        <label>
+                            IE
+                            <input type="text" id="clienteVendaInscricaoEstadual">
+                        </label>
+                        <label>
+                            IM
+                            <input type="text" id="clienteVendaInscricaoMunicipal">
+                        </label>
+                        <label>
+                            CEP
+                            <input type="text" id="clienteVendaCep" placeholder="00000-000">
+                        </label>
+                        <label class="campo-2">
+                            Endereço
+                            <input type="text" id="clienteVendaEndereco" placeholder="Rua, avenida, logradouro">
+                        </label>
+                        <label>
+                            Número
+                            <input type="text" id="clienteVendaNumero">
+                        </label>
+                        <label>
+                            Complemento
+                            <input type="text" id="clienteVendaComplemento">
+                        </label>
+                        <label>
+                            Bairro
+                            <input type="text" id="clienteVendaBairro">
+                        </label>
+                        <label>
+                            UF
+                            <input type="text" id="clienteVendaEstado" maxlength="2">
+                        </label>
+                        <label>
+                            Cidade
+                            <input type="text" id="clienteVendaCidade">
+                        </label>
+                        <label>
+                            Limite de crédito
+                            <input type="text" id="clienteVendaLimite" inputmode="decimal" value="0,00">
+                        </label>
+                        <label>
+                            Situação
+                            <select id="clienteVendaAtivo">
+                                <option value="true">Ativo</option>
+                                <option value="false">Inativo</option>
+                            </select>
+                        </label>
+                        <label class="campo-2">
+                            Observações
+                            <input type="text" id="clienteVendaObservacoes">
+                        </label>
+                    </div>
+                    <div class="cadastro-cliente-acoes">
+                        <button type="submit" class="btn-confirmar-venda" id="btnSalvarClienteVenda">Salvar cliente</button>
+                        <button type="button" class="btn-menu-acao" id="btnCancelarClienteVenda">Cancelar</button>
+                    </div>
+                </form>
+                <div class="clientes-venda-botoes">
+                    <button type="button" class="btn-confirmar-venda" id="btnVincularClienteSelecionado">Vincular cliente</button>
+                    <button type="button" class="btn-menu-acao" id="btnEditarClienteVenda">Editar</button>
+                    <button type="button" class="btn-menu-acao perigo" id="btnExcluirClienteVenda">Excluir</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<section id="modalFinalizarPdv" class="modal-pdv modal-finalizar" aria-hidden="true">
+    <div class="fin-header">
+        <div class="fin-header-texto">
+            <span>F10</span>
+            <h2>Fechamento da venda/Caixa</h2>
+        </div>
+        <button type="button" class="fin-fechar" data-fechar-modal>Cancelar</button>
+    </div>
+
+    <!-- Barra de totais  -->
+    <div class="fin-topo-barra">
+        <div class="fin-topo-card">
+            <span class="fin-topo-label">Subtotal</span>
+            <strong class="fin-topo-valor" id="subtotalFinalizacao">R$ 0,00</strong>
+        </div>
+        <div class="fin-topo-card fin-topo-card--desconto">
+            <span class="fin-topo-label">Desconto</span>
+            <strong class="fin-topo-valor" id="descontoFinalizacao">R$ 0,00</strong>
+        </div>
+        <div class="fin-topo-card fin-topo-card--total">
+            <span class="fin-topo-label">Total a pagar</span>
+            <strong class="fin-topo-valor fin-topo-valor--total" id="totalFinalizacao">R$ 0,00</strong>
+        </div>
+        <div class="fin-topo-card" id="grupoAjustePagamentoFin" style="display:none">
+            <span class="fin-topo-label" id="labelAjustePagamentoFin">Ajuste</span>
+            <strong class="fin-topo-valor" id="ajustePagamentoFin">R$ 0,00</strong>
+        </div>
+        <div class="fin-topo-card fin-topo-card--itens">
+            <span class="fin-topo-icone"></span>
+            <span class="fin-topo-label">Itens</span>
+            <strong class="fin-topo-valor" id="itensFinalizacao">0 item</strong>
+        </div>
+    </div>
+
+    <div class="fin-corpo">
+
+        <!-- Tabelas de preço aplicadas -->
+        <div class="fin-secao" id="grupoTabelasFinalizacao" style="display:none">
+            <p class="fin-secao-titulo">Tabelas de preço aplicadas</p>
+            <div id="listaTabelasFinalizacao" class="lista-tabelas-finalizacao"></div>
+        </div>
+
+        <!-- Tipo de documento -->
+        <div class="fin-secao">
+            <p class="fin-secao-titulo">Tipo de documento</p>
+            <div class="fin-opcoes opcoes-finalizacao" id="tipoDocumentoVenda">
+                <button type="button" class="opcao-finalizacao" data-valor="NFC-e"><strong>Cupom Fiscal</strong><span>(NFC-e)</span></button>
+                <button type="button" class="opcao-finalizacao" data-valor="Pedido"><strong>Não fiscal</strong><span>(Pedido)</span></button>
+            </div>
+        </div>
+
+        <div class="fin-secao fin-entrega-secao">
+            <p class="fin-secao-titulo">Entrega</p>
+            <div class="fin-entrega-linha">
+                <label class="fin-entrega-check">
+                    <input type="checkbox" id="checkEntregaVendaPdv">
+                    <span>Entrega</span>
+                </label>
+                <div class="fin-entrega-info">
+                    <small id="descEntregaFinalizacaoPdv">Marque esta opção caso a venda seja para entrega</small>
+                    <strong id="resumoEntregaFinalizacaoPdv"></strong>
+                </div>
+            </div>
+            <div class="fin-entrega-linha">
+                <label class="fin-entrega-check">
+                    <input type="checkbox" id="checkClienteVendaPdv">
+                    <span>Cliente</span>
+                </label>
+                <div class="fin-entrega-info">
+                    <small id="descClienteFinalizacaoPdv">Vincule um cliente a venda</small>
+                    <strong id="resumoClienteFinalizacaoPdv"></strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desconto -->
+        <div class="fin-secao oculto" id="grupoDescontoVenda">
+            <p class="fin-secao-titulo">Desconto</p>
+            <div class="fin-desconto">
+                <label class="fin-label">
+                    Tipo
+                    <select id="tipoDescontoVenda">
+                        <option value="valor">Valor R$</option>
+                        <option value="percentual">Percentual %</option>
+                    </select>
+                </label>
+                <label class="fin-label">
+                    Valor do desconto
+                    <input type="text" id="valorDescontoVenda" inputmode="decimal" placeholder="0,00">
+                </label>
+            </div>
+        </div>
+
+        <!-- Forma de pagamento -->
+        <div class="fin-secao oculto" id="grupoPagamentoVenda">
+            <p class="fin-secao-titulo">Forma de pagamento</p>
+            <div class="fin-opcoes fin-opcoes-pagamento opcoes-finalizacao" id="formaPagamentoVenda">
+                <button type="button" class="opcao-finalizacao" data-valor="Dinheiro">Dinheiro<span class="pgto-fkey">F1</span></button>
+                <button type="button" class="opcao-finalizacao" data-valor="PIX">PIX<span class="pgto-fkey">F2</span></button>
+                <button type="button" class="opcao-finalizacao" data-valor="Cartão de crédito">Crédito<span class="pgto-fkey">F3</span></button>
+                <button type="button" class="opcao-finalizacao" data-valor="Cartão de débito">Débito<span class="pgto-fkey">F4</span></button>
+                <button type="button" class="opcao-finalizacao" data-valor="Crédito loja">Crédito Loja<span class="pgto-fkey">F5</span></button>
+            </div>
+        </div>
+
+        <div class="fin-secao fin-pagamentos-lista-secao oculto" id="grupoPagamentosAdicionadosPdv">
+            <div class="fin-secao-topo">
+                <p class="fin-secao-titulo">Pagamentos</p>
+                <span id="contadorPagamentosFinalizacao">0 forma(s)</span>
+            </div>
+            <div class="fin-pagamentos-lista" id="listaPagamentosFinalizacao">
+                <div class="fin-pagamento-vazio">Nenhum pagamento adicionado.</div>
+            </div>
+        </div>
+
+        <div class="fin-recebimento oculto" id="grupoTrocoPdv">
+            <label class="fin-recebimento-forma">
+                <span>Forma selecionada</span>
+                <strong id="formaRecebimentoSelecionadaPdv">Selecione uma forma</strong>
+            </label>
+            <label class="fin-recebimento-valor">
+                <span>Valor recebido</span>
+                <input type="text" id="valorRecebidoPdv" inputmode="decimal" placeholder="0,00" autocomplete="off">
+            </label>
+            <button type="button" class="fin-btn-add-pagamento" id="btnAdicionarPagamentoFinalizacao">+</button>
+            <div class="troco-display" id="trocoDisplay">
+                <span>Troco</span>
+                <strong id="valorTrocoPdv">R$ 0,00</strong>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Rodapé fixo com resumo + ações -->
+    <div class="fin-rodape">
+        <div class="fin-resumo-pagamentos oculto" id="resumoPagamentosFinalizacao">
+            <div>
+                <span>Subtotal</span>
+                <strong id="resumoSubtotalFinalizacao">R$ 0,00</strong>
+            </div>
+            <div>
+                <span>Recebido</span>
+                <strong id="resumoRecebidoFinalizacao">R$ 0,00</strong>
+            </div>
+            <div class="pendente">
+                <span>Pendente</span>
+                <strong id="resumoPendenteFinalizacao">R$ 0,00</strong>
+            </div>
+            <div class="total">
+                <span>Troco</span>
+                <strong id="resumoTotalPagamentoFinalizacao">R$ 0,00</strong>
+            </div>
+        </div>
+        <div class="fin-rodape-acoes">
+            <button type="button" class="fin-btn-confirmar oculto" id="btnConfirmarVenda">Finalizar Venda <kbd>F10</kbd></button>
+        </div>
+    </div>
+</section>
+
+<div class="popup-pix-pagamento oculto" id="popupPixPagamento" aria-hidden="true">
+    <div class="popup-pix-card" role="dialog" aria-modal="true" aria-labelledby="popupPixTitulo">
+        <div class="popup-pix-topo">
+            <div>
+                <span>Pagamento manual</span>
+                <h2 id="popupPixTitulo">PIX</h2>
+            </div>
+            <button type="button" id="btnCancelarPixTopo" aria-label="Cancelar pagamento PIX">×</button>
+        </div>
+        <div class="popup-pix-corpo">
+            <section class="popup-pix-info">
+                <h3>Informações da empresa</h3>
+                <strong id="popupPixEmpresaNome">Empresa</strong>
+                <span id="popupPixEmpresaCnpj">CNPJ não informado</span>
+                <span id="popupPixEmpresaEndereco"></span>
+            </section>
+            <section class="popup-pix-valor">
+                <span>Valor a pagar</span>
+                <strong id="popupPixValor">R$ 0,00</strong>
+            </section>
+            <section class="popup-pix-qrcode">
+                <div id="popupPixQrCode" aria-label="QR Code PIX"></div>
+                <span id="popupPixChave"></span>
+            </section>
+        </div>
+        <div class="popup-pix-acoes">
+            <button type="button" class="btn-pix-cancelar" id="btnCancelarPixPagamento">Cancelar</button>
+            <button type="button" class="btn-pix-confirmar" id="btnConfirmarPixPagamento">Confirmar pagamento</button>
+        </div>
+    </div>
+</div>
+
+<section id="modalMenuVendasPdv" class="modal-pdv modal-menu-vendas painel-vendas-lateral" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Menu de vendas</span>
+            <h2>Vendas registradas no caixa</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+        <div class="abas-menu-pdv">
+            <button type="button" class="aba-menu-pdv ativa" data-menu-pdv="vendas">Vendas</button>
+            <button type="button" class="aba-menu-pdv" data-menu-pdv="canceladas">Canceladas</button>
+            <button type="button" class="aba-menu-pdv" data-menu-pdv="caixa">Suprimento / Sangria</button>
+        </div>
+        <section class="menu-pdv-view ativo" id="menu-pdv-vendas">
+            <div class="menu-pdv-atalhos">
+                <button type="button" class="btn-atalho-menu" id="btnAbrirPesquisaMercadoria">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    Pesquisar Mercadoria
+                </button>
+            </div>
+            <div class="menu-pdv-barra">
+                <input type="search" id="buscaVendaPdv" placeholder="Buscar por venda, cliente, documento ou pagamento">
+            </div>
+            <div class="menu-pdv-filtros-data">
+                <i class="fa-solid fa-calendar-day"></i>
+                <input type="date" id="vendaDataIni" title="Data início">
+                <span class="filtro-sep-vendas">até</span>
+                <input type="date" id="vendaDataFim" title="Data fim">
+                <button type="button" class="btn-limpar-filtro-vendas" onclick="limparFiltrosVendas()" title="Limpar filtro de data">
+                    🧹
+                </button>
+                <span class="vendas-contador" id="vendasContador"></span>
+            </div>
+            <div id="listaVendasPdv" class="lista-vendas-pdv"></div>
+        </section>
+
+        <section class="menu-pdv-view" id="menu-pdv-canceladas">
+            <div id="listaVendasCanceladasPdv" class="lista-vendas-pdv"></div>
+        </section>
+
+        <section class="menu-pdv-view" id="menu-pdv-caixa">
+
+            <!-- Totais -->
+            <div class="caixa-mov-totais">
+                <div class="caixa-mov-total caixa-mov-total--suprimento">
+                    <i class="fa-solid fa-arrow-down-to-line"></i>
+                    <div>
+                        <span>Suprimentos</span>
+                        <strong id="totalSuprimentosCaixa">R$ 0,00</strong>
+                    </div>
+                </div>
+                <div class="caixa-mov-total caixa-mov-total--sangria">
+                    <i class="fa-solid fa-arrow-up-from-line"></i>
+                    <div>
+                        <span>Sangrias</span>
+                        <strong id="totalSangriasCaixa">R$ 0,00</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário -->
+            <div class="caixa-movimento-form">
+                <div class="caixa-mov-tipo-toggle" id="tipoToggleCaixa">
+                    <button type="button" class="caixa-mov-tipo-btn caixa-mov-tipo-btn--suprimento ativo" data-tipo="suprimento" onclick="selecionarTipoMovimento(this)">
+                        <i class="fa-solid fa-plus"></i> Suprimento
+                    </button>
+                    <button type="button" class="caixa-mov-tipo-btn caixa-mov-tipo-btn--sangria" data-tipo="sangria" onclick="selecionarTipoMovimento(this)">
+                        <i class="fa-solid fa-minus"></i> Sangria
+                    </button>
+                </div>
+                <input type="hidden" id="tipoMovimentoCaixa" value="suprimento">
+
+                <div class="caixa-movimento-grid">
+                    <label>
+                        Valor
+                        <input type="text" id="valorMovimentoCaixa" inputmode="decimal" placeholder="0,00">
+                    </label>
+                    <label class="campo-movimento-largo">
+                        Observação
+                        <input type="text" id="observacaoMovimentoCaixa" placeholder="Ex.: reforço de troco, retirada para cofre">
+                    </label>
+                </div>
+
+                <button type="button" class="btn-confirmar-venda btn-mov-registrar" id="btnRegistrarMovimentoCaixa">
+                    <i class="fa-solid fa-check"></i> Registrar movimento
+                </button>
+            </div>
+
+            <!-- Lista -->
+            <div id="listaMovimentosCaixa" class="lista-vendas-pdv"></div>
+            <div id="listaEventosCaixaPdv" class="lista-vendas-pdv"></div>
+
+        </section>
+    </div>
+</section>
+
+<section id="modalOpcoesPdv" class="modal-pdv modal-menu-vendas" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Rotinas de entrega</span>
+            <h2>Entregas</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+        <div class="opcoes-caixa-duas-colunas entregas-caixa-layout">
+            <section>
+                <div class="opcoes-caixa-subtitulo">
+                    <h3>Entregas</h3>
+                    <button type="button" class="btn-menu-acao" id="btnRegistrarEntregaPdv">Nova entrega</button>
+                </div>
+                <div id="listaEntregasPdv" class="lista-vendas-pdv"></div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<section id="modalEntregaVendaPdv" class="modal-pdv modal-entrega-venda-pdv" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Entrega</span>
+            <h2>Endereço de entrega</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+        <div class="entrega-venda-resumo" id="entregaVendaResumoPdv"></div>
+        <div class="entrega-venda-grid">
+            <label class="campo-2">
+                Entregar a
+                <input type="text" id="entregaVendaDestinatario" placeholder="Nome de quem recebe">
+            </label>
+            <label class="campo-2">
+                Usar cliente cadastrado
+                <input type="text" id="entregaVendaBuscaCliente" placeholder="Buscar cliente por nome, CPF/CNPJ ou telefone">
+                <div class="entrega-cliente-lista" id="entregaVendaListaClientes" aria-hidden="true"></div>
+            </label>
+            <label>
+                Telefone
+                <input type="text" id="entregaVendaTelefone" placeholder="Telefone">
+            </label>
+            <label class="campo-2">
+                Endereço
+                <input type="text" id="entregaVendaEndereco" placeholder="Rua, avenida, bairro ou referência">
+            </label>
+            <label>
+                Número
+                <input type="text" id="entregaVendaNumero" placeholder="Número">
+            </label>
+            <label>
+                Complemento
+                <input type="text" id="entregaVendaComplemento" placeholder="Apto, casa, ponto de referência">
+            </label>
+            <label class="campo-2">
+                Observações
+                <input type="text" id="entregaVendaObservacoes" placeholder="Instruções para entrega">
+            </label>
+        </div>
+        <div class="entrega-venda-acoes">
+            <button type="button" class="btn-menu-acao" id="btnCancelarEntregaVendaPdv">Cancelar</button>
+            <button type="button" class="btn-confirmar-venda" id="btnConfirmarEntregaVendaPdv">Confirmar entrega</button>
+        </div>
+    </div>
+</section>
+
+<section id="modalRecebimentoPdv" class="modal-pdv modal-recebimento-pdv" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Recebimento F7</span>
+            <h2>Recebimento - Crédito Loja</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+        <div class="recebimento-pdv-layout">
+            <aside class="recebimento-clientes-painel">
+                <div class="recebimento-clientes-topo">
+                    <div>
+                        <strong>Clientes cadastrados</strong>
+                        <span id="contadorClientesRecebimentoPdv">0 clientes</span>
+                    </div>
+                    <button type="button" class="btn-menu-acao btn-cliente-recebimento" id="btnNovoClienteRecebimentoPdv">+ Cliente</button>
+                </div>
+                <input type="search" id="buscaRecebimentoPdv" class="modal-search" placeholder="Buscar por nome, CPF/CNPJ, telefone ou cartão">
+                <form class="cadastro-cliente-recebimento oculto" id="formClienteRecebimentoPdv">
+                    <div class="cadastro-cliente-recebimento-topo">
+                        <div>
+                            <span>Recebimento</span>
+                            <strong>Novo cliente</strong>
+                        </div>
+                        <button type="button" class="modal-fechar" id="btnFecharCadastroClienteRecebimentoPdv" aria-label="Fechar cadastro">×</button>
+                    </div>
+                    <div class="cadastro-cliente-grid">
+                        <label class="campo-2">
+                            Nome/Razão social
+                            <input type="text" id="recebimentoClienteNome" placeholder="Nome completo ou razão social">
+                        </label>
+                        <label>
+                            CPF/CNPJ na nota
+                            <input type="text" id="recebimentoClienteCpf" placeholder="CPF ou CNPJ">
+                        </label>
+                        <label>
+                            Nome fantasia
+                            <input type="text" id="recebimentoClienteNomeFantasia" placeholder="Opcional">
+                        </label>
+                        <label>
+                            Telefone
+                            <input type="text" id="recebimentoClienteTelefone" placeholder="Telefone">
+                        </label>
+                        <label>
+                            E-mail
+                            <input type="email" id="recebimentoClienteEmail" placeholder="cliente@email.com">
+                        </label>
+                        <label>
+                            IE
+                            <input type="text" id="recebimentoClienteInscricaoEstadual">
+                        </label>
+                        <label>
+                            IM
+                            <input type="text" id="recebimentoClienteInscricaoMunicipal">
+                        </label>
+                        <label>
+                            CEP
+                            <input type="text" id="recebimentoClienteCep" placeholder="00000-000">
+                        </label>
+                        <label class="campo-2">
+                            Endereço
+                            <input type="text" id="recebimentoClienteEndereco" placeholder="Rua, avenida, logradouro">
+                        </label>
+                        <label>
+                            Número
+                            <input type="text" id="recebimentoClienteNumero">
+                        </label>
+                        <label>
+                            Complemento
+                            <input type="text" id="recebimentoClienteComplemento">
+                        </label>
+                        <label>
+                            Bairro
+                            <input type="text" id="recebimentoClienteBairro">
+                        </label>
+                        <label>
+                            UF
+                            <input type="text" id="recebimentoClienteEstado" maxlength="2">
+                        </label>
+                        <label>
+                            Cidade
+                            <input type="text" id="recebimentoClienteCidade">
+                        </label>
+                        <label>
+                            Limite de crédito
+                            <input type="text" id="recebimentoClienteLimite" inputmode="decimal" value="0,00">
+                        </label>
+                        <label>
+                            Situação
+                            <select id="recebimentoClienteAtivo">
+                                <option value="true">Ativo</option>
+                                <option value="false">Inativo</option>
+                            </select>
+                        </label>
+                        <label class="campo-2">
+                            Observações
+                            <input type="text" id="recebimentoClienteObservacoes">
+                        </label>
+                    </div>
+                    <div class="cadastro-cliente-acoes">
+                        <button type="submit" class="btn-confirmar-venda">Salvar cliente</button>
+                        <button type="button" class="btn-menu-acao" id="btnCancelarClienteRecebimentoPdv">Cancelar</button>
+                    </div>
+                </form>
+                <div id="listaClientesRecebimentoPdv" class="lista-vendas-pdv"></div>
+            </aside>
+            <section class="recebimento-detalhe-painel">
+                <div class="cliente-aberto-pdv">
+                    <span>Cliente selecionado</span>
+                    <strong id="clienteRecebimentoPdvNome">Nenhum cliente aberto</strong>
+                    <small id="clienteRecebimentoPdvCpf">CPF/CNPJ não informado</small>
+                </div>
+                <div id="listaPendenciasRecebimentoPdv" class="lista-vendas-pdv"></div>
+                <div class="recebimento-pagamento-pdv oculto" id="pagamentoRecebimentoPdv">
+                    <span>Forma de pagamento</span>
+                    <div class="opcoes-recebimento-pdv" id="formaPagamentoRecebimentoPdv">
+                        <button type="button" data-valor="Dinheiro">Dinheiro</button>
+                        <button type="button" data-valor="PIX">PIX</button>
+                        <button type="button" data-valor="Cartão de crédito">Crédito</button>
+                        <button type="button" data-valor="Cartão de débito">Débito</button>
+                    </div>
+                </div>
+                <div class="rodape-recebimento-pdv">
+                    <strong id="totalRecebimentoPdv">Selecionado: R$ 0,00</strong>
+                    <button type="button" class="btn-confirmar-venda" id="btnBaixarRecebimentoPdv">Dar baixa</button>
+                    <button type="button" class="btn-confirmar-venda oculto" id="btnConfirmarBaixaRecebimentoPdv">Confirmar baixa</button>
+                    <button type="button" class="btn-menu-acao" id="btnImprimirRecebimentoPdv">Imprimir pendências</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ MODAL PARCELAMENTO — CRÉDITO LOJA ═══ -->
+<section id="modalParcelasCreditoLoja" class="modal-pdv modal-parcelas-credito" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Crédito Loja</span>
+            <h2>Parcelamento</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+        <div id="parcelasClienteResumo" class="parcelas-cliente-resumo"></div>
+        <div class="parcelas-config">
+            <label class="parcelas-label-qtd">
+                Número de parcelas
+                <input type="number" id="numeroParcelas" min="1" max="24" value="1" class="parcelas-input-qtd">
+            </label>
+        </div>
+        <div id="parcelasLista" class="parcelas-lista"></div>
+    </div>
+    <div class="parcelas-footer">
+        <button type="button" class="btn-menu-acao" data-fechar-modal>Cancelar</button>
+        <button type="button" class="btn-confirmar-venda" id="btnConfirmarParcelas">
+            Confirmar Parcelamento
+        </button>
+    </div>
+</section>
+
+<section id="modalFechamentoCaixaPdv" class="modal-pdv modal-menu-vendas modal-fechamento" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>Caixa PDV</span>
+            <h2>Fechamento do caixa</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+
+        <!-- Totais principais -->
+        <div class="fechamento-resumo">
+            <div class="fechamento-card">
+                <span>Total de vendas</span>
+                <strong id="fechamentoTotalVendas">R$ 0,00</strong>
+            </div>
+            <div class="fechamento-card">
+                <span>Suprimentos</span>
+                <strong id="fechamentoSuprimentos">R$ 0,00</strong>
+            </div>
+            <div class="fechamento-card fechamento-card-alerta">
+                <span>Sangrias</span>
+                <strong id="fechamentoSangrias">R$ 0,00</strong>
+            </div>
+            <div class="fechamento-card fechamento-card-destaque">
+                <span>Saldo estimado</span>
+                <strong id="fechamentoSaldo">R$ 0,00</strong>
+            </div>
+        </div>
+
+        <!-- Por forma de pagamento -->
+        <div class="fechamento-secao">
+            <h3>Por forma de pagamento</h3>
+            <div id="fechamentoFormasPagamento" class="fechamento-formas"></div>
+        </div>
+
+        <!-- Cancelamentos e movimentos -->
+        <div class="fechamento-secao">
+            <h3>Movimentos</h3>
+            <div class="fechamento-movimentos">
+                <div>
+                    <span>Vendas realizadas</span>
+                    <strong id="fechamentoQtdVendas">0</strong>
+                </div>
+                <div>
+                    <span>Vendas canceladas</span>
+                    <strong id="fechamentoQtdCanceladas">0</strong>
+                </div>
+                <div>
+                    <span>Total cancelado</span>
+                    <strong id="fechamentoTotalCanceladas">R$ 0,00</strong>
+                </div>
+                <div>
+                    <span>Suprimentos/sangrias</span>
+                    <strong id="fechamentoQtdMovimentos">0</strong>
+                </div>
+            </div>
+            <p id="fechamentoResumoTexto" class="fechamento-resumo-texto"></p>
+        </div>
+
+        <!-- Orçamentos da sessão -->
+        <div class="fechamento-secao" id="fechamentoSecaoOrcamentos" style="display:none">
+            <h3>Orçamentos emitidos</h3>
+            <div id="fechamentoListaOrcamentos" class="fechamento-orcamentos-lista"></div>
+        </div>
+
+        <button type="button" class="btn-confirmar-venda" id="btnConfirmarFechamentoCaixa">Confirmar fechamento</button>
+    </div>
+</section>
+
+<!-- Modal — Lista de Orçamentos -->
+<section id="modalOrcamentosPdv" class="modal-pdv modal-menu-vendas" aria-hidden="true">
+    <div class="modal-header">
+        <div>
+            <span>PDV · Importar Orçamento</span>
+            <h2>Orçamentos</h2>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal>×</button>
+    </div>
+    <div class="modal-body">
+
+        <!-- Stats -->
+        <div class="orc-stats" id="orcStats">
+            <div class="orc-stat">
+                <span>Total de orçamentos</span>
+                <strong id="orcStatTotal">0</strong>
+            </div>
+            <div class="orc-stat">
+                <span>Valor total</span>
+                <strong id="orcStatValor">R$ 0,00</strong>
+            </div>
+            <div class="orc-stat">
+                <span>Exibindo</span>
+                <strong id="orcStatFiltrado">0</strong>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="orc-filtros">
+            <label class="orc-filtro-busca">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="buscaOrcamentosPdv" placeholder="N° do orçamento ou cliente...">
+            </label>
+            <label class="orc-filtro-data">
+                <i class="fa-solid fa-calendar-day"></i>
+                <input type="date" id="orcDataIni" title="Data início">
+            </label>
+            <span class="orc-filtro-sep">até</span>
+            <label class="orc-filtro-data">
+                <input type="date" id="orcDataFim" title="Data fim">
+            </label>
+            <button type="button" class="btn-menu-acao orc-btn-limpar" onclick="limparFiltrosOrcamentos()" title="Limpar filtros">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Lista -->
+        <div id="listaOrcamentosPdv" class="lista-orcamentos-pdv"></div>
+    </div>
+</section>
+
+    <div id="painelAjustes" class="painel-ajustes">
+
+    <div class="painel-header">
+        <div>
+            <span class="painel-eyebrow">PDV</span>
+            <h2>Configurações do Caixa</h2>
+        </div>
+        <button type="button" onclick="fecharAjustes()" aria-label="Fechar configurações">×</button>
+    </div>
+
+    <div class="painel-conteudo">
+
+        <!-- Proporção / Visual -->
+        <div class="grupo-config">
+            <div class="config-secao-titulo">Visual</div>
+            <label>Proporção da tela
+                <select id="proporcaoTelaPdv">
+                    <option value="auto">Automática</option>
+                    <option value="compacta">Compacta</option>
+                    <option value="confortavel">Confortável</option>
+                    <option value="ampla">Ampla</option>
+                </select>
+            </label>
+            <div class="config-toggle-row">
+                <div>
+                    <strong>Tela cheia</strong>
+                    <span>PDV ocupa a tela inteira</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="cfgTelaCheia" onchange="alternarTelaCheia(this.checked)">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Vendas -->
+        <div class="grupo-config">
+            <div class="config-secao-titulo">Vendas</div>
+            <div class="config-toggle-row">
+                <div>
+                    <strong>Vendas fiscais (NFC-e)</strong>
+                    <span>Habilita o botão NFC-e na finalização</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="cfgVendasFiscais">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+            <div class="config-toggle-row">
+                <div>
+                    <strong>Vendas não fiscais (Pedido)</strong>
+                    <span>Habilita o botão Pedido na finalização</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="cfgVendasNaoFiscais">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+            <div class="config-toggle-row">
+                <div>
+                    <strong>Forca contingencia</strong>
+                    <span>Emite em contingencia mesmo com SEFAZ online</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="cfgForcaContingencia">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+            <div class="config-toggle-row">
+                <div>
+                    <strong>Controle de impressao</strong>
+                    <span>Pergunta se deve imprimir ao finalizar cada venda</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="cfgControleImpressao">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- POS / Periféricos -->
+        <div class="grupo-config">
+            <div class="config-secao-titulo">Configuração POS</div>
+            <label>Maquininha integrada
+                <select id="cfgMaquininha">
+                    <option value="">Nenhuma</option>
+                    <option value="cielo">Cielo LIO</option>
+                    <option value="stone">Stone</option>
+                    <option value="pagseguro">PagSeguro</option>
+                    <option value="rede">Rede</option>
+                    <option value="safra">Safra</option>
+                    <option value="getnet">GetNet</option>
+                    <option value="sicoob">Sicoob</option>
+                    <option value="outro">Outra</option>
+                </select>
+            </label>
+            <label>Timeout PIX integrado (segundos)
+                <input type="number" id="cfgTimeoutPix" min="15" max="600" step="5" placeholder="120">
+            </label>
+        </div>
+
+        <!-- Botão salvar -->
+        <button type="button" class="btn-confirmar-venda" id="btnSalvarConfigCaixa" onclick="salvarConfiguracoesAvancadasCaixa()">
+            Salvar e aplicar
+        </button>
+
+</div>
+
+</div>
+
+<!-- Painel de pesquisa de mercadorias -->
+<aside id="painelPesquisaMercadoria" class="painel-pesquisa-mercadoria" aria-hidden="true">
+    <div class="pesquisa-pdv-header">
+        <div>
+            <span>Caixa PDV</span>
+            <h2>Buscar Produto</h2>
+        </div>
+        <button type="button" class="modal-fechar" id="btnFecharPesquisaMercadoria" aria-label="Fechar pesquisa">×</button>
+    </div>
+    <div class="pesquisa-pdv-busca">
+        <input type="search" id="buscaPesquisaMercadoria" class="modal-search"
+               placeholder="Código, descrição ou cód. de barras..." autocomplete="off">
+    </div>
+    <div class="pesquisa-pdv-tabela-wrap">
+        <table class="pesquisa-pdv-tabela" role="grid">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th class="pesquisa-col-r">Estoque</th>
+                    <th class="pesquisa-col-r">Preço</th>
+                </tr>
+            </thead>
+            <tbody id="listaPesquisaMercadoria" tabindex="0" role="listbox"
+                   aria-label="Lista de produtos"></tbody>
+        </table>
+    </div>
+    <div class="pesquisa-pdv-rodape">
+        <kbd>Setas</kbd> navegar &nbsp;-&nbsp; <kbd>Enter</kbd> ou duplo clique para adicionar
+    </div>
+
+    <div id="modalQtdPesquisa" class="pesquisa-modal-qtd" aria-hidden="true" role="dialog">
+        <div class="pesquisa-qtd-box">
+            <p class="pesquisa-qtd-eyebrow">Informar quantidade</p>
+            <p class="pesquisa-qtd-titulo" id="pesquisaQtdTitulo"></p>
+            <input type="number" id="inputQtdPesquisa" class="pesquisa-qtd-input"
+                   min="0.001" step="1" value="1" inputmode="decimal" autocomplete="off">
+            <div class="pesquisa-qtd-acoes">
+                <button type="button" class="btn-menu-acao" id="btnCancelarQtdPesquisa">Cancelar</button>
+                <button type="button" class="btn-confirmar-venda" id="btnConfirmarQtdPesquisa">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- -- Painel Devolução: lista de vendas -------------------- -->
+<!-- Modal confirmação NFC-e -->
+<div id="confirmacaoNfcePdv" class="impressao-venda-overlay" aria-hidden="true">
+    <div class="impressao-venda-faixa" role="dialog" aria-modal="true">
+        <div class="impressora-animada" aria-hidden="true">
+            <div class="printer-roller"></div>
+            <div class="printer-paper">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="printer-body">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="impressao-venda-texto">
+            <strong>Transformar em NFC-e?</strong>
+            <span>Esta operação converterá a venda não fiscal em uma venda fiscal. Após a confirmação, será gerado o documento fiscal, e a via será impressa automaticamente.</span>
+            <div class="nfce-transform-anim" aria-hidden="true">
+                <div class="nfce-anim-label nfce-anim-label--from">
+                    <i class="fa-regular fa-file-lines"></i>
+                    <span>Não fiscal</span>
+                </div>
+                <div class="nfce-anim-track">
+                    <div class="nfce-anim-fill"></div>
+                    <i class="fa-solid fa-chevron-right nfce-anim-seta"></i>
+                </div>
+                <div class="nfce-anim-label nfce-anim-label--to">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>NFC-e</span>
+                </div>
+            </div>
+        </div>
+        <div class="impressao-venda-acoes">
+            <button type="button" class="btn-impressao-nao" id="btnNaoNfcePdv">Cancelar</button>
+            <button type="button" class="btn-impressao-sim" id="btnSimNfcePdv">Confirmar e imprimir</button>
+        </div>
+    </div>
+</div>
+
+<div id="confirmacaoImpressaoVenda" class="impressao-venda-overlay" aria-hidden="true">
+    <div class="impressao-venda-faixa" role="dialog" aria-modal="true" aria-labelledby="tituloConfirmacaoImpressao">
+        <div class="impressora-animada" aria-hidden="true">
+            <div class="printer-roller"></div>
+            <div class="printer-paper">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="printer-body">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="impressao-venda-texto">
+            <strong id="tituloConfirmacaoImpressao">Deseja realizar a impressao desta venda?</strong>
+            <span>A venda já foi realizada, apenas informe se deseja realizar a impressão do documento.</span>
+        </div>
+        <div class="impressao-venda-acoes">
+            <button type="button" class="btn-impressao-nao" id="btnNaoImprimirVenda">Nao</button>
+            <button type="button" class="btn-impressao-sim" id="btnSimImprimirVenda">Sim</button>
+        </div>
+    </div>
+</div>
+<div id="overlayDevolucaoPdv" class="fundo-dev-pdv" onclick="fecharDevolucaoPdv()"></div>
+
+<div id="painelDevolucaoPdv" class="painel-dev painel-dev-lista">
+    <div class="painel-header painel-dev-header">
+        <div>
+            <span class="painel-eyebrow">Caixa</span>
+            <h2>Devolução / Cancelamento</h2>
+        </div>
+        <button type="button" onclick="fecharDevolucaoPdv()" aria-label="Fechar">×</button>
+    </div>
+    <div class="painel-dev-busca">
+        <input type="search" id="buscaVendaDevolucao" class="dev-busca-input"
+               placeholder="Buscar por cliente, número ou data…"
+               oninput="filtrarListaVendaDevolucao(this.value)">
+    </div>
+    <div id="listaVendasDevolucao" class="dev-lista-vendas"></div>
+</div>
+
+<!-- -- Painel Devolução: itens da venda selecionada -------- -->
+<div id="painelDevolucaoDetalhePdv" class="painel-dev painel-dev-detalhe">
+    <div class="painel-header painel-dev-header">
+        <button type="button" class="dev-btn-voltar" onclick="voltarListaDevolucao()" aria-label="Voltar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div>
+            <span class="painel-eyebrow">Devolver itens</span>
+            <h2 id="tituloPainelDevolucaoDetalhe">Venda —</h2>
+        </div>
+        <button type="button" onclick="fecharDevolucaoPdv()" aria-label="Fechar">×</button>
+    </div>
+
+    <div class="painel-dev-scroll">
+        <div id="devVendaResumo" class="dev-venda-resumo"></div>
+        <p class="dev-secao-label">Selecione os itens a devolver</p>
+        <div id="itensDevolucaoLista" class="dev-itens-lista"></div>
+        <div class="dev-total-selecionado">
+            <span>Total selecionado</span>
+            <strong id="devTotalSelecionado">R$ 0,00</strong>
+        </div>
+    </div>
+
+    <div class="dev-acoes-rodape">
+        <button type="button" class="dev-btn-acao dev-estoque"
+                onclick="confirmarDevolucaoPdv('estoque')">
+            <span class="dev-acao-ico">EST</span>
+            <span><strong>Ao estoque</strong><small>Devolve o produto</small></span>
+        </button>
+        <button type="button" class="dev-btn-acao dev-troca"
+                onclick="confirmarDevolucaoPdv('troca')">
+            <span class="dev-acao-ico">TRC</span>
+            <span><strong>Trocar produto</strong><small>Selecionar do catálogo</small></span>
+        </button>
+        <button type="button" class="dev-btn-acao dev-vale"
+                onclick="confirmarDevolucaoPdv('vale')">
+            <span class="dev-acao-ico">VAL</span>
+            <span><strong>Gerar vale</strong><small>Crédito para próx. compra</small></span>
+        </button>
+    </div>
+</div>
+
+<!-- -- Painel Devolução: seleção de produto p/ troca ------- -->
+<div id="painelTrocaProdutoPdv" class="painel-dev painel-dev-troca">
+    <div class="painel-header painel-dev-header">
+        <button type="button" class="dev-btn-voltar" onclick="voltarDetalheDeVoltar()" aria-label="Voltar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div>
+            <span class="painel-eyebrow">Troca</span>
+            <h2>Selecionar produto</h2>
+        </div>
+        <button type="button" onclick="fecharDevolucaoPdv()" aria-label="Fechar">×</button>
+    </div>
+    <div id="devCreditoTroca" class="dev-credito-troca">Crédito disponível: R$ 0,00</div>
+    <div class="painel-dev-busca">
+        <input type="search" id="buscaProdutoTroca" class="dev-busca-input"
+               placeholder="Buscar produto por código, EAN ou nome…"
+               oninput="filtrarProdutosTroca(this.value)">
+    </div>
+    <div id="listaProdutosTroca" class="dev-lista-produtos-troca"></div>
+    <div class="dev-acoes-rodape">
+        <div class="dev-troca-qtd-row" id="devTrocaQtdRow" style="display:none">
+            <span class="dev-troca-qtd-label">Quantidade</span>
+            <div class="dev-troca-qtd-ctrl">
+                <button type="button" class="dev-qtd-btn" onclick="ajustarQtdTroca(-1)">-</button>
+                <span id="devTrocaQtdValor">1</span>
+                <button type="button" class="dev-qtd-btn" onclick="ajustarQtdTroca(1)">+</button>
+            </div>
+            <span class="dev-troca-qtd-total" id="devTrocaQtdTotal"></span>
+        </div>
+        <button type="button" class="dev-btn-acao dev-troca dev-btn-confirmar-troca"
+                id="btnConfirmarTrocaProduto" onclick="finalizarTrocaProduto()" disabled>
+            <span class="dev-acao-ico">OK</span>
+            <span><strong>Confirmar troca</strong><small id="textoConfirmarTroca">Selecione um produto</small></span>
+        </button>
+    </div>
+</div>
+
+    <script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+    <script src="shared/js/controle-saida.js"></script>
+<script src="shared/js/seguranca.js"></script>
+    <script src="telas/pdv/js/pdvApi.js?v=20260618"></script>
+    <script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260702-pdv-sem-menu"></script>
+    <script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+    <script src="shared/js/formaspagamento.js"></script>
+    <script src="shared/js/regrasFiscais.js"></script>
+    <!-- PDV modular (substitui o antigo pdvapp.js monolítico) -->
+    <script src="telas/pdv/js/services/api.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/services/produto-service.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/services/cliente-service.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/services/venda-service.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/services/caixa-service.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-utils.js?v=20260702-editor-mobile"></script>
+    <script src="telas/pdv/js/modules/pdv-configuracoes.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-permissoes.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-validacoes.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-promocoes.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-produtos.js?v=20260702-scanner-mobile"></script>
+    <script src="telas/pdv/js/modules/pdv-carrinho.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-cliente.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-pagamentos.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-caixa.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-impressao.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-vendas.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-menu.js?v=20260702-modular"></script>
+    <script src="telas/pdv/js/modules/pdv-atalhos.js?v=20260702-enter-mobile"></script>
+    <script src="telas/pdv/js/modules/pdv-eventos.js?v=20260702-enter-mobile"></script>
+    <script src="telas/pdv/js/pdv.js?v=20260702-scanner-mobile"></script>
+</body>
+</html>
+

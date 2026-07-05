@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Importar NF Manual</title>
+<link rel="stylesheet" href="telas/notasfiscais/css/importarnf.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais-padrao.css?v=20260702-padrao">
+</head>
+<body>
+
+<main class="container">
+    <header class="topo">
+        <div>
+            <a href="telas/notasfiscais/notasfiscais.html" class="voltar">Notas Fiscais</a>
+            <h1>Importar NF Manual</h1>
+            <p>Importe XML de NF-e de entrada, revise os dados fiscais e envie os itens para o cadastro de produtos.</p>
+        </div>
+        <div class="topo-acoes-notas">
+            <a href="telas/notasfiscais/notasfiscais.html" class="btn-voltar-notas"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <a href="telas/cadastros/mercadorias.html" class="atalho">Cadastro de produtos</a>
+        </div>
+    </header>
+
+    <section class="etapas">
+        <article class="etapa ativa">
+            <i class="fa-solid fa-file-arrow-up"></i>
+            <strong>1. XML</strong>
+            <span>Selecionar arquivo</span>
+        </article>
+        <article class="etapa">
+            <i class="fa-solid fa-magnifying-glass-chart"></i>
+            <strong>2. Conferência</strong>
+            <span>Dados fiscais</span>
+        </article>
+        <article class="etapa">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <strong>3. Estoque</strong>
+            <span>Salvar produtos</span>
+        </article>
+    </section>
+
+    <section class="painel upload-box">
+        <div>
+            <h2>Entrada por XML</h2>
+            <p>Selecione o arquivo XML da NF-e recebida do fornecedor.</p>
+        </div>
+        <label class="upload-label">
+            <input type="file" id="arquivoXmlNf" accept=".xml,text/xml,application/xml">
+            <i class="fa-solid fa-upload"></i>
+            <span>Selecionar XML</span>
+        </label>
+    </section>
+
+    <section class="resumo-grid">
+        <article class="painel">
+            <div class="secao-titulo">
+                <h2>Nota fiscal</h2>
+                <span id="statusXml">Aguardando XML</span>
+            </div>
+            <div class="dados-lista">
+                <div><small>Chave</small><strong id="nfChave">-</strong></div>
+                <div><small>Número / Série</small><strong id="nfNumeroSerie">-</strong></div>
+                <div><small>Emissão</small><strong id="nfEmissao">-</strong></div>
+                <div><small>Total da NF</small><strong id="nfTotal">R$ 0,00</strong></div>
+            </div>
+        </article>
+
+        <article class="painel">
+            <div class="secao-titulo">
+                <h2>Fornecedor</h2>
+                <span>Emitente</span>
+            </div>
+            <div class="dados-lista">
+                <div><small>Razão social</small><strong id="fornecedorNome">-</strong></div>
+                <div><small>CNPJ</small><strong id="fornecedorCnpj">-</strong></div>
+                <div><small>IE</small><strong id="fornecedorIe">-</strong></div>
+                <div><small>UF</small><strong id="fornecedorUf">-</strong></div>
+            </div>
+        </article>
+    </section>
+
+    <section class="painel">
+        <div class="secao-titulo">
+            <div>
+                <h2>Produtos do XML</h2>
+                <p>Revise custos, estoque, NCM, CFOP, CST/CSOSN e ICMS antes de salvar.</p>
+            </div>
+            <span id="contadorItensXml">0 item(ns)</span>
+        </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>NCM</th>
+                        <th>CFOP</th>
+                        <th>CST/CSOSN</th>
+                        <th>Qtde</th>
+                        <th>Custo</th>
+                        <th>ML %</th>
+                        <th>Preço venda</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaItensXml">
+                    <tr><td colspan="10" class="vazio">Nenhum XML carregado.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="acoes">
+            <button type="button" class="btn secundario" id="btnLimparXml">Limpar</button>
+            <button type="button" class="btn primario" id="btnSalvarEntradaXml">Salvar entrada e produtos</button>
+            <button type="button" class="btn destaque" id="btnIrProdutos">Ir para cadastro de produtos</button>
+        </div>
+    </section>
+</main>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/notasfiscais/js/importarnf.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

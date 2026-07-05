@@ -1,0 +1,607 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, system-ui, sans-serif;
+}
+
+body{
+background:#f0f2f7;
+min-height:100vh;
+}
+
+.container{
+max-width:900px;
+margin:0 auto;
+padding:24px 20px 60px;
+}
+
+.emissao-nfe{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+/* ── Cabeçalho ──────────────────────────────────────────── */
+
+.painel-cabecalho{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:0 0 20px;
+border-bottom:2px solid #e2e7f0;
+}
+
+.nfe-titulo-linha{
+display:flex;
+align-items:baseline;
+gap:16px;
+}
+
+.nfe-titulo-linha h1{
+font-size:22px;
+font-weight:700;
+color:#0f172a;
+}
+
+.nfe-titulo-linha nav{
+font-size:12px;
+color:#94a3b8;
+font-weight:500;
+}
+
+/* ── Painéis ─────────────────────────────────────────────── */
+
+.painel{
+background:#fff;
+border:1px solid #e2e8f0;
+border-radius:10px;
+padding:18px 20px;
+box-shadow:0 1px 3px rgba(15,23,42,.05);
+}
+
+.painel + .painel{
+/* irmãos diretos não aplicável aqui, gap no flex pai */
+}
+
+.secao-titulo{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+margin-bottom:18px;
+padding-bottom:12px;
+border-bottom:1px solid #f1f5f9;
+}
+
+.secao-titulo h3{
+font-size:14px;
+font-weight:700;
+color:#1e293b;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.secao-titulo h3 i{
+color:#3b82f6;
+font-size:15px;
+}
+
+.secao-titulo a{
+font-size:13px;
+font-weight:600;
+color:#2563eb;
+text-decoration:none;
+}
+
+/* ── Grid emitente + operação ─────────────────────────────── */
+
+.nfe-grid{
+display:grid;
+grid-template-columns:minmax(240px,320px) 1fr;
+gap:16px;
+align-items:start;
+}
+
+.bloco-emitente{
+border-left:3px solid #2563eb;
+background:#f8faff;
+}
+
+.resumo-emitente{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.resumo-emitente strong{
+font-size:15px;
+font-weight:700;
+color:#0f172a;
+}
+
+.resumo-emitente span{
+font-size:13px;
+color:#475569;
+line-height:1.5;
+}
+
+/* ── Formulários ─────────────────────────────────────────── */
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px 14px;
+}
+
+.form-grid label{
+display:flex;
+flex-direction:column;
+gap:6px;
+font-size:12px;
+font-weight:600;
+color:#64748b;
+text-transform:uppercase;
+letter-spacing:.3px;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea{
+width:100%;
+border:1px solid #e2e8f0;
+border-radius:7px;
+padding:8px 10px;
+font-size:13px;
+font-family:inherit;
+color:#1e293b;
+background:#fff;
+outline:none;
+transition:border-color .15s, box-shadow .15s;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus{
+border-color:#3b82f6;
+box-shadow:0 0 0 3px rgba(59,130,246,.12);
+}
+
+.form-grid input[readonly]{
+background:#f8fafc;
+border-color:#e8edf4;
+color:#64748b;
+font-weight:600;
+text-align:center;
+cursor:default;
+}
+
+.form-grid input::placeholder,
+.form-grid textarea::placeholder{
+color:#c4cdd8;
+font-weight:400;
+}
+
+.campo-largo{
+grid-column:span 2;
+}
+
+.campo-total{
+grid-column:1 / -1;
+}
+
+/* Espaço entre form-grids empilhados dentro do mesmo painel */
+.painel .form-grid + .form-grid,
+.painel .form-grid + [id^="campos"],
+[id^="campos"] + .form-grid{
+margin-top:14px;
+}
+
+/* ── Busca produto ─────────────────────────────────────────── */
+
+.produto-busca{
+position:relative;
+}
+
+.produto-sugestoes{
+position:absolute;
+z-index:30;
+top:calc(100% + 4px);
+left:0;
+right:0;
+background:#fff;
+border:1px solid #e2e8f0;
+border-radius:10px;
+box-shadow:0 12px 28px rgba(15,23,42,.14);
+padding:6px;
+max-height:260px;
+overflow:auto;
+}
+
+.produto-sugestoes.recolhido{
+display:none;
+}
+
+.produto-sugestao{
+display:grid;
+grid-template-columns:80px 1fr;
+gap:10px;
+align-items:center;
+width:100%;
+border:0;
+border-radius:7px;
+padding:9px 12px;
+background:transparent;
+color:#0f172a;
+text-align:left;
+cursor:pointer;
+font:inherit;
+font-size:13px;
+transition:background .1s;
+}
+
+.produto-sugestao:hover{
+background:#eff6ff;
+}
+
+.produto-sugestao strong{
+color:#1d4ed8;
+font-size:13px;
+}
+
+/* ── Tabela de itens ─────────────────────────────────────── */
+
+.tabela-wrap{
+margin-top:16px;
+border:1px solid #e2e8f0;
+border-radius:8px;
+overflow:hidden;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px 12px;
+text-align:left;
+border-bottom:1px solid #f1f5f9;
+font-size:13px;
+}
+
+th{
+background:#f8fafc;
+font-size:11px;
+font-weight:700;
+color:#64748b;
+text-transform:uppercase;
+letter-spacing:.4px;
+border-bottom-color:#e2e8f0;
+}
+
+td:last-child,th:last-child{
+text-align:center;
+}
+
+.vazio{
+text-align:center;
+color:#94a3b8;
+padding:28px;
+font-size:13px;
+}
+
+.item-editavel{
+width:100%;
+min-width:80px;
+border:1px solid #e2e8f0;
+border-radius:6px;
+padding:6px 8px;
+font:inherit;
+font-size:13px;
+color:#0f172a;
+background:#fff;
+}
+
+.item-editavel:focus{
+outline:none;
+border-color:#3b82f6;
+box-shadow:0 0 0 2px rgba(59,130,246,.12);
+}
+
+.remover-item{
+border:0;
+border-radius:6px;
+background:#fee2e2;
+color:#991b1b;
+font-size:11px;
+font-weight:700;
+padding:6px 10px;
+cursor:pointer;
+}
+
+.remover-item:hover{
+background:#fecaca;
+}
+
+/* ── Impostos ─────────────────────────────────────────────── */
+
+.badge-regime{
+display:inline-flex;
+align-items:center;
+padding:3px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+letter-spacing:.4px;
+text-transform:uppercase;
+}
+
+.badge-regime-simples  { background:#dcfce7; color:#166534; }
+.badge-regime-mei      { background:#fef9c3; color:#854d0e; }
+.badge-regime-presumido{ background:#ede9fe; color:#5b21b6; }
+.badge-regime-real     { background:#fee2e2; color:#991b1b; }
+.badge-regime-nd       { background:#f1f5f9; color:#64748b; }
+
+.abas-impostos{
+display:flex;
+gap:2px;
+background:#f1f5f9;
+border-radius:8px;
+padding:4px;
+margin-bottom:20px;
+width:fit-content;
+}
+
+.aba-imposto{
+border:0;
+background:none;
+padding:7px 16px;
+font:inherit;
+font-size:13px;
+font-weight:600;
+color:#64748b;
+cursor:pointer;
+border-radius:6px;
+transition:background .15s, color .15s;
+}
+
+.aba-imposto:hover{
+color:#1e40af;
+}
+
+.aba-imposto.ativa{
+background:#fff;
+color:#1d4ed8;
+box-shadow:0 1px 4px rgba(15,23,42,.10);
+}
+
+.conteudo-aba-imposto.recolhido{
+display:none;
+}
+
+.impostos-totais-basica{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:18px;
+padding:14px 16px;
+background:#eff6ff;
+border-radius:8px;
+border:1px solid #bfdbfe;
+}
+
+.impostos-totais-basica span{
+display:flex;
+flex-direction:column;
+gap:3px;
+min-width:110px;
+font-size:11px;
+font-weight:600;
+color:#3b82f6;
+text-transform:uppercase;
+letter-spacing:.3px;
+}
+
+.impostos-totais-basica strong{
+font-size:16px;
+font-weight:700;
+color:#1e3a8a;
+}
+
+.subsecao-imposto{
+margin-bottom:14px;
+padding:14px 16px;
+border:1px solid #e8edf4;
+border-left:3px solid #3b82f6;
+border-radius:0 8px 8px 0;
+background:#fafbfe;
+}
+
+.subsecao-imposto h4{
+font-size:11px;
+font-weight:700;
+color:#1d4ed8;
+text-transform:uppercase;
+letter-spacing:.5px;
+margin-bottom:12px;
+}
+
+.subsecao-imposto .form-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+#grupoImpCsosn.recolhido,
+#grupoImpCstIcms.recolhido{
+display:none;
+}
+
+/* ── Totais ──────────────────────────────────────────────── */
+
+.totais-nfe{
+display:flex;
+justify-content:flex-end;
+flex-wrap:wrap;
+gap:10px;
+margin-top:16px;
+}
+
+.totais-nfe span{
+display:flex;
+flex-direction:column;
+gap:4px;
+min-width:130px;
+padding:12px 16px;
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:8px;
+font-size:11px;
+font-weight:600;
+color:#64748b;
+text-transform:uppercase;
+letter-spacing:.3px;
+}
+
+.totais-nfe strong{
+font-size:20px;
+font-weight:700;
+color:#0f172a;
+}
+
+/* Último total (NF-e) com destaque */
+.totais-nfe span:last-child{
+background:#0f172a;
+border-color:#0f172a;
+color:#94a3b8;
+}
+
+.totais-nfe span:last-child strong{
+color:#fff;
+}
+
+/* ── Botões ──────────────────────────────────────────────── */
+
+.btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:7px;
+height:38px;
+padding:0 16px;
+border:0;
+border-radius:8px;
+font:inherit;
+font-size:13px;
+font-weight:700;
+cursor:pointer;
+text-decoration:none;
+transition:opacity .15s, box-shadow .15s;
+}
+
+.btn:hover{
+opacity:.88;
+}
+
+.btn.primario{
+background:#1d4ed8;
+color:#fff;
+box-shadow:0 1px 3px rgba(29,78,216,.3);
+}
+
+.btn.secundario{
+background:#fff;
+color:#374151;
+border:1px solid #d1d5db;
+}
+
+.acoes-nfe{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:18px;
+flex-wrap:wrap;
+}
+
+/* ── Cadastro rápido ─────────────────────────────────────── */
+
+.cadastro-rapido{
+border:1px dashed #bfdbfe;
+border-radius:10px;
+padding:16px;
+margin-top:14px;
+background:#f0f7ff;
+}
+
+.cadastro-rapido.recolhido{
+display:none;
+}
+
+.cadastro-rapido .btn{
+margin-top:14px;
+}
+
+/* Grid específicos */
+
+/* Qualquer div com .recolhido fica oculto */
+div.recolhido{
+display:none !important;
+}
+
+.grid-operacao{
+grid-template-columns:2fr 1fr 1fr;
+}
+
+.grid-operacao .campo-largo{
+grid-column:auto;
+}
+
+/* ── Itens form ──────────────────────────────────────────── */
+
+.itens-form{
+align-items:end;
+}
+
+/* ── Campo boleto ─────────────────────────────────────────── */
+
+.campo-boleto-nfe[hidden]{
+display:none;
+}
+
+/* ── Responsivo ──────────────────────────────────────────── */
+
+@media(max-width:720px){
+.nfe-grid{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:640px){
+.form-grid,
+.grid-operacao,
+.subsecao-imposto .form-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.campo-largo,
+.campo-total{
+grid-column:span 2;
+}
+
+.painel-cabecalho,
+.secao-titulo,
+.acoes-nfe{
+flex-direction:column;
+align-items:stretch;
+}
+
+.totais-nfe{
+justify-content:stretch;
+}
+
+.totais-nfe span{
+flex:1;
+min-width:100px;
+}
+}

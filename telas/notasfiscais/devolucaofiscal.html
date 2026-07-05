@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devolução Fiscal</title>
+<link rel="stylesheet" href="telas/notasfiscais/css/emitirnfe.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+</head>
+<body>
+
+<div class="container">
+    <section class="emissao-nfe" id="devolucaoFiscal">
+        <header class="painel-cabecalho">
+            <div>
+                <span>Devolução fiscal</span>
+                <h1>Devolução de NF-e / NFC-e</h1>
+                <p>Importe os dados da nota original, selecione as quantidades devolvidas e gere a devolução.</p>
+            </div>
+            <div class="cabecalho-acoes">
+                <a href="telas/notasfiscais/documentosfiscais.html" class="btn secundario">Voltar</a>
+                <strong id="statusDevolucaoFiscal">Rascunho</strong>
+            </div>
+        </header>
+
+        <div class="nfe-grid">
+            <section class="painel">
+                <div class="secao-titulo">
+                    <h3>Documento original</h3>
+                </div>
+                <div class="resumo-emitente" id="resumoDocumentoOrigem"></div>
+            </section>
+
+            <section class="painel">
+                <div class="secao-titulo">
+                    <h3>Dados da devolução</h3>
+                </div>
+                <div class="form-grid">
+                    <label>Natureza da operação
+                        <select id="devolucaoNatureza">
+                            <option value="Devolução de Venda">Devolução de Venda</option>
+                            <option value="Devolução de Compra">Devolução de Compra</option>
+                            <option value="Devolução de Venda NFC-e">Devolução de Venda NFC-e</option>
+                        </select>
+                    </label>
+                    <label>Finalidade
+                        <select id="devolucaoFinalidade">
+                            <option value="4">Devolução</option>
+                        </select>
+                    </label>
+                    <label>Tipo
+                        <select id="devolucaoTipoOperacao">
+                            <option value="0">Entrada</option>
+                            <option value="1">Saída</option>
+                        </select>
+                    </label>
+                    <label>Data e hora
+                        <input type="datetime-local" id="devolucaoDataHora">
+                    </label>
+                    <label>Série
+                        <input type="text" id="devolucaoSerie">
+                    </label>
+                    <label>Número
+                        <input type="text" id="devolucaoNumero">
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3>Produtos devolvidos</h3>
+            </div>
+            <div class="tabela-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qtd. original</th>
+                            <th>Qtd. devolvida</th>
+                            <th>Unitário</th>
+                            <th>CFOP</th>
+                            <th>NCM</th>
+                            <th>Total devolvido</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itensDevolucaoFiscal">
+                        <tr><td colspan="7" class="vazio">Nenhum item carregado.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="totais-nfe">
+                <span>Itens <strong id="devolucaoTotalItens">0</strong></span>
+                <span>Total devolvido <strong id="devolucaoTotalNota">R$ 0,00</strong></span>
+            </div>
+        </section>
+
+        <section class="painel">
+            <div class="secao-titulo">
+                <h3>Ajustes e informações fiscais</h3>
+            </div>
+            <div class="form-grid">
+                <label class="campo-total">Motivo da devolução
+                    <textarea id="devolucaoMotivo" rows="3" placeholder="Informe o motivo e a referência da NF-e/NFC-e original"></textarea>
+                </label>
+                <label class="campo-total">Informações complementares
+                    <textarea id="devolucaoInformacoes" rows="3"></textarea>
+                </label>
+            </div>
+            <div class="acoes-nfe">
+                <button type="button" class="btn primario" id="btnSalvarDevolucaoFiscal">Salvar devolução</button>
+                <button type="button" class="btn secundario" id="btnBaixarXmlDevolucao">Baixar XML</button>
+            </div>
+        </section>
+    </section>
+</div>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="shared/js/regrasFiscais.js"></script>
+<script src="telas/notasfiscais/js/notasfiscais.js?v=20260701-boleto-nfe"></script>
+</body>
+</html>
+

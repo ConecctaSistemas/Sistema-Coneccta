@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entradas Pendentes</title>
+<link rel="stylesheet" href="telas/notasfiscais/css/entradas-pendentes.css">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="shared/css/design-base.css">
+<link rel="stylesheet" href="telas/notasfiscais/css/notasfiscais-padrao.css?v=20260702-padrao">
+</head>
+<body>
+
+<main class="container">
+    <header class="topo">
+        <div>
+            <a href="telas/notasfiscais/notasfiscais.html" class="voltar"><i class="fa-solid fa-arrow-left"></i> Notas fiscais</a>
+            <h1>Entradas Pendentes</h1>
+            <p>Notas salvas aguardando conferência final, ajustes de produtos, estoque e financeiro.</p>
+        </div>
+        <div class="topo-acoes-notas">
+            <a href="telas/notasfiscais/notasfiscais.html" class="btn-voltar-notas"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+            <a href="telas/notasfiscais/entradas-notas.html" class="btn primario"><i class="fa-solid fa-file-import"></i> Nova entrada</a>
+        </div>
+    </header>
+
+    <section class="resumo">
+        <article>
+            <span>Pendentes</span>
+            <strong id="resumoPendentes">0</strong>
+        </article>
+        <article>
+            <span>Valor em aberto</span>
+            <strong id="resumoValorPendente">R$ 0,00</strong>
+        </article>
+        <article>
+            <span>Produtos a conferir</span>
+            <strong id="resumoProdutosPendentes">0</strong>
+        </article>
+        <article>
+            <span>Mais recente</span>
+            <strong id="resumoUltimaPendente">-</strong>
+        </article>
+    </section>
+
+    <section class="painel">
+        <div class="painel-topo">
+            <div>
+                <h2>Notas salvas</h2>
+                <p>Continue uma entrada pendente para importar somente quando tudo estiver conferido.</p>
+            </div>
+            <div class="filtros">
+                <input type="search" id="buscaEntradaPendente" placeholder="Fornecedor, CNPJ, número ou chave">
+                <input type="date" id="dataEntradaPendente">
+            </div>
+        </div>
+
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Série</th>
+                        <th>Fornecedor</th>
+                        <th>CNPJ</th>
+                        <th>Emissão</th>
+                        <th>Salva em</th>
+                        <th>Produtos</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaEntradasPendentes">
+                    <tr><td colspan="10" class="vazio">Nenhuma entrada pendente.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/erpApi.js"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/auth.js?v=20260701-sino-fecha-fora"></script>
+<script src="telas/notasfiscais/js/entradas-pendentes.js"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+</body>
+</html>
+

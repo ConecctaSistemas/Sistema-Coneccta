@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<base href="../../">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERP - Coneccta</title>
+<script>
+(function(){
+    try{
+        if(sessionStorage.getItem("transicaoLoginSistema")){
+            document.documentElement.classList.add("transicao-login-pendente");
+            document.documentElement.classList.add("login-carregando");
+        }
+    }catch(e){}
+})();
+</script>
+<style>
+html.transicao-login-pendente::before{
+content:"";
+position:fixed;
+inset:0;
+z-index:2147483647;
+background:#eef3f8;
+}
+html.login-carregando .menu-superior-sistema{
+opacity:0!important;
+visibility:hidden!important;
+view-transition-name:none!important;
+pointer-events:none!important;
+}
+</style>
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="telas/shell/css/sistema.css?v=20260702-frame-flex">
+</head>
+<body class="sistema-shell-ativo">
+<main class="sistema-frame-shell">
+    <iframe id="frameSistema" name="frameSistema" title="Conteudo do sistema"></iframe>
+</main>
+
+<script src="shared/js/util.js?v=20260701-fecha-fora"></script>
+<script src="shared/js/notification-manager.js?v=20260702-global"></script>
+<script src="shared/js/api-config.js"></script>
+<script src="shared/js/seguranca.js"></script>
+<script src="shared/js/auth.js?v=20260702-movimento-padrao"></script>
+<script src="shared/js/configuracoes.js?v=20260701-controle-remoto"></script>
+<script src="telas/shell/js/sistema.js"></script>
+</body>
+</html>
+
